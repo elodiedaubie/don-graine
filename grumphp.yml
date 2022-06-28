@@ -5,3 +5,5 @@ grumphp:
         phpcs: ~
         phpstan: ~
         eslint: ~
+        phpversion:
+            project: '8.1'
