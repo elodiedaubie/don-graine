@@ -4,3 +4,4 @@ grumphp:
         phpmd: ~
         phpcs: ~
         phpstan: ~
+        eslint: ~
