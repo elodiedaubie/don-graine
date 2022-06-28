@@ -3,3 +3,4 @@ grumphp:
         phpunit: ~
         phpmd: ~
         phpcs: ~
+        phpstan: ~
