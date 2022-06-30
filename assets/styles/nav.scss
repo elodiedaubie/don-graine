@@ -1,0 +1,9 @@
+.nav-link {
+    color: $dark!important;
+    font-family: $head-font;
+    font-size: 1.3rem;
+
+    &:hover {
+        color: $danger!important;
+    }
+}
