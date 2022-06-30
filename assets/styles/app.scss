@@ -8,6 +8,7 @@ body {
     margin: 0;
     box-sizing: border-box;
     font-family: $body-font;
+    color: $dark;
 }
 
 h1 {
@@ -18,4 +19,11 @@ h1 {
 h2 {
     font-family: $head-font;
     font-size: 1.5rem;
+}
+
+a {
+    text-decoration: none;
+    &:hover {
+        color: $danger!important;
+    }
 }
