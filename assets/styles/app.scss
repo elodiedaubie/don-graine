@@ -1,7 +1,21 @@
 @import '_variables';
 @import '~bootstrap/scss/bootstrap';
 @import 'bootstrap-icons/font/bootstrap-icons.css';
+@import 'nav';
 
 body {
-    background-color: $primary;
+    background-color: #ffffff;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: $body-font;
+}
+
+h1 {
+    font-family: $head-font;
+    font-size: 2.5rem;
+}
+
+h2 {
+    font-family: $head-font;
+    font-size: 1.5rem;
 }
