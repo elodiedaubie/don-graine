@@ -26,7 +26,7 @@
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-                        <div class="navbar-nav d-flex gap-5 ms-5">
+                        <div class="navbar-nav d-flex gap-5-md ms-5">
                             <div class="nav-item d-flex ">
                                 <a class="nav-link active" aria-current="page" href="#">Comprendre</a>
                             </div>
@@ -53,14 +53,13 @@
                 </div>
             </nav>
         </header>
-
         {% block body %}
         {% endblock %}
         <!--same footer for all templates-->
         <footer>
             <div class="container-fluid d-flex justify-content-center align-items-baseline gap-3 fixed-bottom mb-3">
                 <a href="#">Conditions utilisations</a>
-                <a href="{{ path("home") }}"><img src="{{ asset('build/images/logos/monogram-black.png') }}" width="40" alt="mogogram graines en l'air"></a>
+                <a href="{{ path("home") }}" class="d-none d-lg-block"><img src="{{ asset('build/images/logos/monogram-black.png') }}" width="40" alt="mogogram graines en l'air"></a>
                 <a href="#">Mentions légales</a>
             </div>
         </footer>
