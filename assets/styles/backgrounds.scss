@@ -1,4 +1,9 @@
-.home {
-    background-image: url('../images/pictures/home.jpg');
-    background-size: cover;
+/*Home background for desktop*/
+@media screen and (min-width: 992px) {
+    .home {
+        background-image: url('../images/pictures/home.jpg');
+        background-size: cover;
+        height: 100vh;
+        background-position: center; 
+    }
 }
