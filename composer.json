@@ -100,6 +100,7 @@
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.4",
+        "friendsoftwig/twigcs": ">=4",
         "phpmd/phpmd": "^2.12",
         "phpro/grumphp": "^1.13",
         "phpstan/phpstan": "^1.7",

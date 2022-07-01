@@ -7,3 +7,4 @@ grumphp:
         eslint: ~
         phpversion:
             project: '8.1'
+        twigcs: ~

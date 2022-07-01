@@ -1,7 +1,48 @@
 @import '_variables';
 @import '~bootstrap/scss/bootstrap';
 @import 'bootstrap-icons/font/bootstrap-icons.css';
+@import 'nav';
+@import 'backgrounds';
 
 body {
-    background-color: $primary;
+    background-color: #ffffff;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: $body-font;
+    color: $dark;
+}
+
+h1 {
+    font-family: $head-font;
+    font-size: 2.5rem;
+}
+
+h2 {
+    font-family: $head-font;
+    font-size: 1.5rem;
+}
+
+a {
+    text-decoration: none;
+    &:hover {
+        color: $danger!important;
+    }
+}
+
+.btn-dark {
+    border-radius: 2em;
+    padding: 0.5em 2em;
+    font-family: $button-font;
+    &:hover,
+    &:focus {
+            box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+        }
+}
+
+@media screen and (min-width: 992px) {
+    .home {
+        p{
+            width: 65%;
+        }
+    }
 }
