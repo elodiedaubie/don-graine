@@ -19,6 +19,7 @@ class UserFixtures extends Fixture
             $user->setPassword('paSSword!' . $i);
             $user->setUsername('jane' . $i);
             $user->setCreatedAt(new DateTimeImmutable());
+            $user->isVerified(true);
             $manager->persist($user);
         }
         //insert all users in DB at the same time
