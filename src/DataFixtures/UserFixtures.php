@@ -16,7 +16,7 @@ class UserFixtures extends Fixture
         for ($i = 0; $i < self::FAKEUSERS; $i++) {
             $user = new User();
             $user->setEmail('jane' . $i . '@mail.com');
-            $user->setPassword('paSSword!' . $i);
+            $user->setPassword('testpaSSword!' . $i);
             $user->setUsername('jane' . $i);
             $user->setCreatedAt(new DateTimeImmutable());
             $user->isVerified(true);
