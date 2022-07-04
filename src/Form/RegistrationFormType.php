@@ -4,25 +4,46 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 class RegistrationFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email')
-            ->add('userName')
+        ->add('email', EmailType::class, [
+            'label' => 'email',
+            'constraints' => [
+                new NotBlank([
+                    'message' => 'Vous devez renseigner une adresse mail.'
+                ])]
+        ])
+            ->add('userName', TextType::class, [
+                'label' => 'pseudo',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Vous devez renseigner un pseudo.'
+                    ]),
+                    new Length([
+                        'min' => 2,
+                        'minMessage' => 'Votre pseudo doit contenir au moins {{ limit }} caratères.',
+                        'max' => 25,
+                        'maxMessage' => 'Votre pseudo ne peut pas contenir plus de {{ limit }} caratères.',
+                    ]),
+                ],
+        ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
+                'label_html' => true,
                 'constraints' => [
                     new IsTrue([
                         'message' => 'Vous devez accepter nos conditions d\'utilisation.',
@@ -34,6 +55,7 @@ class RegistrationFormType extends AbstractType
                 // this is read and encoded in the controller
                 'mapped' => false,
                 'attr' => ['autocomplete' => 'new-password'],
+                'label' => 'mot de passe',
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez saisir un mot de passe',
