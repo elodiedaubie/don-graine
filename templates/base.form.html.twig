@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{#page title has to be completed on extended form template#}
+{#body class has to be on extended form template#}
+
+{% block body %}
+    <div class="container p-5 mt-5 mb-5 bg-white shadow">
+        <h1>{% block h1 %}{% endblock %}</h1>
+        <div class="d-grid gap-2">
+            {% block form %}
+                {#form tags will be there in extended template#}
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}
