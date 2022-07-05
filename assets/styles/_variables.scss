@@ -4,13 +4,13 @@
 }
 
 @font-face {
-    font-family: 'IMB Plex Sans';
-    src: url('../fonts/IBMPlexSans-Regular.ttf');
+    font-family: 'Oswald';
+    src: url('../fonts/Oswald-VariableFont_wght.ttf');
 }
 
 @font-face {
-    font-family: 'Oswald';
-    src: url('../fonts/Oswald-VariableFont_wght.ttf');
+    font-family: 'Gudea';
+    src: url('../fonts/Gudea-Regular.ttf');
 }
 
 $primary:#F0A772;
@@ -22,5 +22,21 @@ $light: #FFEAD5;
 $dark: #282828;
 
 $head-font: 'Bebas Neue';
-$body-font: 'IMB Plex Sans';
+$body-font: 'Gudea';
 $button-font: 'Oswald';
+
+$form-font-size: 1.1rem;
+
+$spacer: 1rem;
+$spacers: (
+  0: 0,
+  1: $spacer * .25,
+  2: $spacer * .5,
+  3: $spacer,
+  4: $spacer * 1.5,
+  5: $spacer * 3,
+  6: $spacer * 3.5,
+  7: $spacer * 4,
+  8: $spacer * 4.5,
+  9: $spacer * 5,
+);

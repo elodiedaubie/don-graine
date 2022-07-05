@@ -1,0 +1,73 @@
+form {
+    display: grid;
+
+    .form-label{
+        font-family: $head-font;
+        font-size: $form-font-size;
+        margin-top: 1.8em;
+    }
+
+    .form-check {
+        margin-top: 1.8em;
+        display: flex;
+        align-items: center;
+
+        .form-check-input {
+            min-width: 1.5em;
+            min-height: 1.5em;
+            margin-right: 1em;
+            font-size: $form-font-size;
+            border: solid 0.2px $secondary;
+            background-color: $light;
+
+            &:checked,
+            &:focus {
+                box-shadow: none;
+            }
+
+            &:checked{
+                background-color: $dark;
+                border: $dark;
+            }
+        }
+        
+        .form-check-label {
+            font-size: $form-font-size; 
+        }    
+    }
+
+    .form-control {
+        background-color: $light;
+        border: solid $secondary 0.2px;
+        border-radius: 1.5em;
+        padding: 0.5em 1.5em;
+        font-size: $form-font-size;
+        /*change bootsrap default settings*/
+        &:focus {
+            border: solid 0.1em $secondary;
+            box-shadow: none;
+        }
+        /*change bootsrap default settings*/
+        &:invalid {
+            &:focus {
+                box-shadow: none;
+            }  
+        }
+    }
+
+    .btn-dark {
+        margin-top: 2em;
+    }
+}
+
+/*position and size of main part on desktop only.
+* Other devices handled by bootsrap container class
+*/
+@media screen and (min-width: 992px) {
+    .register {
+        main {
+            width: 50%;
+            margin-left: 4em;
+        }
+    }
+}

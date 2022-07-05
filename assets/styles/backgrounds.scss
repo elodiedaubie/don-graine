@@ -1,0 +1,29 @@
+/*Home background for mobile*/
+.home-mobile {
+    width: 100%;
+    height: 30vh;
+    max-width: 100%;
+    height: auto;
+}
+
+/*Home background for desktop*/
+@media screen and (min-width: 992px) {
+    .home-mobile {
+        display: none;
+    }
+
+    .home {
+        background-image: url('../images/pictures/home.jpg');
+        background-size: cover;
+        height: 100%;
+        background-position: center; 
+    }
+}
+
+/*Home background for register template*/
+.register {
+        background-image: url('../images/pictures/account-background.jpg');
+        background-size: cover;
+        height: 100%;
+        background-position: center;
+}
