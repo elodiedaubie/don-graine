@@ -1,9 +1,12 @@
 form {
     display: grid;
 
-    .form-label{
+    .form-label, label {
         font-family: $head-font;
-        font-size: $form-font-size;
+        font-size: $form-font-size;   
+    }
+
+    .form-label {
         margin-top: 1.8em;
     }
 
@@ -19,6 +22,8 @@ form {
             font-size: $form-font-size;
             border: solid 0.2px $secondary;
             background-color: $light;
+            border-radius: 4px;
+            padding: 0em 0em;
 
             &:checked,
             &:focus {
@@ -33,10 +38,11 @@ form {
         
         .form-check-label {
             font-size: $form-font-size; 
+            font-family: $body-font;
         }    
     }
 
-    .form-control {
+    .form-control, input {
         background-color: $light;
         border: solid $secondary 0.2px;
         border-radius: 1.5em;
@@ -64,7 +70,7 @@ form {
 * Other devices handled by bootsrap container class
 */
 @media screen and (min-width: 992px) {
-    .register {
+    .register, .login {
         main {
             width: 50%;
             margin-left: 4em;
