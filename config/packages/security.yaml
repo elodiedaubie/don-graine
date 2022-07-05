@@ -19,6 +19,9 @@ security:
             form_login:
                 login_path: login
                 check_path: login
+        secured_area:
+            form_login:
+                enable_csrf: true
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
 
