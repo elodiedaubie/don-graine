@@ -11,6 +11,7 @@ body {
     box-sizing: border-box;
     font-family: $body-font;
     color: $dark;
+    
 }
 
 h1 {
@@ -25,6 +26,8 @@ h2 {
 
 a {
     text-decoration: none;
+    color: $dark;
+    font-weight: 700;
     &:hover {
         color: $danger!important;
     }
