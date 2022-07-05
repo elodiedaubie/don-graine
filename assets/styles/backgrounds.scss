@@ -15,7 +15,15 @@
     .home {
         background-image: url('../images/pictures/home.jpg');
         background-size: cover;
-        height: 100vh;
+        height: 100%;
         background-position: center; 
     }
+}
+
+/*Home background for register template*/
+.register {
+        background-image: url('../images/pictures/account-background.jpg');
+        background-size: cover;
+        height: 100%;
+        background-position: center;
 }
