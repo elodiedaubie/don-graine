@@ -1,14 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{#page title has to be completed on extended form template#}
-{#body class has to be on extended form template#}
+{#page title, from base.html.twig has to be completed on extended form template#}
+{#body class, from base.html.twig has to be on extended form template#}
 
 {% block body %}
     <div class="container p-5 mt-5 mb-5 bg-white shadow">
-        <h1>{% block h1 %}{% endblock %}</h1>
+        <div class="d-flex align-items-end gap-2">
+            {#block pictosource has to be completed in the extended form template#}
+            <img src={% block pictosource %}{% endblock %} alt="login pictogram" width="70">
+            {#block h1 has to be completed in the extended form template#}
+            <h1>{% block h1 %}{% endblock %}</h1>
+        </div>
         <div class="d-grid gap-2">
+            {#block form has to be completed in the extended form template#}
             {% block form %}
-                {#form tags will be there in extended template#}
+                {#form tags will be there in extended form template#}
             {% endblock %}
         </div>
     </div>
