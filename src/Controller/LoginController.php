@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -25,5 +26,11 @@ class LoginController extends AbstractController
             'last_username' => $lastUsername,
             'error'         => $error,
         ]);
+    }
+
+    #[Route('/logout', name: 'logout', methods: ['GET'])]
+    public function logout(): void
+    {
+        // controller can be blank: it will never be called, logout is handled in security.yaml
     }
 }
