@@ -54,8 +54,10 @@
             </nav>
         </header>
         {{ include('components/_flash_messages.html.twig') }}
-        {% block body %}
-        {% endblock %}
+        <main>
+            {% block body %}
+            {% endblock %}
+        </main>
         <!--same footer for all templates-->
         <footer>
             <div class="container-fluid d-flex justify-content-center align-items-baseline gap-3 fixed-bottom mb-3">
