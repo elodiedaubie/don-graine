@@ -1,12 +1,16 @@
-{% extends 'base.html.twig' %}
+{% extends 'base.form.html.twig' %}
 
-{% block title %}Reset your password{% endblock %}
+{% block title %}Réinitialisation mot de passe{% endblock %}
 
-{% block body %}
-    <h1>Reset your password</h1>
+{% block bodyclass %}'reset-password'{% endblock %}
 
+{% block pictosource %}{{ asset('build/images/pictos/picto-register.png') }}{% endblock %}
+{% block h1 %}Changer mon mot de passe{% endblock %}
+{% block form %}
     {{ form_start(resetForm) }}
         {{ form_row(resetForm.plainPassword) }}
-        <button class="btn btn-primary">Reset password</button>
+        <div class="container d-flex gap-4 flex-column justify-content-center align-items-center">
+            <button type="submit" class="btn btn-dark btn-lg">Enregistrer</button>
+        </div>
     {{ form_end(resetForm) }}
 {% endblock %}
