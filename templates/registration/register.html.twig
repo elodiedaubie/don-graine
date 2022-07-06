@@ -9,13 +9,28 @@
 
 {% block form %}
     {{ form_start(registrationForm) }}
-        {{ form_label(registrationForm.userName) }}
+        <div class="d-inline-flex align-items-baseline gap-2">
+            {{ form_label(registrationForm.userName) }}
+            <a data-bs-toggle="tooltip" data-bs-placement="auto" title="Votre pseudo sera visible par les autres utilisateurs">
+                <i class="bi bi-info-circle-fill"></i>
+            </a>
+        </div>
         {{ form_widget(registrationForm.userName) }}
         {{ form_errors(registrationForm.userName) }}
-        {{ form_label(registrationForm.email) }}
+        <div class="d-inline-flex align-items-baseline gap-2">
+            {{ form_label(registrationForm.email) }}
+            <a data-bs-toggle="tooltip" data-bs-placement="auto" title="Votre email ne sera en aucun cas communiqué à des tiers ou utilisé à des fins commerciales ou de prospection">
+                <i class="bi bi-info-circle-fill"></i>
+            </a>
+        </div>
         {{ form_widget(registrationForm.email) }}
         {{ form_errors(registrationForm.email) }}
-        {{ form_label(registrationForm.plainPassword) }}
+        <div class="d-inline-flex align-items-baseline gap-2">
+            {{ form_label(registrationForm.plainPassword) }}
+            <a data-bs-toggle="tooltip" data-bs-placement="auto" title='Votre mot de passe doit comporter au moins 12 caractères dont une majuscule et un caractère spécial'>
+                <i class="bi bi-info-circle-fill"></i>
+            </a>
+        </div>
         {{ form_widget(registrationForm.plainPassword) }}
         {{ form_errors(registrationForm.plainPassword) }}
         {{ form_widget(registrationForm.agreeTerms) }}
