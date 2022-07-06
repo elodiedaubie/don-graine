@@ -4,7 +4,9 @@ grumphp:
         phpmd: ~
         phpcs: ~
         phpstan: ~
-        eslint: ~
+        eslint: 
+            bin: node_modules/.bin/eslint
+            config: .eslintrc.yml  
         phpversion:
             project: '8.1'
         twigcs: ~
