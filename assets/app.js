@@ -10,3 +10,9 @@ import './styles/app.scss';
 
 // start the Stimulus application
 import './bootstrap';
+
+//Enable tooltips everywhere according to bootsrap doc https://getbootstrap.com/docs/5.1/components/tooltips/
+var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl)
+})
