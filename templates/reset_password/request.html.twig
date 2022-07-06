@@ -1,0 +1,24 @@
+{% extends 'base.form.html.twig' %}
+
+{% block title %}Mot de passe oublié{% endblock %}
+
+{% block bodyclass %}'reset-password'{% endblock %}
+
+{% block pictosource %}{{ asset('build/images/pictos/picto-register.png') }}{% endblock %}
+{% block h1 %}Mot de passe oublié{% endblock %}
+
+{% block form %}
+    <div class="d-column-flex pt-3 ps-9">
+        <p>Renseignez l'email utilisé lors de la création de votre compte.</p>
+        <p>Vous recevrez un lien sur cette adresse, afin de choisir un nouveau mot de passe</p>
+    </div>
+
+    {{ form_start(requestForm) }}
+    {{ form_row(requestForm.email) }}
+
+    <div class="container d-flex gap-4 flex-column justify-content-center align-items-center">
+        <button type="submit" class="btn btn-dark btn-lg">Réinitialiser</button>
+        <a href="{{ path('home') }}">Annuler</a>
+    </div>
+    {{ form_end(requestForm) }}
+{% endblock %}
