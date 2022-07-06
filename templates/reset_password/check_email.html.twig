@@ -2,10 +2,20 @@
 
 {% block title %}Réinitialisation de mot de passe envoyée{% endblock %}
 
+{% block bodyclass %}'reset-password-confirmation'{% endblock %}
+
 {% block body %}
-    <p>
-        Si un compte existe avec l'adresse email que vous nous avez fournie, vous allez recevoir un email contenant un lien que vous pourrez utiliser pour réinititaliser votre mot de passe.
-        Ce lien va expirer dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
-    </p>
-    <p>Si vous ne reçevez pas de mail, veuillez vérifier votre dossier spam ou courriers indésirables ou <a href="{{ path('app_forgot_password_request') }}">essayez de nouveau</a>.</p>
-{% endblock %}
+
+    <div class="container p-5 mt-5 mb-5 bg-white shadow gap-5">
+        <h1>Changement de mot de passe demandé</h1>
+        <p>
+            Si un compte existe avec l'adresse email que vous nous avez fournie, vous allez recevoir un email contenant un lien que vous pourrez utiliser pour réinititaliser votre mot de passe.
+        </p>
+        <p>
+            Ce lien va expirer dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
+        </p>
+        <p>
+            Si vous ne reçevez pas de mail, veuillez vérifier votre dossier spam ou courriers indésirables ou <a href="{{ path('app_forgot_password_request') }}">essayez de nouveau</a>.
+        </p>
+    </div>
+    {% endblock %}
