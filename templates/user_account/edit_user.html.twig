@@ -5,5 +5,14 @@
 {% block h1 %}Modifier mon profil{% endblock %}
 {% block form %}
     {{ form_start(editUserForm) }}
+        {{ form_label(editUserForm.username) }}
+        {{ form_widget(editUserForm.username) }}
+        {{ form_errors(editUserForm.username) }}
+        {{ form_label(editUserForm.email) }}
+        {{ form_widget(editUserForm.email) }}
+        {{ form_errors(editUserForm.email) }}
+    <div class="container d-flex justify-content-center">
+        <button type="submit" class="btn btn-dark btn-lg">Modifier</button>
+    </div>
     {{ form_end(editUserForm) }}
 {% endblock %}
