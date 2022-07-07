@@ -11,8 +11,9 @@
         {{ form_label(editUserForm.email) }}
         {{ form_widget(editUserForm.email) }}
         {{ form_errors(editUserForm.email) }}
-    <div class="container d-flex justify-content-center">
-        <button type="submit" class="btn btn-dark btn-lg">Modifier</button>
+    <div class="container d-flex gap-4 flex-column justify-content-center align-items-center">
+        <button type="submit" class="btn btn-dark btn-lg">Réinitialiser</button>
+        <a href="{{ path('user_account') }}">Annuler</a>
     </div>
     {{ form_end(editUserForm) }}
 {% endblock %}
