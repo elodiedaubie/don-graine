@@ -19,7 +19,7 @@ class LoginController extends AbstractController
     {
         //route not accessible to logged users
         if ($this->getUser() && $this->getUser() instanceof UserInterface) {
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('user_account');
         }
 
         // get the login error if there is one
