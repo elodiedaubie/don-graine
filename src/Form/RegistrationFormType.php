@@ -31,17 +31,6 @@ class RegistrationFormType extends AbstractType
             ->add('userName', TextType::class, [
                 'attr' => ['placeholder' => 'saisir mon pseudo'],
                 'label' => 'pseudo',
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Vous devez renseigner un pseudo.'
-                    ]),
-                    new Length([
-                        'min' => 2,
-                        'minMessage' => 'Votre pseudo doit contenir au moins {{ limit }} caratères.',
-                        'max' => 25,
-                        'maxMessage' => 'Votre pseudo ne peut pas contenir plus de {{ limit }} caratères.',
-                    ]),
-                ],
         ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
