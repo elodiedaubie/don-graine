@@ -1,20 +1,31 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello UserAccountController!{% endblock %}
+{% block title %}Mon Compte{% endblock %}
+
+{% block bodyclass %}'dashboard'{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <div class="container d-grid">
+        <h1>Mon <span class="text-primary">Compte</span></h1>
+        <div class="row gap-4">
+          <div class="col bg-primary p-3">
+            <div class="container d-grid gap-5">
+                <div class="row bg-light">Mon profil</div>
+                <div class="row bg-white">Mes favoris</div>
+            </div>
+          </div>
+          <div class="col bg-secondary">
+            Mes demandes
+          </div>
+          <div class="col bg-danger">
+            Mes dons
+          </div>
+          <div class="col bg-light">
+            Mes graines à donner
+          </div>
+        </div>
+        </div>
+      </div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/elodie/projets-symfony/don-graine/src/Controller/UserAccountController.php'|file_link(0) }}">src/Controller/UserAccountController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/elodie/projets-symfony/don-graine/templates/user_account/index.html.twig'|file_link(0) }}">templates/user_account/index.html.twig</a></code></li>
-    </ul>
-</div>
 {% endblock %}
