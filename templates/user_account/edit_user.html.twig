@@ -1,0 +1,9 @@
+{% extends 'base.form.html.twig' %}
+{% block title %}Modifier mon compte{% endblock %}
+{% block bodyclass %}'dashboard'{% endblock %}
+{% block pictosource %}{{ asset('build/images/pictos/picto-edit.png') }}{% endblock %}
+{% block h1 %}Modifier mon profil{% endblock %}
+{% block form %}
+    {{ form_start(editUserForm) }}
+    {{ form_end(editUserForm) }}
+{% endblock %}

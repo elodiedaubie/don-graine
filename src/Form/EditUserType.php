@@ -14,8 +14,6 @@ class EditUserType extends AbstractType
         $builder
             ->add('email')
             ->add('username')
-            ->add('createdAt')
-            ->add('isVerified')
         ;
     }
 
