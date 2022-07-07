@@ -39,7 +39,7 @@
                             <div class="nav-item d-flex">
                                 {% if app.user %}
                                 <div class="nav-item d-flex">
-                                    <a class="nav-link active" href="#">Mon compte</a>
+                                    <a class="nav-link active" href="{{ path('user_account') }}">Mon compte</a>
                                 </div>
                                 <div class="nav-item d-flex">
                                     <a class="nav-link active" href="{{ path('logout') }}">Déconnexion</a>
