@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\EditUserType;
+use App\Form\EditUserFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -41,7 +41,7 @@ class UserAccountController extends AbstractController
             $user = $this->getUser();
         }
 
-        $form = $this->createForm(EditUserType::class, $user);
+        $form = $this->createForm(EditUserFormType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
