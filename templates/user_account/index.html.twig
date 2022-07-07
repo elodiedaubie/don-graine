@@ -6,23 +6,25 @@
 
 {% block body %}
 
-    <div class="container d-grid">
-        <h1>Mon <span class="text-primary">Compte</span></h1>
-        <div class="row gap-4">
-          <div class="col bg-primary p-3">
-            <div class="container d-grid gap-5">
-                <div class="row bg-light">Mon profil</div>
-                <div class="row bg-white">Mes favoris</div>
-            </div>
+    <div class="container-fluid d-grid ps-5 pe-5 pb-8">
+        <h1 class="pb-3 pt-3">Mon <span class="text-primary">Compte</span></h1>
+        <div class="row gap-4 vh-100">
+          <div class="col d-grid gap-4">
+                <div class="row bg-white p-2">
+                    <h2 class="ps-2">Mon <span class ="text-info">profil</span></h2>
+                </div>
+                <div class="row bg-white p-2">
+                    <h2 class="ps-2">Mes <span class ="text-danger">favoris</span></h2>
+                </div>
           </div>
-          <div class="col bg-secondary">
-            Mes demandes
+          <div class="col bg-white p-2 ps-3">
+            <h2>Mes <span class ="text-success">demandes</span></h2>
           </div>
-          <div class="col bg-danger">
-            Mes dons
+          <div class="col bg-white p-2 ps-3">
+            <h2>Mes <span class ="text-primary">dons</span></h2>
           </div>
-          <div class="col bg-light">
-            Mes graines à donner
+          <div class="col bg-white p-2 ps-3">
+            <h2>Mes graines <span class ="text-info">à donner</span></h2>
           </div>
         </div>
         </div>
