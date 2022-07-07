@@ -6,12 +6,26 @@
 
 {% block body %}
 
-    <div class="container-fluid d-grid ps-5 pe-5 pb-8">
+    <div class="container d-grid pb-8">
         <h1 class="pb-3 pt-3">Mon <span class="text-primary">Compte</span></h1>
         <div class="row gap-4 vh-100">
           <div class="col d-grid gap-4">
                 <div class="row bg-white p-2">
                     <h2 class="ps-2">Mon <span class ="text-info">profil</span></h2>
+                    <div class="d-flex flex-column align-items-center">
+                        <div>
+                            <p><span class="h3">Pseudo : </span>{{ user.username }}</p>
+                            <p><span class="h3">Email : </span> {{ user.email }}</p>
+                        </div>
+                    </div>
+                    <div class="d-inline-flex gap-3 justify-content-center">
+                        <div>
+                            <button class="btn btn-dark">modifier</button>
+                        </div>
+                        <div>
+                            <button class="btn btn-outline-dark">supprimer</button>
+                        </div>
+                    </div>
                 </div>
                 <div class="row bg-white p-2">
                     <h2 class="ps-2">Mes <span class ="text-danger">favoris</span></h2>
