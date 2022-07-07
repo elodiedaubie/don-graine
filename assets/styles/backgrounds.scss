@@ -20,10 +20,18 @@
     }
 }
 
-/*Home background for register template*/
+/*Background for connexion relatives templates*/
 .register, .login, .reset-password, .reset-password-confirmation {
         background-image: url('../images/pictures/account-background.jpg');
         background-size: cover;
         max-height: 100%;
         background-position: center;
+}
+
+/*Background for user account relatives templates*/
+.dashboard {
+    background-image: url('../images/pictures/dashboard-background.jpg');
+    background-size: cover;
+    max-height: 100%;
+    background-position: center;
 }
