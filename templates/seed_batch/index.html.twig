@@ -9,14 +9,24 @@
         {{ form_widget(addSeedBatchForm.plant) }}
         {{ form_errors(addSeedBatchForm.plant) }}
 
-        <div class="d-flex flex-column flex-lg-row justify-content-between mt-1">
+        <div class="d-flex flex-column flex-lg-row justify-content-between gap-2 mt-1">
             <div>
-                {{ form_label(addSeedBatchForm.seedQuantity) }}
+                <div class="d-inline-flex align-items-baseline gap-2">
+                    {{ form_label(addSeedBatchForm.seedQuantity) }}
+                    <a data-bs-toggle="tooltip" data-bs-placement="auto" title="De 5 à 25 graines">
+                        <i class="bi bi-info-circle-fill"></i>
+                    </a>
+                </div>
                 {{ form_widget(addSeedBatchForm.seedQuantity) }}
                 {{ form_errors(addSeedBatchForm.seedQuantity) }}
             </div>
             <div>
-                {{ form_label(addSeedBatchForm.batchQuantity) }}
+                <div class="d-inline-flex align-items-baseline gap-2">
+                    {{ form_label(addSeedBatchForm.batchQuantity) }}
+                    <a data-bs-toggle="tooltip" data-bs-placement="auto" title="De 1 à 10 lots identiques">
+                        <i class="bi bi-info-circle-fill"></i>
+                    </a>
+                </div>
                 {{ form_widget(addSeedBatchForm.batchQuantity) }}
                 {{ form_errors(addSeedBatchForm.batchQuantity) }}
             </div>
