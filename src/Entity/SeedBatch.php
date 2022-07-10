@@ -8,6 +8,10 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: SeedBatchRepository::class)]
 class SeedBatch
 {
+    //to update min/max quantities, just update thoses constants, use everywhere even in fixtures
+    public const MINSEEDSQUANTITY = 5;
+    public const MAXSEEDSQUANTITY = 25;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
