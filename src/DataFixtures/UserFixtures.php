@@ -10,7 +10,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserFixtures extends Fixture
 {
-    public const FAKEUSERS = 20;
+    public const USERSNUMBERFIXTURES = 20;
     private UserPasswordHasherInterface $passwordHasher;
 
     public function __construct(UserPasswordHasherInterface $passwordHasher)
@@ -20,7 +20,7 @@ class UserFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        for ($i = 0; $i < self::FAKEUSERS; $i++) {
+        for ($i = 0; $i < self::USERSNUMBERFIXTURES; $i++) {
             $user = new User();
             $user->setEmail('jane' . $i . '@mail.com');
             $hashedPassword = $this->passwordHasher->hashPassword(
