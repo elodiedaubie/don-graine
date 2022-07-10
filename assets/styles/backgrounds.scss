@@ -24,7 +24,7 @@
 .register, .login, .reset-password, .reset-password-confirmation {
         background-image: url('../images/pictures/account-background.jpg');
         background-size: cover;
-        max-height: 100%;
+        height: 100%;
         background-position: center;
 }
 
@@ -32,13 +32,13 @@
 .dashboard {
     background-image: url('../images/pictures/dashboard-background.jpg');
     background-size: cover;
-    max-height: 100%;
+    height: 100%;
     background-position: center;
 }
 
 .seed-batch {
     background-image: url('../images/pictures/batch-background.jpg');
     background-size: cover;
-    max-height: 100%;
+    height: 100%;
     background-position: center;
 }
