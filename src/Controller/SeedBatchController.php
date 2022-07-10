@@ -15,7 +15,7 @@ class SeedBatchController extends AbstractController
     public function index(): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        
+
         return $this->render('seed_batch/index.html.twig', [
             'controller_name' => 'SeedBatchController',
         ]);
