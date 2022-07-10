@@ -8,6 +8,7 @@ use Symfony\Component\Mime\Address;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use SymfonyCasts\Bundle\ResetPassword\Model\ResetPasswordToken;
 
 class MailerManager extends AbstractController
 {
@@ -42,5 +43,22 @@ class MailerManager extends AbstractController
             'warning',
             'Un email va vous être envoyé afin de finaliser votre inscription.'
         );
+    }
+
+    /**
+    * mail sent to reset password
+    */
+    public function sendResetPassword(User $user, ResetPasswordToken $resetToken)
+    {
+        $email = (new TemplatedEmail())
+            ->from(new Address('noreply@grainesenlair.com', 'Graines en l\'air'))
+            ->to($user->getEmail())
+            ->subject('Votre demande de réinitialisation de mot de passe')
+            ->htmlTemplate('email/reset_password.html.twig')
+            ->context([
+                'resetToken' => $resetToken,
+            ])
+        ;
+        $this->mailerInterface->send($email);
     }
 }
