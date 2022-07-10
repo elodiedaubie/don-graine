@@ -7,6 +7,7 @@ use Symfony\Component\Mime\Address;
 use App\Form\ChangePasswordFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Form\ResetPasswordRequestFormType;
+use App\Service\MailerManager;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
@@ -28,13 +29,16 @@ class ResetPasswordController extends AbstractController
 
     private ResetPasswordHelperInterface $resetPasswordHelper;
     private EntityManagerInterface $entityManager;
+    private MailerManager $mailerManager;
 
     public function __construct(
         ResetPasswordHelperInterface $resetPasswordHelper,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        MailerManager $mailerManager
     ) {
         $this->resetPasswordHelper = $resetPasswordHelper;
         $this->entityManager = $entityManager;
+        $this->mailerManager = $mailerManager;
     }
 
     /**
@@ -195,17 +199,7 @@ class ResetPasswordController extends AbstractController
             return $this->redirectToRoute('app_check_email');
         }
 
-        $email = (new TemplatedEmail())
-            ->from(new Address('noreply@grainesenlair.com', 'Graines en l\'air'))
-            ->to($user->getEmail())
-            ->subject('Votre demande de réinitialisation de mot de passe')
-            ->htmlTemplate('email/reset_password.html.twig')
-            ->context([
-                'resetToken' => $resetToken,
-            ])
-        ;
-
-        $mailer->send($email);
+        $this->mailerManager->sendResetPassword($user, $resetToken);
 
         // Store the token object in session for retrieval in check-email route.
         $this->setTokenObjectInSession($resetToken);

@@ -7,6 +7,7 @@ use DateTimeImmutable;
 use App\Security\EmailVerifier;
 use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
+use App\Service\MailerManager;
 use Symfony\Component\Mime\Address;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -25,10 +26,14 @@ use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 class RegistrationController extends AbstractController
 {
     private EmailVerifier $emailVerifier;
+    private MailerManager $mailerManager;
 
-    public function __construct(EmailVerifier $emailVerifier)
-    {
+    public function __construct(
+        EmailVerifier $emailVerifier,
+        MailerManager $mailerManager,
+    ) {
         $this->emailVerifier = $emailVerifier;
+        $this->mailerManager = $mailerManager;
     }
 
     #[Route('/inscription', name: 'register')]
@@ -65,20 +70,9 @@ class RegistrationController extends AbstractController
                 $entityManager->persist($user);
                 $entityManager->flush();
 
-                // generate a signed url and email it to the user
-                $this->emailVerifier->sendEmailConfirmation(
-                    'app_verify_email',
-                    $user,
-                    (new TemplatedEmail())
-                        ->from(new Address('noreply@grainesenlair.com', 'Graines en l\'air'))
-                        ->to($user->getEmail())
-                        ->subject('Veuillez confirmer votre email')
-                        ->htmlTemplate('email/confirmation_email.html.twig')
-                );
-                $this->addFlash(
-                    'success',
-                    'Un email vous a été envoyé, veuillez cliquer sur le lien afin de valider votre compte'
-                );
+                // generate a signed url and email it to the user and display addflash
+                $this->mailerManager->sendVerifyRegistration($user);
+
                 return $this->redirectToRoute('login');
             }
                 $form->addError(
@@ -125,6 +119,6 @@ class RegistrationController extends AbstractController
 
         $this->addFlash('success', 'Votre adresse email a bien été vérifiée, veuillez vous connecter');
 
-        return $this->redirectToRoute('home');
+        return $this->redirectToRoute('login');
     }
 }
