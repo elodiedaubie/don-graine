@@ -15,7 +15,7 @@
     .home {
         background-image: url('../images/pictures/home.jpg');
         background-size: cover;
-        height: 100vh;
+        height: 100%;
         background-position: center; 
     }
 }
@@ -24,7 +24,7 @@
 .register, .login, .reset-password, .reset-password-confirmation {
         background-image: url('../images/pictures/account-background.jpg');
         background-size: cover;
-        height: 100vh;
+        height: 100%;
         background-position: center;
 }
 
@@ -39,6 +39,6 @@
 .seed-batch {
     background-image: url('../images/pictures/batch-background.jpg');
     background-size: cover;
-    height: 100vh;
+    height: 100%;
     background-position: center;
 }
