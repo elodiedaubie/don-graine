@@ -38,6 +38,10 @@ a {
     }
 }
 
+.logo {
+    width:5em;
+}
+
 .btn-dark, .btn-outline-dark {
     border-radius: 2em;
     padding: 0.5em 2em;
@@ -60,5 +64,8 @@ a {
         p{
             width: 65%;
         }
+    }
+    .logo {
+        width: 5.5em;
     }
 }
