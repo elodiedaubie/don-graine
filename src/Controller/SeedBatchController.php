@@ -34,14 +34,27 @@ class SeedBatchController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             //get batch quantity given by user ("X"), unmapped by Doctrine, validate it and create x number of batches
+            $batchQuantity = $form->get('batchQuantity')->getData();
             //validate that quantity given is in the right range
-            //add X number of the same batch in DB
-            $seedBatch->setOwner($user);
-            $entityManager->persist($seedBatch);
-            $entityManager->flush();
-            // add flash if success
-            $this->addFlash('success', 'Vos graines sont maintenant disponibles dans notre grainothèque');
-            //redirect to user_account
+            if (is_int($batchQuantity)) {
+                if ($batchQuantity <= SeedBatch::MAXBATCHADDED || $batchQuantity >= SeedBatch::MINBATCHADDED) {
+                    //add X number of the same batch in DB
+                    for ($i = 0; $i < $batchQuantity; $i++) {
+                        //new instance of Batch mandatory to serialize batch creation
+                        $seedBatch = new SeedBatch();
+                        $seedBatch->setPlant($form->get('plant')->getData());
+                        $seedBatch->setSeedQuantity($form->get('seedQuantity')->getData());
+                        $seedBatch->setQuality($form->get('quality')->getData());
+                        $seedBatch->setOwner($user);
+                        $entityManager->persist($seedBatch);
+                    }
+                    $entityManager->flush();
+                    // add flash if success
+                    $this->addFlash('success', 'Vos graines sont maintenant disponibles dans notre grainothèque');
+                    //redirect to user_account
+                    return $this->redirectToRoute('user_account');
+                }
+            }
         }
 
         return $this->renderForm('seed_batch/index.html.twig', [
