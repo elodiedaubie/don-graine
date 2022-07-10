@@ -13,17 +13,17 @@ class Plant
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private int $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $name;
+    private string $name;
 
     #[ORM\ManyToOne(targetEntity: Purpose::class)]
     #[ORM\JoinColumn(nullable: false)]
-    private $purpose;
+    private Purpose $purpose;
 
     #[ORM\OneToMany(mappedBy: 'plant', targetEntity: SeedBatch::class)]
-    private $seedBatches;
+    private Collection $seedBatches;
 
     public function __construct()
     {

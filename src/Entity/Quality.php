@@ -13,13 +13,13 @@ class Quality
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private int $id;
 
     #[ORM\Column(type: 'string', length: 30)]
-    private $name;
+    private string $name;
 
     #[ORM\OneToMany(mappedBy: 'quality', targetEntity: SeedBatch::class)]
-    private $seedBatches;
+    private Collection $seedBatches;
 
     public function __construct()
     {

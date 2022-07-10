@@ -11,10 +11,10 @@ class Purpose
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private int $id;
 
     #[ORM\Column(type: 'string', length: 30)]
-    private $name;
+    private string $name;
 
     public function getId(): ?int
     {
