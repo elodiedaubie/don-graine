@@ -32,6 +32,7 @@ class UserFixtures extends Fixture
             $user->setCreatedAt(new DateTimeImmutable());
             $user->isVerified(true);
             $manager->persist($user);
+            $this->addReference('user_' . $i, $user);
         }
         //insert all users in DB at the same time
         $manager->flush();
