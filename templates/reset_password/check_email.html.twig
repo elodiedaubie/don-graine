@@ -12,7 +12,7 @@
             Si un compte existe avec l'adresse email que vous nous avez fournie, vous allez recevoir un email contenant un lien que vous pourrez utiliser pour réinititaliser votre mot de passe.
         </p>
         <p>
-            Ce lien va expirer dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
+            Ce lien va expirer dans 60 minutes.
         </p>
         <p>
             Si vous ne reçevez pas de mail, veuillez vérifier votre dossier spam ou courriers indésirables ou <a href="{{ path('app_forgot_password_request') }}">essayez de nouveau</a>.
