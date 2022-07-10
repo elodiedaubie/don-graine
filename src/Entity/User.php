@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -52,6 +54,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'boolean')]
     private bool $isVerified = false;
+
+    #[ORM\OneToMany(mappedBy: 'owner', targetEntity: SeedBatch::class, orphanRemoval: true)]
+    private $seedBatches;
+
+    public function __construct()
+    {
+        $this->seedBatches = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -155,6 +165,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, SeedBatch>
+     */
+    public function getSeedBatches(): Collection
+    {
+        return $this->seedBatches;
+    }
+
+    public function addSeedBatch(SeedBatch $seedBatch): self
+    {
+        if (!$this->seedBatches->contains($seedBatch)) {
+            $this->seedBatches[] = $seedBatch;
+            $seedBatch->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSeedBatch(SeedBatch $seedBatch): self
+    {
+        if ($this->seedBatches->removeElement($seedBatch)) {
+            // set the owning side to null (unless already changed)
+            if ($seedBatch->getOwner() === $this) {
+                $seedBatch->setOwner(null);
+            }
+        }
 
         return $this;
     }
