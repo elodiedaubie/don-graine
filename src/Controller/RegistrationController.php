@@ -16,7 +16,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Form;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Validator\ConstraintViolation;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class RegistrationController extends AbstractController
@@ -32,7 +35,8 @@ class RegistrationController extends AbstractController
     public function register(
         Request $request,
         UserPasswordHasherInterface $userPasswordHasher,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        UserRepository $userRepository
     ): Response {
 
         //route not accessible to logged users
@@ -52,22 +56,36 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
-            $user->setCreatedAt(new DateTimeImmutable());
-            $entityManager->persist($user);
-            $entityManager->flush();
+            //get form username to control if it already exists in DB
+            $username = $form->getNormData()->getUsername();
 
-            // generate a signed url and email it to the user
-            $this->emailVerifier->sendEmailConfirmation(
-                'app_verify_email',
-                $user,
-                (new TemplatedEmail())
-                    ->from(new Address('noreply@grainesenlair.com', 'Graines en l\'air'))
-                    ->to($user->getEmail())
-                    ->subject('Veuillez confirmer votre email')
-                    ->htmlTemplate('email/confirmation_email.html.twig')
-            );
+            if (!$userRepository->findOneBy(['username' => $username])) {
+                //there is no user with same username, create the new user
+                $user->setCreatedAt(new DateTimeImmutable());
+                $entityManager->persist($user);
+                $entityManager->flush();
 
-            return $this->redirectToRoute('home');
+                // generate a signed url and email it to the user
+                $this->emailVerifier->sendEmailConfirmation(
+                    'app_verify_email',
+                    $user,
+                    (new TemplatedEmail())
+                        ->from(new Address('noreply@grainesenlair.com', 'Graines en l\'air'))
+                        ->to($user->getEmail())
+                        ->subject('Veuillez confirmer votre email')
+                        ->htmlTemplate('email/confirmation_email.html.twig')
+                );
+
+                return $this->redirectToRoute('home');
+            }
+                $form->addError(
+                    new FormError(
+                        'Il existe déjà un utilisateur avec ce pseudo',
+                        'Il existe déjà un utilisateur avec ce pseudo',
+                        ["{{ value }}" => $username],
+                        null,
+                    )
+                );
         }
 
         return $this->render('registration/register.html.twig', [
