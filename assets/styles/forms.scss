@@ -1,12 +1,12 @@
 form {
     display: grid;
 
-    .form-label, label {
+    .form-label, label, .col-form-label {
         font-family: $head-font;
         font-size: $form-font-size;   
     }
 
-    .form-label {
+    .form-label, .col-form-label {
         margin-top: 1.8em;
     }
 
@@ -42,7 +42,7 @@ form {
         }    
     }
 
-    .form-control, input {
+    .form-control, input, .form-select {
         background-color: $light;
         border: solid $secondary 0.2px;
         border-radius: 1.5em;
@@ -66,7 +66,7 @@ form {
     }
 }
 
-/*position and size of main part on desktop only.
+/*position and size on desktop only.
 * Other devices handled by bootsrap container class
 */
 @media screen and (min-width: 992px) {
@@ -82,4 +82,12 @@ form {
             margin: auto;
         }
     }
+    /* AddSeedBatchForm - code to display ratio inline */
+    #add_seed_batch_form_quality {
+        display: flex;
+        flex-direction: inline;
+        align-items: center;
+        justify-content: space-around;
+    }
 }
+
