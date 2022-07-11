@@ -15,7 +15,30 @@
     .home {
         background-image: url('../images/pictures/home.jpg');
         background-size: cover;
-        height: 100vh;
+        height: 100%;
         background-position: center; 
     }
+}
+
+/*Background for connexion relatives templates*/
+.register, .login, .reset-password, .reset-password-confirmation {
+        background-image: url('../images/pictures/account-background.jpg');
+        background-size: cover;
+        height: 100%;
+        background-position: center;
+}
+
+/*Background for user account relatives templates*/
+.dashboard {
+    background-image: url('../images/pictures/dashboard-background.jpg');
+    background-size: cover;
+    height: 100%;
+    background-position: center;
+}
+
+.seed-batch {
+    background-image: url('../images/pictures/batch-background.jpg');
+    background-size: cover;
+    height: 100%;
+    background-position: center;
 }
