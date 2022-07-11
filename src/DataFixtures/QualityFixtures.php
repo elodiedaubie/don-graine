@@ -13,9 +13,9 @@ class QualityFixtures extends Fixture
 
     public const QUALITYFIXTURES = [
         'Bio',
-        'Reproductible',
-        'Rare',
-        'Paysanne'
+        'Reproductibles',
+        'Rares',
+        'Paysannes'
     ];
 
     public function load(ObjectManager $manager): void
