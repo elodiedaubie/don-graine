@@ -16,6 +16,9 @@ class Purpose
     #[ORM\Column(type: 'string', length: 30)]
     private string $name;
 
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $picto;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -29,6 +32,18 @@ class Purpose
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getPicto(): ?string
+    {
+        return $this->picto;
+    }
+
+    public function setPicto(string $picto): self
+    {
+        $this->picto = $picto;
 
         return $this;
     }
