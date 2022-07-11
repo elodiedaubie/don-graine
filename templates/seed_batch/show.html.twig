@@ -5,5 +5,11 @@
 {% block bodyclass %}seedbank{% endblock %}
 
 {% block body %}
-
-{% endblock %}
+    <div class="container p-5 bg-white shadow">
+        <div class="d-flex align-items-center gap-2">
+            <img src= "{{ asset('build/images/pictos/picto-seed.png') }}" alt="seed pictogram" width="70">
+            <h1>Choisir votre <span class="text-primary">lot de graines</span></h1>
+        </div>
+        <p class="ps-9 pt-2">Graines en l’air est un service entièrement gratuit qui mise sur la solidarité écologique. Nous comptons sur vous pour vous servir dans la grainothèque selon vos besoins et avec sobriété, il en faut pour tout le monde. Nous vous rappellons que l’utilisation des graines données sur notre site <span class="fw-bolder">ne peuvent servir un but commercial.</span></p>
+    </div>
+    {% endblock %}
