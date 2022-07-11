@@ -9,9 +9,12 @@
         <div class="d-flex align-items-center gap-2">
             <img src= "{{ asset('build/images/pictos/picto-seed.png') }}" alt="seed pictogram" width="70">
             <h1>Choisir votre <span class="text-primary">lot de graines</span></h1>
+            <a data-bs-toggle="tooltip" data-bs-placement="auto" title="Servez-vous avec sobriété. Ces graines ne peuvent servir un but commercial" class="d-block d-lg-none align-self-start">
+                <i class="bi bi-info-circle-fill fs-2"></i>
+            </a>
         </div>
-        <p class="ps-9 pe-9">Graines en l’air est un service entièrement gratuit qui mise sur la solidarité écologique. Nous comptons sur vous pour vous servir dans la grainothèque selon vos besoins et avec sobriété. Nous vous rappellons que l’utilisation des graines données sur notre site <span class="fw-bolder">ne peuvent servir un but commercial.</span></p>
-        <div class="container d-flex flex-wrap justify-content-evenly gap-5">
+        <p class="ps-9 d-none d-lg-block">Graines en l’air est un service entièrement gratuit qui mise sur la solidarité écologique. Nous comptons sur vous pour vous servir dans la grainothèque selon vos besoins et avec sobriété. Nous vous rappellons que l’utilisation des graines données sur notre site <span class="fw-bolder">ne peuvent servir un but commercial.</span></p>
+        <div class="container d-flex flex-wrap justify-content-evenly mt-7 gap-5">
             {% for seed_batch in seed_batches %}
                 <div class="card shadow border-secondary border-1 p-2 ps-3 pe-3">
                     <div class="card-header bg-white d-flex flex-column">
@@ -29,7 +32,7 @@
                     <p class="card-text">Lot de <span class="fw-bold">{{ seed_batch.seedQuantity }}</span> graines</p>
                     <p class="card-text">Donné par {{ seed_batch.owner.userName }}</p>
                     <div class="d-flex justify-content-center pt-3">
-                        <a href="#" class="btn btn-dark">Demander</a>
+                        <a href="#"><button class="btn btn-dark">Demander</button></a>
                     </div>
                     </div>
                 </div>
