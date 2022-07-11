@@ -23,7 +23,7 @@ class SeedBatchFixtures extends Fixture implements DependentFixtureInterface
                 $this->getReference('plant_' . (rand(0, count(PlantFixtures::PLANTSFIXTURES) - 1)))
             );
             $batch->setOwner(
-                $this->getReference('user_' . (rand(0, UserFixtures::USERSNUMBERFIXTURES) - 1))
+                $this->getReference('user_' . (rand(0, UserFixtures::USERSNUMBERFIXTURES - 1)))
             );
             $batch->setQuality(
                 $this->getReference('quality_' . (rand(0, count(QualityFixtures::QUALITYFIXTURES) - 1)))
