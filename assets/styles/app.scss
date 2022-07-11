@@ -4,6 +4,7 @@
 @import 'nav';
 @import 'backgrounds';
 @import 'forms';
+@import 'showpages';
 
 body {
     background-color: #ffffff;
@@ -33,6 +34,11 @@ h2 {
 
 h3 {
     font-family: $head-font;
+    font-size: 1.2rem;
+}
+
+h4 {
+    font-family: $body-font;
     font-size: 1.2rem;
 }
 
