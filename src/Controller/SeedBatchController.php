@@ -13,10 +13,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[IsGranted('ROLE_USER')]
-#[Route('/donner', name: 'seed_batch')]
+#[Route('/', name: 'seed_batch')]
 class SeedBatchController extends AbstractController
 {
-    #[Route('', name: '_add')]
+    #[Route('donner', name: '_add')]
     public function index(
         Request $request,
         EntityManagerInterface $entityManager
@@ -60,5 +60,13 @@ class SeedBatchController extends AbstractController
         return $this->renderForm('seed_batch/index.html.twig', [
             'addSeedBatchForm' => $form,
         ]);
+    }
+
+    #[Route('/grainotheque', name: '_show')]
+    public function showSeedBatches(): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        return $this->render('seed_batch/show.html.twig');
     }
 }
