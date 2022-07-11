@@ -11,27 +11,29 @@
             <h1>Choisir votre <span class="text-primary">lot de graines</span></h1>
         </div>
         <p class="ps-9 pe-9">Graines en l’air est un service entièrement gratuit qui mise sur la solidarité écologique. Nous comptons sur vous pour vous servir dans la grainothèque selon vos besoins et avec sobriété. Nous vous rappellons que l’utilisation des graines données sur notre site <span class="fw-bolder">ne peuvent servir un but commercial.</span></p>
-        <div class="container d-flex justify-content-between ps-9 pe-9 gap-3">
-            <div class="card shadow border-secondary border-1 p-2 ps-3 pe-3">
-                <div class="card-header bg-white d-flex flex-column">
-                    <div class="d-inline-flex justify-content-between align-items-center">
-                        <h2>Nom graine</h2>
-                        <img src="{{ asset('build/images/pictos/picto-seed.png') }}" alt="picto NOM GRAINE" width="60">
+        <div class="container d-flex flex-wrap justify-content-between ps-9 pe-9 gap-3">
+            {% for seed_batch in seed_batches %}
+                <div class="card shadow border-secondary border-1 p-2 ps-3 pe-3">
+                    <div class="card-header bg-white d-flex flex-column">
+                        <div class="d-inline-flex justify-content-between align-items-center">
+                            <h2>{{ seed_batch.plant.name }}</h2>
+                            <img src="{{ asset('build/images/pictos/picto-seed.png') }}" alt="picto {{ seed_batch.plant.name }}" width="60">
+                        </div>
+                        <div class="d-inline-flex justify-content-between align-items-center">
+                            <i class="bi bi-heart fs-2 text-danger"></i>
+                            <p class="fs-5 fw-bold mb-0 =">{{ seed_batch.plant.purpose.name }}</p>
+                        </div>
                     </div>
-                    <div class="d-inline-flex justify-content-between align-items-center">
-                        <i class="bi bi-heart fs-2 text-danger"></i>
-                        <p class="fs-5 fw-bold mb-0 =">Purpose</p>
+                    <div class="card-body">
+                    <h3 class="card-title mb-4">{{ seed_batch.quality.name }}</h3>
+                    <p class="card-text">Lot de <span class="fw-bold">{{ seed_batch.seedQuantity }}</span> graines</p>
+                    <p class="card-text">Donné par {{ seed_batch.owner.userName }}</p>
+                    <div class="d-flex justify-content-center pt-3">
+                        <a href="#" class="btn btn-dark">Demander</a>
+                    </div>
                     </div>
                 </div>
-                <div class="card-body">
-                  <h3 class="card-title mb-4">quality</h3>
-                  <p class="card-text">Lot de seedQuantity graines</p>
-                  <p class="card-text">Donné par userName</p>
-                  <div class="d-flex justify-content-center pt-3">
-                    <a href="#" class="btn btn-dark">Demander</a>
-                  </div>
-                </div>
-              </div>
+            {% endfor %}
         </div>
     </div>
     {% endblock %}

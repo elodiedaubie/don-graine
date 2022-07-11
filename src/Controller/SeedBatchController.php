@@ -5,7 +5,9 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\SeedBatch;
 use App\Form\AddSeedBatchFormType;
+use App\Repository\SeedBatchRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -62,11 +64,18 @@ class SeedBatchController extends AbstractController
         ]);
     }
 
+    //Manager Registry is an argument because required by parent construct of repository
     #[Route('/grainotheque', name: '_show')]
-    public function showSeedBatches(): Response
-    {
+    public function showSeedBatches(
+        SeedBatchRepository $seedBatchRepository,
+        ManagerRegistry $managerRegistry
+    ): Response {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-        return $this->render('seed_batch/show.html.twig');
+        $seedBatches = $seedBatchRepository->findAll();
+
+        return $this->render('seed_batch/show.html.twig', [
+            'seed_batches' => $seedBatches
+        ]);
     }
 }
