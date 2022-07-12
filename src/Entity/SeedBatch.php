@@ -50,6 +50,12 @@ class SeedBatch
     #[ORM\JoinColumn(nullable: false)]
     private Quality $quality;
 
+    #[ORM\Column(type: 'boolean')]
+    private bool $isAvailable = true;
+
+    #[ORM\OneToOne(mappedBy: 'seedBatch', targetEntity: Donation::class, cascade: ['persist', 'remove'])]
+    private $donation;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -99,6 +105,35 @@ class SeedBatch
     public function setQuality(?Quality $quality): self
     {
         $this->quality = $quality;
+
+        return $this;
+    }
+
+    public function isIsAvailable(): ?bool
+    {
+        return $this->isAvailable;
+    }
+
+    public function setIsAvailable(bool $isAvailable): self
+    {
+        $this->isAvailable = $isAvailable;
+
+        return $this;
+    }
+
+    public function getDonation(): ?Donation
+    {
+        return $this->donation;
+    }
+
+    public function setDonation(Donation $donation): self
+    {
+        // set the owning side of the relation if necessary
+        if ($donation->getSeedBatch() !== $this) {
+            $donation->setSeedBatch($this);
+        }
+
+        $this->donation = $donation;
 
         return $this;
     }

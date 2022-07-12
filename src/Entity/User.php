@@ -58,9 +58,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'owner', targetEntity: SeedBatch::class, orphanRemoval: true)]
     private $seedBatches;
 
+    #[ORM\OneToMany(mappedBy: 'beneficiary', targetEntity: Donation::class)]
+    private $donationsReceived;
+
     public function __construct()
     {
         $this->seedBatches = new ArrayCollection();
+        $this->donationsReceived = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -193,6 +197,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($seedBatch->getOwner() === $this) {
                 $seedBatch->setOwner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Donation>
+     */
+    public function getDonationsReceived(): Collection
+    {
+        return $this->donationsReceived;
+    }
+
+    public function addDonationsReceived(Donation $donationsReceived): self
+    {
+        if (!$this->donationsReceived->contains($donationsReceived)) {
+            $this->donationsReceived[] = $donationsReceived;
+            $donationsReceived->setBeneficiary($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDonationsReceived(Donation $donationsReceived): self
+    {
+        if ($this->donationsReceived->removeElement($donationsReceived)) {
+            // set the owning side to null (unless already changed)
+            if ($donationsReceived->getBeneficiary() === $this) {
+                $donationsReceived->setBeneficiary(null);
             }
         }
 
