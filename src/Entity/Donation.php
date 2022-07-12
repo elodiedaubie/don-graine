@@ -27,13 +27,13 @@ class Donation
     #[ORM\Column(type: 'string', length: 30)]
     private string $status;
 
-    #[ORM\OneToOne(inversedBy: 'donation', targetEntity: SeedBatch::class, cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private SeedBatch $seedBatch;
-
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'donationsReceived')]
     #[ORM\JoinColumn(nullable: false)]
     private User $beneficiary;
+
+    #[ORM\ManyToOne(targetEntity: SeedBatch::class, inversedBy: 'donations')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $seedBatch;
 
     public function getId(): ?int
     {
@@ -64,18 +64,6 @@ class Donation
         return $this;
     }
 
-    public function getSeedBatch(): ?SeedBatch
-    {
-        return $this->seedBatch;
-    }
-
-    public function setSeedBatch(SeedBatch $seedBatch): self
-    {
-        $this->seedBatch = $seedBatch;
-
-        return $this;
-    }
-
     public function getBeneficiary(): ?User
     {
         return $this->beneficiary;
@@ -84,6 +72,18 @@ class Donation
     public function setBeneficiary(?User $beneficiary): self
     {
         $this->beneficiary = $beneficiary;
+
+        return $this;
+    }
+
+    public function getSeedBatch(): ?SeedBatch
+    {
+        return $this->seedBatch;
+    }
+
+    public function setSeedBatch(?SeedBatch $seedBatch): self
+    {
+        $this->seedBatch = $seedBatch;
 
         return $this;
     }

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\SeedBatchRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -53,8 +55,13 @@ class SeedBatch
     #[ORM\Column(type: 'boolean')]
     private bool $isAvailable = true;
 
-    #[ORM\OneToOne(mappedBy: 'seedBatch', targetEntity: Donation::class, cascade: ['persist', 'remove'])]
-    private $donation;
+    #[ORM\OneToMany(mappedBy: 'seedBatch', targetEntity: Donation::class)]
+    private $donations;
+
+    public function __construct()
+    {
+        $this->donations = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -121,19 +128,32 @@ class SeedBatch
         return $this;
     }
 
-    public function getDonation(): ?Donation
+    /**
+     * @return Collection<int, Donation>
+     */
+    public function getDonations(): Collection
     {
-        return $this->donation;
+        return $this->donations;
     }
 
-    public function setDonation(Donation $donation): self
+    public function addDonation(Donation $donation): self
     {
-        // set the owning side of the relation if necessary
-        if ($donation->getSeedBatch() !== $this) {
+        if (!$this->donations->contains($donation)) {
+            $this->donations[] = $donation;
             $donation->setSeedBatch($this);
         }
 
-        $this->donation = $donation;
+        return $this;
+    }
+
+    public function removeDonation(Donation $donation): self
+    {
+        if ($this->donations->removeElement($donation)) {
+            // set the owning side to null (unless already changed)
+            if ($donation->getSeedBatch() === $this) {
+                $donation->setSeedBatch(null);
+            }
+        }
 
         return $this;
     }
