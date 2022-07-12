@@ -16,8 +16,12 @@
         <p class="ps-9 d-none d-lg-block">Graines en l’air est un service entièrement gratuit qui mise sur la solidarité écologique. Nous comptons sur vous pour vous servir dans la grainothèque selon vos besoins et avec sobriété. Nous vous rappellons que l’utilisation des graines données sur notre site <span class="fw-bolder">ne peuvent servir un but commercial.</span></p>
         <div class="container d-flex flex-wrap justify-content-evenly mt-7 gap-5">
             {% for seed_batch in seed_batches %}
+                {% if app.user == seed_batch.owner %}
+                <div class="card shadow border-secondary border-1 p-2 ps-3 pe-3 opacity-50">
+                {% else %}
                 <div class="card shadow border-secondary border-1 p-2 ps-3 pe-3">
-                    <div class="card-header bg-white d-flex flex-column">
+                {% endif %}
+                    <div class="card-header bg-white d-flex flex-column" >
                         <div class="d-inline-flex justify-content-between align-items-center">
                             <h2>{{ seed_batch.plant.name }}</h2>
                             <img src= "{{ asset("build/images/pictos/" ~ seed_batch.plant.purpose.picto) }}" alt="picto {{ seed_batch.plant.purpose.name }}" width="60">
@@ -32,7 +36,11 @@
                         <p class="card-text">Lot de <span class="fw-bold">{{ seed_batch.seedQuantity }}</span> graines</p>
                         <p class="card-text">Donné par {{ seed_batch.owner.userName }}</p>
                         <div class="d-flex justify-content-center pt-3">
-                            <a href="{{ path('donation_add', {'id': seed_batch.id}) }}"><button class="btn btn-dark">Demander</button></a>
+                            {% if app.user != seed_batch.owner  %}
+                            <a href="{{ path('donation_add', {'id': seed_batch.id}) }}">
+                                <button class="btn btn-dark">Demander</button>
+                            </a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
