@@ -10,7 +10,7 @@ class PurposeFixtures extends Fixture
 {
     //this constant is meant to be uses in fixtures classes
     //to add a new purpose, just add it on the const, it will be load in other fixtures
-    public const PURPOSESFIXTURES = [
+    public const PURPOSES = [
        ['Potagère', 'picto-vegetable.png'],
        ['Mellifère', 'picto-melliferous.png'],
        ['Décorative', 'picto-decorative.png']
@@ -18,7 +18,7 @@ class PurposeFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        foreach (self::PURPOSESFIXTURES as $key => $infos) {
+        foreach (self::PURPOSES as $key => $infos) {
             $purpose = new Purpose();
             $purpose->setName($infos[0]);
             $purpose->setPicto($infos[1]);

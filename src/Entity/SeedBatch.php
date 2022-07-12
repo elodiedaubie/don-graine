@@ -10,8 +10,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 class SeedBatch
 {
     //to update min/max quantities, just update thoses constants, use everywhere even in fixtures
-    public const MINSEEDSQUANTITY = 5;
-    public const MAXSEEDSQUANTITY = 25;
+    public const MINSEEDS = 5;
+    public const MAXSEEDS = 25;
     public const MAXBATCHADDED = 10;
     public const MINBATCHADDED = 1;
 
@@ -29,11 +29,11 @@ class SeedBatch
         message: '{{ value }} n\'est pas un nombre entier.',
     )]
     #[Assert\LessThanOrEqual(
-        value: self::MAXSEEDSQUANTITY,
+        value: self::MAXSEEDS,
         message:'La quantité de graines est trop élevée'
     )]
     #[Assert\GreaterThanOrEqual(
-        value: self::MINSEEDSQUANTITY,
+        value: self::MINSEEDS,
         message:'La quantité de graines est trop faible'
     )]
     private int $seedQuantity;
