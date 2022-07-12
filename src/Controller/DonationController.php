@@ -6,6 +6,7 @@ use App\Entity\User;
 use DateTimeImmutable;
 use App\Entity\Donation;
 use App\Entity\SeedBatch;
+use App\Service\MailerManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,6 +17,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[Route('/donation', name: 'donation')]
 class DonationController extends AbstractController
 {
+    public MailerManager $mailerManager;
+
+    public function __construct(MailerManager $mailerManager)
+    {
+        $this->mailerManager = $mailerManager;
+    }
+
     //test if beneficary and owners are not the same
     private function areUsersDifferents(User $owner, User $beneficiary): bool
     {
@@ -66,7 +74,6 @@ class DonationController extends AbstractController
         }
         if (!$this->isBatchAvailable($seedBatch)) {
             //there is a donation going on or over for this batch
-            dd($seedBatch);
             $this->addFlash(
                 'danger',
                 'Désolé.e, ce lot a déjà été réservé par quelqu\'un d\'autre'
@@ -80,6 +87,8 @@ class DonationController extends AbstractController
         $donation->setSeedBatch($seedBatch);
         $entityManager->persist($donation);
         $entityManager->flush($donation);
+
+        $this->mailerManager->sendDonationAlert($owner, $beneficiary, $seedBatch);
 
         $this->addFlash(
             'success',
