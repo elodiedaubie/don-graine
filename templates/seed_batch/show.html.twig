@@ -32,7 +32,7 @@
                     <p class="card-text">Lot de <span class="fw-bold">{{ seed_batch.seedQuantity }}</span> graines</p>
                     <p class="card-text">Donné par {{ seed_batch.owner.userName }}</p>
                     <div class="d-flex justify-content-center pt-3">
-                        <a href="#"><button class="btn btn-dark">Demander</button></a>
+                        <a href="{{ path('donation_add', {'id': seed_batch.id}) }}"><button class="btn btn-dark">Demander</button></a>
                     </div>
                     </div>
                 </div>
