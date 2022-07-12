@@ -3,12 +3,13 @@
 namespace App\Service;
 
 use App\Entity\User;
+use App\Entity\SeedBatch;
 use App\Security\EmailVerifier;
 use Symfony\Component\Mime\Address;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use SymfonyCasts\Bundle\ResetPassword\Model\ResetPasswordToken;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class MailerManager extends AbstractController
 {
@@ -48,7 +49,7 @@ class MailerManager extends AbstractController
     /**
     * mail sent to reset password
     */
-    public function sendResetPassword(User $user, ResetPasswordToken $resetToken)
+    public function sendResetPassword(User $user, ResetPasswordToken $resetToken): void
     {
         $email = (new TemplatedEmail())
             ->from(new Address('noreply@grainesenlair.com', 'Graines en l\'air'))
@@ -57,6 +58,22 @@ class MailerManager extends AbstractController
             ->htmlTemplate('email/reset_password.html.twig')
             ->context([
                 'resetToken' => $resetToken,
+            ])
+        ;
+        $this->mailerInterface->send($email);
+    }
+
+    public function sendDonationAlert(User $owner, User $beneficiary, SeedBatch $seedBatch): void
+    {
+        $email = (new TemplatedEmail())
+            ->from(new Address('noreply@grainesenlair.com', 'Graines en l\'air'))
+            ->to($owner->getEmail())
+            ->subject('Nouvelle demande de lot de graines')
+            ->htmlTemplate('email/donation_alert.html.twig')
+            ->context([
+                'owner' => $owner,
+                'beneficiary' => $beneficiary,
+                'seed_batch' => $seedBatch
             ])
         ;
         $this->mailerInterface->send($email);

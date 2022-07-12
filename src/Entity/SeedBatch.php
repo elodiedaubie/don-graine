@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\SeedBatchRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -10,8 +12,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 class SeedBatch
 {
     //to update min/max quantities, just update thoses constants, use everywhere even in fixtures
-    public const MINSEEDSQUANTITY = 5;
-    public const MAXSEEDSQUANTITY = 25;
+    public const MINSEEDS = 5;
+    public const MAXSEEDS = 25;
     public const MAXBATCHADDED = 10;
     public const MINBATCHADDED = 1;
 
@@ -29,11 +31,11 @@ class SeedBatch
         message: '{{ value }} n\'est pas un nombre entier.',
     )]
     #[Assert\LessThanOrEqual(
-        value: self::MAXSEEDSQUANTITY,
+        value: self::MAXSEEDS,
         message:'La quantité de graines est trop élevée'
     )]
     #[Assert\GreaterThanOrEqual(
-        value: self::MINSEEDSQUANTITY,
+        value: self::MINSEEDS,
         message:'La quantité de graines est trop faible'
     )]
     private int $seedQuantity;
@@ -49,6 +51,17 @@ class SeedBatch
     #[ORM\ManyToOne(targetEntity: Quality::class, inversedBy: 'seedBatches')]
     #[ORM\JoinColumn(nullable: false)]
     private Quality $quality;
+
+    #[ORM\Column(type: 'boolean')]
+    private bool $isAvailable = true;
+
+    #[ORM\OneToMany(mappedBy: 'seedBatch', targetEntity: Donation::class)]
+    private $donations;
+
+    public function __construct()
+    {
+        $this->donations = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -99,6 +112,48 @@ class SeedBatch
     public function setQuality(?Quality $quality): self
     {
         $this->quality = $quality;
+
+        return $this;
+    }
+
+    public function isIsAvailable(): ?bool
+    {
+        return $this->isAvailable;
+    }
+
+    public function setIsAvailable(bool $isAvailable): self
+    {
+        $this->isAvailable = $isAvailable;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Donation>
+     */
+    public function getDonations(): Collection
+    {
+        return $this->donations;
+    }
+
+    public function addDonation(Donation $donation): self
+    {
+        if (!$this->donations->contains($donation)) {
+            $this->donations[] = $donation;
+            $donation->setSeedBatch($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDonation(Donation $donation): self
+    {
+        if ($this->donations->removeElement($donation)) {
+            // set the owning side to null (unless already changed)
+            if ($donation->getSeedBatch() === $this) {
+                $donation->setSeedBatch(null);
+            }
+        }
 
         return $this;
     }

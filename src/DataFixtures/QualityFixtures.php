@@ -10,8 +10,7 @@ class QualityFixtures extends Fixture
 {
     //this constant is meant to be uses in fixtures classes
     //to add a new quality, just add it on the const, it will be load in other fixtures
-
-    public const QUALITYFIXTURES = [
+    public const QUALITIES = [
         'Bio',
         'Reproductibles',
         'Rares',
@@ -20,7 +19,7 @@ class QualityFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        foreach (self::QUALITYFIXTURES as $key => $name) {
+        foreach (self::QUALITIES as $key => $name) {
             $quality = new Quality();
             $quality->setName($name);
             $manager->persist($quality);

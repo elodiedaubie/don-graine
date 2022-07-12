@@ -72,7 +72,10 @@ class SeedBatchController extends AbstractController
     ): Response {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-        $seedBatches = $seedBatchRepository->findAll();
+        $seedBatches = $seedBatchRepository->findBy(
+            ['isAvailable' => true],
+            ['id' => 'DESC']
+        );
 
         return $this->render('seed_batch/show.html.twig', [
             'seed_batches' => $seedBatches

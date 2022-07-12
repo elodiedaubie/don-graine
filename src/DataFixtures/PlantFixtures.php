@@ -11,8 +11,7 @@ class PlantFixtures extends Fixture implements DependentFixtureInterface
 {
     //this constant is meant to be uses in fixtures classes
     //to add a new plant, just add a value in the array, it will be load in other fixtures
-
-    public const PLANTSFIXTURES = [
+    public const PLANTS = [
         'Brocoli',
         'Carotte',
         'Chou',
@@ -47,10 +46,10 @@ class PlantFixtures extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager): void
     {
-        foreach (self::PLANTSFIXTURES as $key => $name) {
+        foreach (self::PLANTS as $key => $name) {
             $plant = new Plant();
             $plant->setName($name);
-            $plant->setPurpose($this->getReference('purpose_' . rand(0, count(PurposeFixtures::PURPOSESFIXTURES) - 1)));
+            $plant->setPurpose($this->getReference('purpose_' . rand(0, count(PurposeFixtures::PURPOSES) - 1)));
             $manager->persist(($plant));
             $this->addReference('plant_' . $key, $plant);
         }
