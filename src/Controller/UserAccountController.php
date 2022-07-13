@@ -31,7 +31,7 @@ class UserAccountController extends AbstractController
         return $this->render('user_account/index.html.twig', [
             'user' => $user,
             'user_batches' => $seedBatchRepository->findByOwner($user, ['id' => 'DESC']),
-            'requested_donations' => $donationRepository->findByBeneficiary($user),
+            'requested_donations' => $donationRepository->findByBeneficiary($user, ['createdAt' => 'DESC']),
         ]);
     }
 

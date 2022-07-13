@@ -42,7 +42,11 @@
           <div class="col bg-white p-3 pt-2">
             <h2 class="pb-4">Mes <span class ="text-primary">dons</span></h2>
             <div class="d-grid gap-4">
-              {#include component user_donation#}
+              {% for user_batch in user_batches|slice(0, 4) %}
+                {% for user_donation in user_batch.donations %}
+                  {% include "components/_user_donation_card.html.twig" %}
+                {% endfor %}
+              {% endfor %}
             </div>
           </div>
           <div class="col bg-white p-3 pt-2">
