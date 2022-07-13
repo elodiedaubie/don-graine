@@ -1,7 +1,7 @@
 {#display donations requested by connected user#}
 <div class = "card w-100">
     <div class = "card-header d-inline-flex justify-content-between bg-white border-0" >
-      <i class="bi bi-arrow-right"></i>
+      <i class="bi bi-arrow-down fs-3"></i>
       <h3 class="mb-0 mt-1 w-50">{{ requested_donation.seedBatch.plant.name }}</h3>
         {% if requested_donation.status == "En cours" %}
           <p class="h3 text-danger">{{ requested_donation.status }}</p>
