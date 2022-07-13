@@ -4,21 +4,22 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\EditUserFormType;
+use App\Repository\SeedBatchRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request as HttpFoundationRequest;
 
 #[Route('/mon-compte', name: 'user_account')]
 #[IsGranted('ROLE_USER')]
 class UserAccountController extends AbstractController
 {
     #[Route('/', name: '')]
-    public function index(): Response
-    {
+    public function index(
+        SeedBatchRepository $seedBatchRepository,
+    ): Response {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         if ($this->getUSer() && $this->getUSer() instanceof User) {
@@ -27,6 +28,7 @@ class UserAccountController extends AbstractController
 
         return $this->render('user_account/index.html.twig', [
             'user' => $user,
+            'user_batches' => $seedBatchRepository->findByOwner($user, ['id' => 'DESC'])
         ]);
     }
 
