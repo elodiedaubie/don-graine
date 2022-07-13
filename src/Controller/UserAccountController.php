@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\EditUserFormType;
+use App\Repository\DonationRepository;
 use App\Repository\SeedBatchRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,6 +20,7 @@ class UserAccountController extends AbstractController
     #[Route('/', name: '')]
     public function index(
         SeedBatchRepository $seedBatchRepository,
+        DonationRepository $donationRepository
     ): Response {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
@@ -28,7 +30,8 @@ class UserAccountController extends AbstractController
 
         return $this->render('user_account/index.html.twig', [
             'user' => $user,
-            'user_batches' => $seedBatchRepository->findByOwner($user, ['id' => 'DESC'])
+            'user_batches' => $seedBatchRepository->findByOwner($user, ['id' => 'DESC']),
+            'requested_donations' => $donationRepository->findByBeneficiary($user),
         ]);
     }
 
