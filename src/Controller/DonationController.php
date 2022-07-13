@@ -80,13 +80,19 @@ class DonationController extends AbstractController
             );
             return $this->redirectToRoute('home');
         }
+        //create new donation
         $donation = new Donation();
         $donation->setBeneficiary($beneficiary);
         $donation->setStatus(Donation::STATUS[0]);
         $donation->setCreatedAt(new DateTimeImmutable());
         $donation->setSeedBatch($seedBatch);
         $entityManager->persist($donation);
+        $entityManager->persist($donation);
         $entityManager->flush($donation);
+        //batch is not available anymore
+        $seedBatch->setIsAvailable(0);
+        $entityManager->persist($seedBatch);
+        $entityManager->flush($seedBatch);
 
         $this->mailerManager->sendDonationAlert($owner, $beneficiary, $seedBatch);
 
