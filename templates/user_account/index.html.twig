@@ -10,53 +10,91 @@
         <h1 class="pb-3 pt-3">Mon <span class="text-primary">Compte</span></h1>
         <div class="row gap-4">
           <div class="col d-grid gap-4">
-                <div class="row bg-white p-2">
-                    <h2 class="ps-2">Mon <span class ="text-info">profil</span></h2>
-                    <div class="d-flex flex-column align-items-center">
-                        <div>
-                            <p><span class="h3">Pseudo : </span>{{ user.username }}</p>
-                            <p><span class="h3">Email : </span> {{ user.email }}</p>
-                        </div>
-                    </div>
-                    <div class="d-inline-flex gap-3 justify-content-center">
-                        <div>
-                            <a href="{{ path('user_account_edit') }}"><button class="btn btn-dark">modifier</button></a>
-                        </div>
-                        <div>
-                            <button class="btn btn-outline-dark">supprimer</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="row bg-white p-2">
-                    <h2 class="ps-2">Mes <span class ="text-danger">favoris</span></h2>
-                </div>
+              {#User Profile#}
+              <div class="row bg-white p-2">
+                  <h2 class="ps-2">Mon <span class ="text-info">profil</span></h2>
+                  <div class="d-flex flex-column align-items-center">
+                      <div>
+                          <p><span class="h3">Pseudo : </span>{{ user.username }}</p>
+                          <p><span class="h3">Email : </span> {{ user.email }}</p>
+                      </div>
+                  </div>
+                  <div class="d-inline-flex gap-3 justify-content-center">
+                      <div>
+                          <a href="{{ path('user_account_edit') }}"><button class="btn btn-dark">modifier</button></a>
+                      </div>
+                      <div>
+                          <button class="btn btn-outline-dark">supprimer</button>
+                      </div>
+                  </div>
+              </div>
+              {#User Favorites#}
+              <div class="row bg-white p-2">
+                  <h2 class="ps-2">Mes <span class ="text-danger">favoris</span></h2>
+                  <div class="container">
+                    <p>Vous n'avez pas encore de favoris</p>
+                  </div>
+              </div>
           </div>
-          <div class="col bg-white p-3 pt-2">
+          {#Donations requested by User#}
+          <div class="col bg-white p-3 pt-2 pb-4">
             <h2 class="pb-4">Mes <span class ="text-success">demandes</span></h2>
             <div class="d-grid gap-4">
-              {% for requested_donation in requested_donations|slice(0, 4) %}
-                    {% include "components/_user_request_card.html.twig" %}
-              {% endfor %}
+              {% if requested_donations is empty %}
+                <div class="container">
+                  <p>Vous n'avez pas encore demandé de dons</p>
+                </div>
+              {% else %}
+                {% for requested_donation in requested_donations|slice(0, 4) %}
+                      {% include "components/_user_request_card.html.twig" %}
+                {% endfor %}
+                <div class="text-center">
+                  <button class="btn btn-outline-dark">voir plus</button>
+                </div>
+              {% endif %}
             </div>
           </div>
-          <div class="col bg-white p-3 pt-2">
+          {#Donations made by User#}
+          <div class="col bg-white p-3 pt-2 pb-4">
             <h2 class="pb-4">Mes <span class ="text-primary">dons</span></h2>
             <div class="d-grid gap-4">
-              {% for user_batch in user_batches|slice(0, 4) %}
-                {% for user_donation in user_batch.donations %}
-                  {% include "components/_user_donation_card.html.twig" %}
+              {% if user_batches is empty %}
+                <div class="container">
+                  <p>Vous n'avez pas encore de demande de don</p>
+                </div>
+              {% else %}
+                {% for user_batch in user_batches|slice(0, 4) %}
+                  {% for user_donation in user_batch.donations %}
+                    {% include "components/_user_donation_card.html.twig" %}
+                  {% endfor %}
                 {% endfor %}
-              {% endfor %}
+                <div class="text-center">
+                  <button class="btn btn-outline-dark">voir plus</button>
+                </div>
+              {% endif %}
             </div>
           </div>
-          <div class="col bg-white p-3 pt-2">
+          {#user seed batches availaible#}
+          <div class="col bg-white p-3 pt-2 pb-4">
             <h2 class="pb-4">Mes graines <span class ="text-info">à donner</span></h2>
             <div class="d-grid gap-4">
-              {% for user_batch in user_batches|slice(0, 5) %}
-                {% if user_batch.isAvailable %}
-                  {% include "components/_user_batch_card.html.twig" %}
-                {% endif %}
-              {% endfor %}
+              {% if user_batches is empty %}
+                <div class="container d-grid gap-4">
+                  <p>Vous n'avez pas ajouté de lots de graines à donner</p>
+                  <div class="text-center">
+                    <a href="{{ path('seed_batch_add') }}"><button class="btn btn-dark">Donner un lot</button></a>
+                  </div>
+                </div>
+              {% else %}
+                {% for user_batch in user_batches|slice(0, 5) %}
+                  {% if user_batch.isAvailable %}
+                    {% include "components/_user_batch_card.html.twig" %}
+                  {% endif %}
+                {% endfor %}
+                <div class="text-center">
+                  <button class="btn btn-outline-dark">voir plus</button>
+                </div>
+              {% endif %}
             </div>
           </div>
         </div>
