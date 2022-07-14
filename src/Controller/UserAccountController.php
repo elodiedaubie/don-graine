@@ -127,4 +127,17 @@ class UserAccountController extends AbstractController
             'donations' => $this->getDonations($user)
         ]);
     }
+
+    #[Route('/mon-stock', name: '_available')]
+    public function showAvailableBatches(): Response
+    {
+        //check if there is an instance of User
+        if ($this->getUser() && $this->getUser() instanceof User) {
+            $user = $this->getUser();
+        }
+
+        return $this->render('user_account/show_available_batches.html.twig', [
+            'available_batches' =>  $this->getAvailableBatches($user),
+        ]);
+    }
 }
