@@ -31,14 +31,16 @@ class UserAccountController extends AbstractController
         $availableBatches = [];
         $donations = [];
 
-        foreach ($userBatches as $userBatch) {
-            if ($userBatch->isIsAvailable()) {
-                //get available seed batches only
-                $availableBatches[] = $userBatch;
-            }
-            //get donations made by users
-            foreach ($userBatch->getDonations() as $donation) {
-                $donations [] = $donation;
+        if (!empty($userBatches)) {
+            foreach ($userBatches as $userBatch) {
+                if ($userBatch->isIsAvailable()) {
+                    //get available seed batches only
+                    $availableBatches[] = $userBatch;
+                }
+                //get donations made by users
+                foreach ($userBatch->getDonations() as $donation) {
+                    $donations [] = $donation;
+                }
             }
         }
 

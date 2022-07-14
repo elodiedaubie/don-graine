@@ -34,9 +34,12 @@
         <h2 class="pb-4">Mes <span class ="text-success">demandes</span></h2>
           <div class="d-flex flex-column gap-4">
             {% if requested_donations is empty %}
-              <div class="container">
-                <p>Vous n'avez pas encore demandé de dons</p>
+            <div class="container d-flex flex-column gap-4">
+              <p>Vous n'avez pas encore demandé de graines</p>
+              <div class="text-center">
+                <a href="{{ path('seed_batch_show') }}"><button class="btn btn-dark">Demander un lot</button></a>
               </div>
+            </div>
             {% else %}
               {% for requested_donation in requested_donations|slice(0, 4) %}
                   {% include "components/_user_request_card.html.twig" %}
