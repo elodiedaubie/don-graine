@@ -8,35 +8,41 @@
 
     <h1 class="pb-3 pt-3 ps-5">Mes <span class="text-primary">demandes</span></h1>
     {# Status "en cours" #}
-    <section class="container-fluid d-flex flex-wrap flex-xl-nowrap ps-5 pe-5 gap-6">
-        <div class="container bg-white shadow p-4">
+    <section class="container-fluid d-flex flex-column ps-5 pe-5 gap-6">
+        <div class="container bg-white shadow p-4 ps-6">
             <h2 class="mb-4">Demandes <span class="text-danger">en cours</span></h2>
-            <div class="container d-flex flex-column gap-3">
+            <div class="container d-flex flex-column flex-xl-row flex-xl-wrap gap-3">
                 {% for requested_donation in requested_donations %}
                     {% if requested_donation.status == "En cours" %}
-                        {% include "/components/_user_request_card.html.twig" %}
+                        <div class="custom-card">
+                            {% include "/components/_user_request_card.html.twig" %}
+                        </div>
                     {% endif %}
                 {% endfor %}
             </div>
         </div>
         {# Status finalisé #}
-        <div class="container bg-white shadow p-4">
+        <div class="container bg-white shadow p-4 ps-6">
             <h2 class="mb-4">Demandes <span class="text-info">finalisées</span></h2>
-            <div class="container d-flex flex-column gap-3">
+            <div class="container d-flex flex-column flex-xl-row flex-xl-wrap gap-3">
                 {% for requested_donation in requested_donations %}
                     {% if requested_donation.status == "Finalisé" %}
-                        {% include "/components/_user_request_card.html.twig" %}
+                        <div class="custom-card">
+                            {% include "/components/_user_request_card.html.twig" %}
+                        </div>
                     {% endif %}
                 {% endfor %}
             </div>
         </div>
         {# Status annulé #}
-        <div class="container bg-white shadow p-4">
+        <div class="container bg-white shadow p-4 ps-6">
             <h2 class="mb-4">Demandes <span class="text-primary">annulées</span></h2>
-            <div class="container d-flex flex-column gap-3">
+            <div class="container d-flex flex-column flex-xl-row flex-xl-wrap gap-3">
                 {% for requested_donation in requested_donations %}
                     {% if requested_donation.status == "Annulé" %}
-                        {% include "/components/_user_request_card.html.twig" %}
+                        <div class="custom-card">
+                            {% include "/components/_user_request_card.html.twig" %}
+                        </div>
                     {% endif %}
                 {% endfor %}
             </div>

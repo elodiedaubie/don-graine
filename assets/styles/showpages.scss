@@ -13,3 +13,19 @@
         }
     }
 }
+
+.dashboard {
+    .custom-card {
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+
+    .dashboard {
+        .custom-card {
+            width: 30%;
+            min-width: 30%;
+        }  
+    }
+}
