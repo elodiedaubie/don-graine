@@ -22,7 +22,6 @@ class UserAccountController extends AbstractController
         SeedBatchRepository $seedBatchRepository,
         DonationRepository $donationRepository
     ): Response {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         if ($this->getUSer() && $this->getUSer() instanceof User) {
             $user = $this->getUser();
@@ -77,5 +76,12 @@ class UserAccountController extends AbstractController
         return $this->render('user_account/edit_user.html.twig', [
             "editUserForm" => $form->createView()
         ]);
+    }
+
+    #[Route('/mes-demandes', name: '_requests')]
+    public function showRequests(): Response
+    {
+
+        return $this->render('user_account/show_requests.html.twig');
     }
 }
