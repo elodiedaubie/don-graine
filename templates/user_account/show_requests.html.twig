@@ -13,17 +13,16 @@
             <h2 class="mb-4">Demandes <span class="text-danger">en cours</span></h2>
             <div class="container d-flex flex-column flex-xl-row flex-xl-wrap gap-3">
                 {# use of display_message variable avoid to display messages x time in loop#}
-                {% set display_message = false %}
+                {% set display_message = true %}
                 {% for requested_donation in requested_donations %}
                     {% if requested_donation.status == "En cours" %}
                         <div class="custom-card">
                             {% include "/components/_user_request_card.html.twig" %}
                         </div>
-                    {% else %}
-                        {% set display_message = true %}
+                        {% set display_message = false %}
                     {% endif %}
                 {% endfor %}
-                {% if display_message == false %}
+                {% if display_message == true %}
                     <div class="container d-flex flex-column gap-4">
                         <p>Vous n'avez pas de demandes en cours</p>
                         <div class="text-center">
@@ -38,17 +37,16 @@
             <h2 class="mb-4">Demandes <span class="text-info">finalisées</span></h2>
             <div class="container d-flex flex-column flex-xl-row flex-xl-wrap gap-3">
                 {# use of display_message variable avoid to display messages x time in loop#}
-                {% set display_message = false %}
+                {% set display_message = true %}
                 {% for requested_donation in requested_donations %}
                     {% if requested_donation.status == "Finalisé" %}
                         <div class="custom-card">
                             {% include "/components/_user_request_card.html.twig" %}
                         </div>
-                    {% else %}
-                        {% set display_message = true %}
+                        {% set display_message = false %}
                     {% endif %}
                 {% endfor %}
-                {% if display_message == false %}
+                {% if display_message == true %}
                     <p>Vous n'avez pas de demandes finalisés</p>
                 {% endif %}
             </div>
@@ -58,17 +56,16 @@
             <h2 class="mb-4">Demandes <span class="text-primary">annulées</span></h2>
             <div class="container d-flex flex-column flex-xl-row flex-xl-wrap gap-3">
                 {# use of display_message variable avoid to display messages x time in loop#}
-                {% set display_message = false %}
+                {% set display_message = true %}
                 {% for requested_donation in requested_donations %}
                     {% if requested_donation.status == "Annulé" %}
                         <div class="custom-card">
                             {% include "/components/_user_request_card.html.twig" %}
                         </div>
-                    {% else %}
-                        {% set display_message = true %}
+                        {% set display_message = false %}
                     {% endif %}
                 {% endfor %}
-                {% if display_message == false %}
+                {% if display_message == true %}
                     <p>Vous n'avez pas de demandes annulées</p>
                 {% endif %}
             </div>
