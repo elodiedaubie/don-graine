@@ -6,42 +6,90 @@
 
 {% block body %}
 
-    <div class="container d-grid">
-        <h1 class="pb-3 pt-3">Mon <span class="text-primary">Compte</span></h1>
-        <div class="row gap-4 vh-100">
-          <div class="col d-grid gap-4">
-                <div class="row bg-white p-2">
-                    <h2 class="ps-2">Mon <span class ="text-info">profil</span></h2>
-                    <div class="d-flex flex-column align-items-center">
-                        <div>
-                            <p><span class="h3">Pseudo : </span>{{ user.username }}</p>
-                            <p><span class="h3">Email : </span> {{ user.email }}</p>
-                        </div>
-                    </div>
-                    <div class="d-inline-flex gap-3 justify-content-center">
-                        <div>
-                            <a href="{{ path('user_account_edit') }}"><button class="btn btn-dark">modifier</button></a>
-                        </div>
-                        <div>
-                            <button class="btn btn-outline-dark">supprimer</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="row bg-white p-2">
-                    <h2 class="ps-2">Mes <span class ="text-danger">favoris</span></h2>
-                </div>
-          </div>
-          <div class="col bg-white p-2 ps-3">
-            <h2>Mes <span class ="text-success">demandes</span></h2>
-          </div>
-          <div class="col bg-white p-2 ps-3">
-            <h2>Mes <span class ="text-primary">dons</span></h2>
-          </div>
-          <div class="col bg-white p-2 ps-3">
-            <h2>Mes graines <span class ="text-info">à donner</span></h2>
-          </div>
+  <h1 class="pb-3 pt-3 ps-5">Mon <span class="text-primary">Compte</span></h1>
+  <section class="container-fluid d-flex flex-wrap flex-xl-nowrap ps-5 pe-5 gap-3">
+    <div class="d-flex flex-column gap-4 w-100">
+      {#User Profile#}
+      <div class="container bg-white p-2 pb-4 shadow ">
+        <h2 class="ps-2">Mon <span class ="text-info">profil</span></h2>
+        <div class="d-flex flex-column align-items-center p-3">
+            <div>
+                <p><span class="h3">Pseudo : </span>{{ user.username }}</p>
+                <p><span class="h3">Email : </span> {{ user.email }}</p>
+            </div>
         </div>
+        <div class="container d-flex gap-2 justify-content-center">
+          <a href="{{ path('user_account_edit') }}"><button class="btn btn-dark">modifier</button></a>
+          <button class="btn btn-outline-dark">supprimer</button>
         </div>
       </div>
-
+      {#User Favorites#}
+      <div class="container bg-white p-2 pb-4 shadow">
+          <h2 class="ps-2">Mes <span class ="text-danger">favoris</span></h2>
+          <p class="text-center pt-4">Vous n'avez pas encore de favoris</p>
+      </div>
+    </div>
+    {#Donations requested by User#}
+      <div class="container bg-white p-2 pb-4 shadow">
+        <h2 class="pb-4">Mes <span class ="text-success">demandes</span></h2>
+          <div class="d-flex flex-column gap-4">
+            {% if requested_donations is empty %}
+            <div class="container d-flex flex-column gap-4">
+              <p>Vous n'avez pas encore demandé de graines</p>
+              <div class="text-center">
+                <a href="{{ path('seed_batch_show') }}"><button class="btn btn-dark">Demander un lot</button></a>
+              </div>
+            </div>
+            {% else %}
+              {% for requested_donation in requested_donations|slice(0, 4) %}
+                  {% include "components/_user_request_card.html.twig" %}
+              {% endfor %}
+              <div class="text-center">
+                <button class="btn btn-outline-dark">voir plus</button>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {#Donations made by User#}
+      <div class="container bg-white p-2 pb-4 shadow">
+        <h2 class="pb-4">Mes <span class ="text-primary">dons</span></h2>
+        <div class="d-flex flex-column gap-4">
+          {% if donations is empty %}
+            <div class="container">
+              <p>Vous n'avez pas encore de demande de don</p>
+            </div>
+          {% else %}
+            {% for donation in donations|slice(0, 4) %}
+                {% include "components/_user_donation_card.html.twig" %}
+            {% endfor %}
+              <div class="text-center">
+                <button class="btn btn-outline-dark">voir plus</button>
+              </div>
+          {% endif %}
+        </div>
+      </div>
+      {#user seed batches available#}
+      <div class="container bg-white p-2 pb-4 shadow">
+        <h2 class="pb-4">Mes graines <span class ="text-info">à donner</span></h2>
+        <div class="d-flex flex-column gap-4">
+          {% if available_batches is empty %}
+            <div class="container d-flex flex-column gap-4">
+              <p>Vous n'avez pas ajouté de lots de graines à donner</p>
+              <div class="text-center">
+                <a href="{{ path('seed_batch_add') }}"><button class="btn btn-dark">Donner un lot</button></a>
+              </div>
+            </div>
+          {% else %}
+            {% for available_batch in available_batches|slice(0, 5) %}
+                {% include "components/_user_batch_card.html.twig" %}
+            {% endfor %}
+            <div class="text-center">
+              <button class="btn btn-outline-dark">voir plus</button>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </section>
 {% endblock %}
