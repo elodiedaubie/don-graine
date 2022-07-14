@@ -64,7 +64,7 @@
                 {% include "components/_user_donation_card.html.twig" %}
             {% endfor %}
               <div class="text-center">
-                <button class="btn btn-outline-dark">voir plus</button>
+                <a href="{{ path('user_account_donations') }}"><button class="btn btn-outline-dark">voir plus</button></a>
               </div>
           {% endif %}
         </div>

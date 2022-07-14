@@ -114,4 +114,17 @@ class UserAccountController extends AbstractController
             'requested_donations' => $this->donationRepository->findByBeneficiary($user, ['createdAt' => 'DESC']),
         ]);
     }
+
+    #[Route('/mes-dons', name: '_donations')]
+    public function showDonations(): Response
+    {
+        //check if there is an instance of User
+        if ($this->getUser() && $this->getUser() instanceof User) {
+            $user = $this->getUser();
+        }
+
+        return $this->render('user_account/show_donations.html.twig', [
+            'donations' => $this->getDonations($user)
+        ]);
+    }
 }
