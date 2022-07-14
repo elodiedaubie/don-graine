@@ -45,7 +45,7 @@
                   {% include "components/_user_request_card.html.twig" %}
               {% endfor %}
               <div class="text-center">
-                <button class="btn btn-outline-dark">voir plus</button>
+                <a href="{{ path('user_account_requests') }}"><button class="btn btn-outline-dark">voir plus</button></a>
               </div>
             {% endif %}
           </div>
