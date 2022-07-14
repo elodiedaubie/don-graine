@@ -12,26 +12,35 @@
         <div class="container bg-white shadow p-4 ps-6">
             <h2 class="mb-4">Demandes <span class="text-danger">en cours</span></h2>
             <div class="container d-flex flex-column flex-xl-row flex-xl-wrap gap-3">
-                {% for requested_donation in requested_donations %}
-                    {% if requested_donation.status == "En cours" %}
-                        <div class="custom-card">
-                            {% include "/components/_user_request_card.html.twig" %}
-                        </div>
-                    {% endif %}
-                {% endfor %}
+                    {% for requested_donation in requested_donations %}
+                        {% if requested_donation.status == "En cours" %}
+                            <div class="custom-card">
+                                {% include "/components/_user_request_card.html.twig" %}
+                            </div>
+                        {% else %}
+                            <div class="container d-flex flex-column gap-4">
+                                <p>Vous n'avez pas de demandes en cours</p>
+                                <div class="text-center">
+                                    <a href="{{ path('seed_batch_show') }}"><button class="btn btn-dark">Demander un lot</button></a>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
             </div>
         </div>
         {# Status finalisé #}
         <div class="container bg-white shadow p-4 ps-6">
             <h2 class="mb-4">Demandes <span class="text-info">finalisées</span></h2>
             <div class="container d-flex flex-column flex-xl-row flex-xl-wrap gap-3">
-                {% for requested_donation in requested_donations %}
-                    {% if requested_donation.status == "Finalisé" %}
-                        <div class="custom-card">
-                            {% include "/components/_user_request_card.html.twig" %}
-                        </div>
-                    {% endif %}
-                {% endfor %}
+                    {% for requested_donation in requested_donations %}
+                        {% if requested_donation.status == "Finalisé" %}
+                            <div class="custom-card">
+                                {% include "/components/_user_request_card.html.twig" %}
+                            </div>
+                        {% else %}
+                            <p>Vous n'avez pas de demandes finalisés</p>
+                        {% endif %}
+                    {% endfor %}
             </div>
         </div>
         {# Status annulé #}
@@ -43,6 +52,8 @@
                         <div class="custom-card">
                             {% include "/components/_user_request_card.html.twig" %}
                         </div>
+                    {% else %}
+                        <p>Vous n'avez pas de demandes annulées</p>
                     {% endif %}
                 {% endfor %}
             </div>
