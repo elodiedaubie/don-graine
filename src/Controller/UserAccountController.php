@@ -17,18 +17,21 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[IsGranted('ROLE_USER')]
 class UserAccountController extends AbstractController
 {
-    #[Route('/', name: '')]
-    public function index(
+    public SeedBatchRepository $seedBatchRepository;
+    public DonationRepository $donationRepository;
+
+    public function __construct(
         SeedBatchRepository $seedBatchRepository,
         DonationRepository $donationRepository
-    ): Response {
+    ) {
+        $this->seedBatchRepository = $seedBatchRepository;
+        $this->donationRepository = $donationRepository;
+    }
 
-        if ($this->getUSer() && $this->getUSer() instanceof User) {
-            $user = $this->getUser();
-        }
-        $userBatches = $seedBatchRepository->findByOwner($user, ['id' => 'DESC']);
+    private function getAvailableBatches(User $user): array
+    {
+        $userBatches = $this->seedBatchRepository->findByOwner($user, ['id' => 'DESC']);
         $availableBatches = [];
-        $donations = [];
 
         if (!empty($userBatches)) {
             foreach ($userBatches as $userBatch) {
@@ -36,17 +39,43 @@ class UserAccountController extends AbstractController
                     //get available seed batches only
                     $availableBatches[] = $userBatch;
                 }
+            }
+        }
+        return $availableBatches;
+    }
+
+    private function getDonations(User $user): array
+    {
+        $userBatches = $this->seedBatchRepository->findByOwner($user, ['id' => 'DESC']);
+        $donations = [];
+
+        if (!empty($userBatches)) {
+            foreach ($userBatches as $userBatch) {
                 //get donations made by users
                 foreach ($userBatch->getDonations() as $donation) {
                     $donations [] = $donation;
                 }
             }
         }
+        return $donations;
+    }
+
+    #[Route('/', name: '')]
+    public function index(
+        DonationRepository $donationRepository
+    ): Response {
+
+        if ($this->getUSer() && $this->getUSer() instanceof User) {
+            $user = $this->getUser();
+        }
+
+        $availableBatches = $this->getAvailableBatches($user);
+        $donations = $this->getDonations($user);
 
         return $this->render('user_account/index.html.twig', [
             'user' => $user,
             'available_batches' => $availableBatches,
-            'requested_donations' => $donationRepository->findByBeneficiary($user, ['createdAt' => 'DESC']),
+            'requested_donations' => $this->donationRepository->findByBeneficiary($user, ['createdAt' => 'DESC']),
             'donations' => $donations
         ]);
     }
