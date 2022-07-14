@@ -7,9 +7,33 @@
 {% block body %}
 
     <h1 class="pb-3 pt-3 ps-5">Mes <span class="text-primary">demandes</span></h1>
-    <section class="container-fluid d-flex flex-wrap flex-xl-nowrap ps-5 pe-5 gap-3">
-        {% for requested_donation in requested_donations %}
-            {% include "/components/_user_request_card.html.twig" %}
-        {% endfor %}
+    {# Status "en cours" #}
+    <section class="container-fluid d-flex flex-wrap flex-xl-nowrap ps-5 pe-5 gap-6">
+        <div class="container bg-white shadow p-4">
+            <h2 class="mb-4">Demande <span class="text-danger">en cours</span></h2>
+            <div class="container d-flex flex-column gap-3">
+            {% for requested_donation in requested_donations %}
+                {% include "/components/_user_request_card.html.twig" %}
+            {% endfor %}
+            </div>
+        </div>
+        {# Status finalisé #}
+        <div class="container bg-white shadow p-4">
+            <h2 class="mb-4">Demande <span class="text-info">finalisées</span></h2>
+            <div class="container d-flex flex-column gap-3">
+            {% for requested_donation in requested_donations %}
+                {% include "/components/_user_request_card.html.twig" %}
+            {% endfor %}
+            </div>
+        </div>
+        {# Status annulé #}
+        <div class="container bg-white shadow p-4">
+            <h2 class="mb-4">Demande <span class="text-primary">annulées</span></h2>
+            <div class="container d-flex flex-column gap-3">
+            {% for requested_donation in requested_donations %}
+                {% include "/components/_user_request_card.html.twig" %}
+            {% endfor %}
+            </div>
+        </div>
     </section>
 {% endblock %}
