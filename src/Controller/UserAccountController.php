@@ -105,7 +105,13 @@ class UserAccountController extends AbstractController
     #[Route('/mes-demandes', name: '_requests')]
     public function showRequests(): Response
     {
+        //check if there is an instance of User
+        if ($this->getUser() && $this->getUser() instanceof User) {
+            $user = $this->getUser();
+        }
 
-        return $this->render('user_account/show_requests.html.twig');
+        return $this->render('user_account/show_requests.html.twig', [
+            'requested_donations' => $this->donationRepository->findByBeneficiary($user, ['createdAt' => 'DESC']),
+        ]);
     }
 }

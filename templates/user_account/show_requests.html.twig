@@ -8,6 +8,8 @@
 
     <h1 class="pb-3 pt-3 ps-5">Mes <span class="text-primary">demandes</span></h1>
     <section class="container-fluid d-flex flex-wrap flex-xl-nowrap ps-5 pe-5 gap-3">
+        {% for requested_donation in requested_donations %}
+            {% include "/components/_user_request_card.html.twig" %}
+        {% endfor %}
     </section>
-
 {% endblock %}
