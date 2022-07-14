@@ -27,11 +27,26 @@ class UserAccountController extends AbstractController
         if ($this->getUSer() && $this->getUSer() instanceof User) {
             $user = $this->getUser();
         }
+        $userBatches = $seedBatchRepository->findByOwner($user, ['id' => 'DESC']);
+        $availableBatches = [];
+        $donations = [];
+
+        foreach ($userBatches as $userBatch) {
+            if ($userBatch->isIsAvailable()) {
+                //get available seed batches only
+                $availableBatches[] = $userBatch;
+            }
+            //get donations made by users
+            foreach ($userBatch->getDonations() as $donation) {
+                $donations [] = $donation;
+            }
+        }
 
         return $this->render('user_account/index.html.twig', [
             'user' => $user,
-            'user_batches' => $seedBatchRepository->findByOwner($user, ['id' => 'DESC']),
+            'available_batches' => $availableBatches,
             'requested_donations' => $donationRepository->findByBeneficiary($user, ['createdAt' => 'DESC']),
+            'donations' => $donations
         ]);
     }
 
