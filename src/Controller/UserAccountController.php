@@ -69,14 +69,11 @@ class UserAccountController extends AbstractController
             $user = $this->getUser();
         }
 
-        $availableBatches = $this->getAvailableBatches($user);
-        $donations = $this->getDonations($user);
-
         return $this->render('user_account/index.html.twig', [
             'user' => $user,
-            'available_batches' => $availableBatches,
+            'available_batches' =>  $this->getAvailableBatches($user),
             'requested_donations' => $this->donationRepository->findByBeneficiary($user, ['createdAt' => 'DESC']),
-            'donations' => $donations
+            'donations' => $this->getDonations($user)
         ]);
     }
 
@@ -110,7 +107,6 @@ class UserAccountController extends AbstractController
     #[Route('/mes-demandes', name: '_requests')]
     public function showRequests(): Response
     {
-
         return $this->render('user_account/show_requests.html.twig');
     }
 }
