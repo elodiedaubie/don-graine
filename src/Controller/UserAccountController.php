@@ -61,10 +61,8 @@ class UserAccountController extends AbstractController
     }
 
     #[Route('/', name: '')]
-    public function index(
-        DonationRepository $donationRepository
-    ): Response {
-
+    public function index(): Response
+    {
         if ($this->getUSer() && $this->getUSer() instanceof User) {
             $user = $this->getUser();
         }
@@ -107,6 +105,7 @@ class UserAccountController extends AbstractController
     #[Route('/mes-demandes', name: '_requests')]
     public function showRequests(): Response
     {
+
         return $this->render('user_account/show_requests.html.twig');
     }
 }
