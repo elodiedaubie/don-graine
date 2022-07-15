@@ -15,7 +15,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[IsGranted('ROLE_USER')]
-#[Route('/', name: 'seed_batch')]
+#[Route('/grainotheque', name: 'seed_batch')]
 class SeedBatchController extends AbstractController
 {
     private EntityManagerInterface $entityManager;
@@ -25,8 +25,24 @@ class SeedBatchController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-    #[Route('donner', name: '_add')]
-    public function index(Request $request): Response
+    #[Route('/', name: '_show')]
+    public function index(
+        SeedBatchRepository $seedBatchRepository,
+    ): Response {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        $seedBatches = $seedBatchRepository->findBy(
+            ['isAvailable' => true],
+            ['id' => 'DESC']
+        );
+
+        return $this->render('seed_batch/show.html.twig', [
+            'seed_batches' => $seedBatches
+        ]);
+    }
+
+    #[Route('/donner', name: '_add')]
+    public function addSeedBatch(Request $request): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         //get connected user to set batch owner with it
@@ -69,25 +85,7 @@ class SeedBatchController extends AbstractController
         ]);
     }
 
-    //Manager Registry is an argument because required by parent construct of repository
-    #[Route('grainotheque', name: '_show')]
-    public function showSeedBatches(
-        SeedBatchRepository $seedBatchRepository,
-        ManagerRegistry $managerRegistry
-    ): Response {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-
-        $seedBatches = $seedBatchRepository->findBy(
-            ['isAvailable' => true],
-            ['id' => 'DESC']
-        );
-
-        return $this->render('seed_batch/show.html.twig', [
-            'seed_batches' => $seedBatches
-        ]);
-    }
-
-    #[Route('graine/{id}/favorite/', name: '_favorite', requirements: ['id' => '\d+'], methods: ["GET"])]
+    #[Route('/{id}/favorite/', name: '_favorite', requirements: ['id' => '\d+'], methods: ["GET"])]
     public function handleFavoriteList(SeedBatch $seedBatch): Response
     {
         if ($this->getUser() !== null) {
