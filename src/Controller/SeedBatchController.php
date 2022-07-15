@@ -36,7 +36,7 @@ class SeedBatchController extends AbstractController
             ['id' => 'DESC']
         );
 
-        return $this->render('seed_batch/show.html.twig', [
+        return $this->render('seed_batch/index.html.twig', [
             'seed_batches' => $seedBatches
         ]);
     }
@@ -80,7 +80,7 @@ class SeedBatchController extends AbstractController
             }
         }
 
-        return $this->renderForm('seed_batch/index.html.twig', [
+        return $this->renderForm('seed_batch/add.html.twig', [
             'addSeedBatchForm' => $form,
         ]);
     }

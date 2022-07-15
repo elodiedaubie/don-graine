@@ -1,43 +1,25 @@
-{% extends 'base.form.html.twig' %}
-{% block title %}Donner{% endblock %}
-{% block bodyclass %}'seed-batch'{% endblock %}
-{% block pictosource %}"{{ asset('build/images/pictos/picto-give.png') }}"{% endblock %}
-{% block h1 %}Donner des <span class="text-info">graines</span>{% endblock %}
-{% block form %}
-    {{ form_start(addSeedBatchForm) }}
-        {{ form_label(addSeedBatchForm.plant) }}
-        {{ form_widget(addSeedBatchForm.plant) }}
-        {{ form_errors(addSeedBatchForm.plant) }}
+{% extends 'base.html.twig' %}
 
-        <div class="d-flex flex-column flex-lg-row justify-content-between gap-2 mt-1">
-            <div>
-                <div class="d-inline-flex align-items-baseline gap-2">
-                    {{ form_label(addSeedBatchForm.seedQuantity) }}
-                    <a data-bs-toggle="tooltip" data-bs-placement="auto" title="De 5 à 25 graines">
-                        <i class="bi bi-info-circle-fill"></i>
-                    </a>
-                </div>
-                {{ form_widget(addSeedBatchForm.seedQuantity) }}
-                {{ form_errors(addSeedBatchForm.seedQuantity) }}
-            </div>
-            <div>
-                <div class="d-inline-flex align-items-baseline gap-2">
-                    {{ form_label(addSeedBatchForm.batchQuantity) }}
-                    <a data-bs-toggle="tooltip" data-bs-placement="auto" title="De 1 à 10 lots identiques">
-                        <i class="bi bi-info-circle-fill"></i>
-                    </a>
-                </div>
-                {{ form_widget(addSeedBatchForm.batchQuantity) }}
-                {{ form_errors(addSeedBatchForm.batchQuantity) }}
-            </div>
+{% block title %}Grainothèque{% endblock %}
+
+{% block bodyclass %}'seedbank'{% endblock %}
+
+{% block body %}
+    <div class="container p-5 bg-white shadow gap-2">
+        <div class="d-flex align-items-center gap-2">
+            <img src= "{{ asset('build/images/pictos/picto-seed.png') }}" alt="seed pictogram" width="70">
+            <h1>Choisir votre <span class="text-primary">lot de graines</span></h1>
+            <a data-bs-toggle="tooltip" data-bs-placement="auto" title="Servez-vous avec sobriété. Ces graines ne peuvent servir un but commercial" class="d-block d-lg-none align-self-start">
+                <i class="bi bi-info-circle-fill fs-2"></i>
+            </a>
         </div>
-
-        {{ form_label(addSeedBatchForm.quality) }}
-        {{ form_widget(addSeedBatchForm.quality) }}
-        {{ form_errors(addSeedBatchForm.quality) }}
-
-        <div class="container d-flex justify-content-center">
-            <button type="submit" class="btn btn-dark btn-lg">Donner</button>
+        <p class="ps-9 d-none d-lg-block">Graines en l’air est un service entièrement gratuit qui mise sur la solidarité écologique. Nous comptons sur vous pour vous servir dans la grainothèque selon vos besoins et avec sobriété. Nous vous rappellons que l’utilisation des graines données sur notre site <span class="fw-bolder">ne peuvent servir un but commercial.</span></p>
+        <div class="container d-flex flex-wrap justify-content-evenly mt-7 gap-5">
+            {% for seed_batch in seed_batches %}
+                {% if app.user != seed_batch.owner %}
+                    {% include "components/_available_batch_card.html.twig" %}
+                {% endif %}
+            {% endfor %}
         </div>
-    {{ form_end(addSeedBatchForm) }}
-{% endblock %}
+    </div>
+    {% endblock %}
