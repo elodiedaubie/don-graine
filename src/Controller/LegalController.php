@@ -10,8 +10,14 @@ use Symfony\Component\Routing\Annotation\Route;
 class LegalController extends AbstractController
 {
     #[Route('cgu', name: '_notice')]
-    public function index(): Response
+    public function showLegalNotice(): Response
     {
         return $this->render('legal/notice.html.twig');
+    }
+
+    #[Route('mentions-legales', name: '_credits')]
+    public function showLegalCredit(): Response
+    {
+        return $this->render('legal/credit.html.twig');
     }
 }
