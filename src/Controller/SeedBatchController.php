@@ -93,8 +93,9 @@ class SeedBatchController extends AbstractController
         if ($this->getUser() !== null) {
             if ($this->getUser()->hasInFavorites($seedBatch)) {
                 $this->getUser()->removeFavoriteList($seedBatch);
+            } else {
+                $this->getUser()->addFavoriteList($seedBatch);
             }
-            $this->getUser()->addFavoriteList($seedBatch);
             $this->entityManager->flush();
         }
         return $this->redirectToRoute('home');
