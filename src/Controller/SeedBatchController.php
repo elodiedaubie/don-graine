@@ -25,6 +25,25 @@ class SeedBatchController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
+    //check if user is the batch's owner - if not display addflash
+    private function isUserAuthorized(
+        User $user,
+        SeedBatch $seedBatch
+    ): bool {
+        if (
+            $this->getUser()
+            && $this->getUser() instanceof User
+            && $seedBatch->getOwner()
+            && $seedBatch->getOwner() instanceof User
+        ) {
+            if ($this->getUser() === $seedBatch->getOwner()) {
+                return true;
+            }
+        }
+        $this->addFlash('danger', 'Ce lot ne peut être modifié que par son propriétaire');
+        return false;
+    }
+
     #[Route('/', name: '_show')]
     public function index(
         SeedBatchRepository $seedBatchRepository,
@@ -91,17 +110,8 @@ class SeedBatchController extends AbstractController
         SeedBatch $seedBatch
     ): Response {
 
-        //check if user is the batch's owner - if not : redirect to home and display addflash
-        if (
-            $this->getUser()
-            && $this->getUser() instanceof User
-            && $seedBatch->getOwner()
-            && $seedBatch->getOwner() instanceof User
-        ) {
-            if ($this->getUser() !== $seedBatch->getOwner()) {
-                $this->addFlash('danger', 'Ce lot ne peut être modifié que par son propriétaire');
-                return $this->redirectToRoute('home');
-            }
+        if (!$this->isUserAuthorized($this->getUser(), $seedBatch)) {
+            return $this->redirectToRoute('home');
         }
 
         if (!$seedBatch->isIsAvailable()) {
