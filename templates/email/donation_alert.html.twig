@@ -1,0 +1,20 @@
+<h1>Nouvelle demande de lot de graines</h1>
+
+<h2>Informations sur votre lot de graines</h2>
+    <ul>
+        <li>Nom de la plante : {{ seed_batch.plant.name }} </li>
+        <li>Nombre de graines: {{ seed_batch.seedQuantity }}</li>
+        <li>Qualité : {{ seed_batch.quality.name }} </li>
+    </ul>
+
+    <p>Nous vous invitons à vous rapprocher du bénéficiaire pour organiser le retrait du don</p>
+
+<h2>Informations du bénéficiaire</h2>
+    <ul>
+        <li>Pseudo: {{ beneficiary.userName }}</li>
+        <li>email: {{ beneficiary.email }}</li>
+    </ul>
+
+    <p>Si les graines ne sont plus disponibles ou en cas d'erreur, vous avez la possibilité d'annuler le don depuis votre <a href="{{ path('user_account') }}"> compte utilisateur</a></p>
+
+    <p>A bientôt sur <a href="{{ path('home') }}"> Graines en l'air!</a></p>

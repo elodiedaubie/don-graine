@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes graines à donner{% endblock %}
+
+{% block bodyclass %}'dashboard'{% endblock %}
+
+{% block body %}
+
+    <section class="container bg-white shadow p-5 pt-2">
+        <div class="d-flex flex-column flex-xl-row justify-content-between align-items-center">
+            <h1 class="pb-3 pt-3">Mes lots de graines <span class="text-info">à donner</span></h1>
+            <a href="{{ path('seed_batch_add') }}"><button class="btn btn-dark btn-lg">Ajouter des graines</button></a>
+        </div>
+        <div class="container d-flex flex-column flex-xl-row flex-xl-wrap gap-3 mt-5 mb-5">
+            {% if available_batches is empty %}
+                <p>Vous n'avez pas de graines à donner</p>
+            {% endif %}
+            {% for available_batch in available_batches %}
+                <div class="custom-card">
+                    {% include "/components/_user_batch_card.html.twig" %}
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+{% endblock %}
