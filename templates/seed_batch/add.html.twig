@@ -1,0 +1,43 @@
+{% extends 'base.form.html.twig' %}
+{% block title %}Donner{% endblock %}
+{% block bodyclass %}'seed-batch'{% endblock %}
+{% block pictosource %}"{{ asset('build/images/pictos/picto-give.png') }}"{% endblock %}
+{% block h1 %}Donner des <span class="text-info">graines</span>{% endblock %}
+{% block form %}
+    {{ form_start(addSeedBatchForm) }}
+        {{ form_label(addSeedBatchForm.plant) }}
+        {{ form_widget(addSeedBatchForm.plant) }}
+        {{ form_errors(addSeedBatchForm.plant) }}
+
+        <div class="d-flex flex-column flex-lg-row justify-content-between gap-2 mt-1">
+            <div>
+                <div class="d-inline-flex align-items-baseline gap-2">
+                    {{ form_label(addSeedBatchForm.seedQuantity) }}
+                    <a data-bs-toggle="tooltip" data-bs-placement="auto" title="De 5 à 25 graines">
+                        <i class="bi bi-info-circle-fill"></i>
+                    </a>
+                </div>
+                {{ form_widget(addSeedBatchForm.seedQuantity) }}
+                {{ form_errors(addSeedBatchForm.seedQuantity) }}
+            </div>
+            <div>
+                <div class="d-inline-flex align-items-baseline gap-2">
+                    {{ form_label(addSeedBatchForm.batchQuantity) }}
+                    <a data-bs-toggle="tooltip" data-bs-placement="auto" title="De 1 à 10 lots identiques">
+                        <i class="bi bi-info-circle-fill"></i>
+                    </a>
+                </div>
+                {{ form_widget(addSeedBatchForm.batchQuantity) }}
+                {{ form_errors(addSeedBatchForm.batchQuantity) }}
+            </div>
+        </div>
+
+        {{ form_label(addSeedBatchForm.quality) }}
+        {{ form_widget(addSeedBatchForm.quality) }}
+        {{ form_errors(addSeedBatchForm.quality) }}
+
+        <div class="container d-flex justify-content-center">
+            <button type="submit" class="btn btn-dark btn-lg">Donner</button>
+        </div>
+    {{ form_end(addSeedBatchForm) }}
+{% endblock %}
