@@ -56,15 +56,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private bool $isVerified = false;
 
     #[ORM\OneToMany(mappedBy: 'owner', targetEntity: SeedBatch::class, orphanRemoval: true)]
-    private $seedBatches;
+    private Collection $seedBatches;
 
     #[ORM\OneToMany(mappedBy: 'beneficiary', targetEntity: Donation::class)]
-    private $donationsReceived;
+    private Collection $donationsReceived;
+
+    #[ORM\ManyToMany(targetEntity: SeedBatch::class, mappedBy: 'favoriteOwners')]
+    private Collection $favoriteList;
 
     public function __construct()
     {
         $this->seedBatches = new ArrayCollection();
         $this->donationsReceived = new ArrayCollection();
+        $this->favoriteList = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -231,5 +235,40 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, SeedBatch>
+     */
+    public function getFavoriteList(): Collection
+    {
+        return $this->favoriteList;
+    }
+
+    public function addFavoriteList(SeedBatch $favoriteList): self
+    {
+        if (!$this->favoriteList->contains($favoriteList)) {
+            $this->favoriteList[] = $favoriteList;
+            $favoriteList->addFavoriteOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavoriteList(SeedBatch $favoriteList): self
+    {
+        if ($this->favoriteList->removeElement($favoriteList)) {
+            $favoriteList->removeFavoriteOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function hasInFavorites(SeedBatch $seedBatch): bool
+    {
+        if ($this->favoriteList->contains($seedBatch)) {
+            return true;
+        }
+        return false;
     }
 }

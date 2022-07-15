@@ -18,11 +18,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[Route('/', name: 'seed_batch')]
 class SeedBatchController extends AbstractController
 {
+    private EntityManagerInterface $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
     #[Route('donner', name: '_add')]
-    public function index(
-        Request $request,
-        EntityManagerInterface $entityManager
-    ): Response {
+    public function index(Request $request): Response
+    {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         //get connected user to set batch owner with it
         if ($this->getUser() && $this->getUser() instanceof User) {
@@ -48,9 +53,9 @@ class SeedBatchController extends AbstractController
                         $seedBatch->setSeedQuantity($form->get('seedQuantity')->getData());
                         $seedBatch->setQuality($form->get('quality')->getData());
                         $seedBatch->setOwner($user);
-                        $entityManager->persist($seedBatch);
+                        $this->entityManager->persist($seedBatch);
                     }
-                    $entityManager->flush();
+                    $this->entityManager->flush();
                     // add flash if success
                     $this->addFlash('success', 'Vos graines sont maintenant disponibles dans notre grainothèque');
                     //redirect to user_account
@@ -65,7 +70,7 @@ class SeedBatchController extends AbstractController
     }
 
     //Manager Registry is an argument because required by parent construct of repository
-    #[Route('/grainotheque', name: '_show')]
+    #[Route('grainotheque', name: '_show')]
     public function showSeedBatches(
         SeedBatchRepository $seedBatchRepository,
         ManagerRegistry $managerRegistry
@@ -80,5 +85,18 @@ class SeedBatchController extends AbstractController
         return $this->render('seed_batch/show.html.twig', [
             'seed_batches' => $seedBatches
         ]);
+    }
+
+    #[Route('graine/{id}/favorite/', name: '_favorite', requirements: ['id' => '\d+'], methods: ["GET"])]
+    public function handleFavoriteList(SeedBatch $seedBatch): Response
+    {
+        if ($this->getUser() !== null) {
+            if ($this->getUser()->hasInFavorites($seedBatch)) {
+                $this->getUser()->removeFavoriteList($seedBatch);
+            }
+            $this->getUser()->addFavoriteList($seedBatch);
+            $this->entityManager->flush();
+        }
+        return $this->redirectToRoute('home');
     }
 }

@@ -56,11 +56,15 @@ class SeedBatch
     private bool $isAvailable = true;
 
     #[ORM\OneToMany(mappedBy: 'seedBatch', targetEntity: Donation::class)]
-    private $donations;
+    private Collection $donations;
+
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'favoriteList')]
+    private Collection $favoriteOwners;
 
     public function __construct()
     {
         $this->donations = new ArrayCollection();
+        $this->favoriteOwners = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -154,6 +158,30 @@ class SeedBatch
                 $donation->setSeedBatch(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getFavoriteOwners(): Collection
+    {
+        return $this->favoriteOwners;
+    }
+
+    public function addFavoriteOwner(User $favoriteOwner): self
+    {
+        if (!$this->favoriteOwners->contains($favoriteOwner)) {
+            $this->favoriteOwners[] = $favoriteOwner;
+        }
+
+        return $this;
+    }
+
+    public function removeFavoriteOwner(User $favoriteOwner): self
+    {
+        $this->favoriteOwners->removeElement($favoriteOwner);
 
         return $this;
     }
