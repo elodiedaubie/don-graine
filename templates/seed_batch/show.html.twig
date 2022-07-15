@@ -27,7 +27,9 @@
                             <img src= "{{ asset("build/images/pictos/" ~ seed_batch.plant.purpose.picto) }}" alt="picto {{ seed_batch.plant.purpose.name }}" width="60">
                         </div>
                         <div class="d-inline-flex justify-content-between align-items-center">
-                            <i class="bi bi-heart fs-2 text-danger"></i>
+                            <a href="{{ path("seed_batch_favorite", {'id': seed_batch.id}) }}">
+                                <i class="bi {{ app.user.hasInFavorites(seed_batch) ? 'bi-heart-fill' : 'bi-heart' }} text-danger fs-2"></i>
+                            </a>
                             <p class="h4 fw-bold mb-0 =">{{ seed_batch.plant.purpose.name }}</p>
                         </div>
                     </div>
