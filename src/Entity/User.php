@@ -263,4 +263,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function hasInFavorites(SeedBatch $seedBatch): bool
+    {
+        if ($this->favoriteList->contains($seedBatch)) {
+            return true;
+        }
+        return false;
+    }
 }
