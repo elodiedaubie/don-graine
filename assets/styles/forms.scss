@@ -66,9 +66,6 @@ form {
     }
 }
 
-/*position and size on desktop only.
-* Other devices handled by bootsrap container class
-*/
 @media screen and (min-width: 992px) {
     .register, .login, .reset-password {
         main {
@@ -83,9 +80,9 @@ form {
         }
     }
     /* AddSeedBatchForm - code to display ratio inline */
-    #add_seed_batch_form_quality {
+    #add_seed_batch_form_quality, #edit_seed_batch_form_quality  {
         display: flex;
-        flex-direction: inline;
+        flex-direction: row;
         align-items: center;
         justify-content: space-around;
     }
