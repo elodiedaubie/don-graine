@@ -85,7 +85,7 @@ class SeedBatchController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/modifier', name: '_edit', requirements: ['id' => '\d+'], methods: ["POST"])]
+    #[Route('/{id}/modifier', name: '_edit', requirements: ['id' => '\d+'])]
     public function editSeedBatch(
         Request $request,
         SeedBatch $seedBatch
@@ -98,6 +98,12 @@ class SeedBatchController extends AbstractController
         $form->handleRequest($request);
 
         //handle request
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->entityManager->persist($seedBatch);
+            $this->entityManager->flush();
+            return $this->redirectToRoute('user_account');
+        }
+
         return $this->renderForm('seed_batch/edit.html.twig', [
             'seed_batch' => $seedBatch,
             'editSeedBatchForm' => $form,
