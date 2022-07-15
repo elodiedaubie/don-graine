@@ -150,7 +150,7 @@ class UserAccountController extends AbstractController
         }
 
         return $this->render('user_account/show_favorite_list.html.twig', [
-            'favorites' =>  $user->getFavoriteList(),
+            'favorite_list' =>  $user->getFavoriteList(),
         ]);
     }
 }
