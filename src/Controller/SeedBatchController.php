@@ -18,11 +18,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[Route('/', name: 'seed_batch')]
 class SeedBatchController extends AbstractController
 {
+    private EntityManagerInterface $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
     #[Route('donner', name: '_add')]
-    public function index(
-        Request $request,
-        EntityManagerInterface $entityManager
-    ): Response {
+    public function index(Request $request): Response
+    {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         //get connected user to set batch owner with it
         if ($this->getUser() && $this->getUser() instanceof User) {
@@ -48,9 +53,9 @@ class SeedBatchController extends AbstractController
                         $seedBatch->setSeedQuantity($form->get('seedQuantity')->getData());
                         $seedBatch->setQuality($form->get('quality')->getData());
                         $seedBatch->setOwner($user);
-                        $entityManager->persist($seedBatch);
+                        $this->entityManager->persist($seedBatch);
                     }
-                    $entityManager->flush();
+                    $this->entityManager->flush();
                     // add flash if success
                     $this->addFlash('success', 'Vos graines sont maintenant disponibles dans notre grainothèque');
                     //redirect to user_account
