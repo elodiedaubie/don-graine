@@ -17,7 +17,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[Route('/donation', name: 'donation')]
 class DonationController extends AbstractController
 {
-    public MailerManager $mailerManager;
+    private MailerManager $mailerManager;
 
     public function __construct(MailerManager $mailerManager)
     {
