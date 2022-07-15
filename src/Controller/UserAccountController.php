@@ -140,4 +140,17 @@ class UserAccountController extends AbstractController
             'available_batches' =>  $this->getAvailableBatches($user),
         ]);
     }
+
+    #[Route('/mes-favoris', name: '_favorite')]
+    public function showFavoriteList(): Response
+    {
+        //check if there is an instance of User
+        if ($this->getUser() && $this->getUser() instanceof User) {
+            $user = $this->getUser();
+        }
+
+        return $this->render('user_account/show_favorite_list.html.twig', [
+            'favorites' =>  $user->getFavoriteList(),
+        ]);
+    }
 }
