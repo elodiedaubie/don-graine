@@ -91,7 +91,24 @@ class SeedBatchController extends AbstractController
         SeedBatch $seedBatch
     ): Response {
 
-        //check if user is the batch's owner - if not : redirect to home and display addflas
+        //check if user is the batch's owner - if not : redirect to home and display addflash
+        if (
+            $this->getUser()
+            && $this->getUser() instanceof User
+            && $seedBatch->getOwner()
+            && $seedBatch->getOwner() instanceof User
+        ) {
+            if ($this->getUser() !== $seedBatch->getOwner()) {
+                $this->addFlash('danger', 'Ce lot ne peut être modifié que par son propriétaire');
+                return $this->redirectToRoute('home');
+            }
+        }
+
+        if (!$seedBatch->isIsAvailable()) {
+            //batch has a donation going on, it cannot be modified
+                $this->addFlash('danger', 'Ce lot a déjà été demandé par quelqu\'un, vous ne pouvez plus le modifier');
+                return $this->redirectToRoute('home');
+        }
 
         //create form
         $form = $this->createForm(EditSeedBatchFormType::class, $seedBatch);
