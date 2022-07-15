@@ -71,7 +71,8 @@ class UserAccountController extends AbstractController
             'user' => $user,
             'available_batches' =>  $this->getAvailableBatches($user),
             'requested_donations' => $this->donationRepository->findByBeneficiary($user, ['createdAt' => 'DESC']),
-            'donations' => $this->getDonations($user)
+            'donations' => $this->getDonations($user),
+            'favorite_list' =>  $user->getFavoriteList()
         ]);
     }
 
@@ -138,6 +139,19 @@ class UserAccountController extends AbstractController
 
         return $this->render('user_account/show_available_batches.html.twig', [
             'available_batches' =>  $this->getAvailableBatches($user),
+        ]);
+    }
+
+    #[Route('/mes-favoris', name: '_favorite')]
+    public function showFavoriteList(): Response
+    {
+        //check if there is an instance of User
+        if ($this->getUser() && $this->getUser() instanceof User) {
+            $user = $this->getUser();
+        }
+
+        return $this->render('user_account/show_favorite_list.html.twig', [
+            'favorite_list' =>  $user->getFavoriteList(),
         ]);
     }
 }
