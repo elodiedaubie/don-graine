@@ -128,6 +128,17 @@ class SeedBatchController extends AbstractController
         ]);
     }
 
+    #[Route('/{id}/supprimer', name: '_delete', requirements: ['id' => '\d+'])]
+    public function deleteSeedBatch(
+        SeedBatch $seedBatch
+    ): Response {
+
+        $this->entityManager->remove($seedBatch);
+        $this->entityManager->flush();
+        $this->addFlash('success', 'votre lot a bien été supprimé');
+        return $this->redirectToRoute('user_account');
+    }
+
     #[Route('/{id}/favorite/', name: '_favorite', requirements: ['id' => '\d+'], methods: ["GET"])]
     public function handleFavoriteList(SeedBatch $seedBatch): Response
     {
