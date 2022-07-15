@@ -5,9 +5,9 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\SeedBatch;
 use App\Form\AddSeedBatchFormType;
+use App\Form\EditSeedBatchFormType;
 use App\Repository\SeedBatchRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -82,6 +82,25 @@ class SeedBatchController extends AbstractController
 
         return $this->renderForm('seed_batch/index.html.twig', [
             'addSeedBatchForm' => $form,
+        ]);
+    }
+
+    #[Route('/{id}/modifier', name: '_edit', requirements: ['id' => '\d+'], methods: ["POST"])]
+    public function editSeedBatch(
+        Request $request,
+        SeedBatch $seedBatch
+    ): Response {
+
+        //check if user is the batch's owner - if not : redirect to home and display addflas
+
+        //create form
+        $form = $this->createForm(EditSeedBatchFormType::class, $seedBatch);
+        $form->handleRequest($request);
+
+        //handle request
+        return $this->renderForm('seed_batch/edit.html.twig', [
+            'seed_batch' => $seedBatch,
+            'editSeedBatchForm' => $form,
         ]);
     }
 
