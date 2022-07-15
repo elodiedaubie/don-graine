@@ -30,6 +30,16 @@ class SeedBatchFixtures extends Fixture implements DependentFixtureInterface
             $batch->setQuality(
                 $this->getReference('quality_' . (rand(0, count(QualityFixtures::QUALITIES) - 1)))
             );
+            //each batch is added in 3 differents owners favorite List
+            $batch->addFavoriteOwner(
+                $this->getReference('owner_' . (rand(0, DonationFixtures::DONATIONSNUMBER - 1)))
+            );
+            $batch->addFavoriteOwner(
+                $this->getReference('beneficiary_' . (rand(0, DonationFixtures::DONATIONSNUMBER - 1)))
+            );
+            $batch->addFavoriteOwner(
+                $this->getReference('newcomer_' . (rand(0, UserFixtures::NEWCOMERS - 1)))
+            );
             $manager->persist(($batch));
         }
         //load 10 unavailable batches with random seed and random owner
