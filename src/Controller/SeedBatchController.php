@@ -101,6 +101,7 @@ class SeedBatchController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->entityManager->persist($seedBatch);
             $this->entityManager->flush();
+            $this->addFlash('success', 'Votre lot de graines a bien été modifié');
             return $this->redirectToRoute('user_account');
         }
 
