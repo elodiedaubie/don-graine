@@ -70,7 +70,7 @@ class SeedBatchController extends AbstractController
     }
 
     //Manager Registry is an argument because required by parent construct of repository
-    #[Route('/grainotheque', name: '_show')]
+    #[Route('grainotheque', name: '_show')]
     public function showSeedBatches(
         SeedBatchRepository $seedBatchRepository,
         ManagerRegistry $managerRegistry
@@ -85,5 +85,18 @@ class SeedBatchController extends AbstractController
         return $this->render('seed_batch/show.html.twig', [
             'seed_batches' => $seedBatches
         ]);
+    }
+
+    #[Route('graine/{id}/favorite/', name: '_favorite', requirements: ['id' => '\d+'], methods: ["GET"])]
+    public function handleFavoriteList(SeedBatch $seedBatch): Response
+    {
+        if ($this->getUser() !== null) {
+            if ($this->getUser()->hasInFavorites($seedBatch)) {
+                $this->getUser()->removeFavoriteList($seedBatch);
+            }
+            $this->getUser()->addFavoriteList($seedBatch);
+            $this->entityManager->flush();
+        }
+        return $this->redirectToRoute('home');
     }
 }
