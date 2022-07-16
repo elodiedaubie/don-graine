@@ -35,7 +35,7 @@ class DonationController extends AbstractController
         }
     }
 
-    #[Route('/add/{id}', name: '_add', requirements: ['id' => '\d+'])]
+    #[Route('/{id}/ajouter', name: '_add', requirements: ['id' => '\d+'])]
     public function addDonation(
         SeedBatch $seedBatch,
         EntityManagerInterface $entityManager
@@ -78,6 +78,18 @@ class DonationController extends AbstractController
             'success',
             'Votre demande de graine a bien été enregistrée, le donateur a été prévenu par email'
         );
+
+        return $this->redirectToRoute('user_account');
+    }
+
+    #[Route('/{id}/annuler', name: '_cancel', requirements: ['id' => '\d+'])]
+    public function cancelDonation(
+        Donation $donation,
+        EntityManagerInterface $entityManager
+    ): Response {
+
+        $donation->setStatus(Donation::STATUS[1]);
+        $entityManager->flush($donation);
 
         return $this->redirectToRoute('user_account');
     }
