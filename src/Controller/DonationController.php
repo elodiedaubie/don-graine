@@ -35,26 +35,6 @@ class DonationController extends AbstractController
         }
     }
 
-    private function isBatchAvailable(SeedBatch $seedBatch): bool
-    {
-        if ($seedBatch instanceof SeedBatch) {
-            if (!$seedBatch->isIsAvailable()) {
-                //isAvailable is set to false
-                return false;
-            }
-            foreach ($seedBatch->getDonations() as $donation) {
-                if (
-                    $donation->getStatus() === Donation::STATUS[0]
-                    || $donation->getStatus() === Donation::STATUS[1]
-                ) {
-                    //there is already an active donation for this batch
-                    return false;
-                }
-            }
-            return true;
-        }
-    }
-
     #[Route('/add/{id}', name: '_add', requirements: ['id' => '\d+'])]
     public function addDonation(
         SeedBatch $seedBatch,
@@ -72,7 +52,7 @@ class DonationController extends AbstractController
             );
             return $this->redirectToRoute('home');
         }
-        if (!$this->isBatchAvailable($seedBatch)) {
+        if (!$seedBatch->isAvailable()) {
             //there is a donation going on or over for this batch
             $this->addFlash(
                 'danger',
@@ -89,8 +69,6 @@ class DonationController extends AbstractController
         $entityManager->persist($donation);
         $entityManager->persist($donation);
         $entityManager->flush($donation);
-        //batch is not available anymore
-        $seedBatch->setIsAvailable(0);
         $entityManager->persist($seedBatch);
         $entityManager->flush($seedBatch);
 
