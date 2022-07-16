@@ -52,9 +52,6 @@ class SeedBatch
     #[ORM\JoinColumn(nullable: false)]
     private Quality $quality;
 
-    #[ORM\Column(type: 'boolean')]
-    private bool $isAvailable = true;
-
     #[ORM\OneToMany(mappedBy: 'seedBatch', targetEntity: Donation::class)]
     private Collection $donations;
 
@@ -116,18 +113,6 @@ class SeedBatch
     public function setQuality(?Quality $quality): self
     {
         $this->quality = $quality;
-
-        return $this;
-    }
-
-    public function isIsAvailable(): ?bool
-    {
-        return $this->isAvailable;
-    }
-
-    public function setIsAvailable(bool $isAvailable): self
-    {
-        $this->isAvailable = $isAvailable;
 
         return $this;
     }
