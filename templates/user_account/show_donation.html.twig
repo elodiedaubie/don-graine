@@ -12,7 +12,13 @@
     <div class="container bg-white shadow p-5">
             <div class="d-flex gap-3 justify-content-between mb-4">
                 <h2>Don de: <span class="text-success">{{ donation.seedBatch.plant.name }}</span></h2>
-                <p class="text-danger h2">{{ donation.status }}</p>
+                {% if donation.status == "En cours" %}
+                  <p class="text-danger h2">{{ donation.status }}</p>
+                {% elseif donation.status == "Finalisé" %}
+                  <p class="text-info h2">{{ donation.status }}</p>
+                {% elseif donation.status == "Annulé" %}
+                  <p class="text-primary h2">{{ donation.status }}</p>
+                {% endif %}
             </div>
             <ul class="lh-lg">
                 <li><span class="fw-bold">Détail:</span> lot de {{ donation.seedBatch.seedQuantity }} graines</li>
