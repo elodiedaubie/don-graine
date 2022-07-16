@@ -94,6 +94,11 @@ class DonationController extends AbstractController
             return $this->redirectToRoute('user_account');
         }
 
+        if ($donation->getBeneficiary() !== $this->getUser()) {
+            $this->addFlash('danger', 'Seuls le bénéficiaire du don est autorisé à changer de statut');
+            return $this->redirectToRoute('user_account');
+        }
+
         $donation->setStatus(Donation::STATUS[1]);
         $entityManager->flush($donation);
         $this->addFlash('success', 'Le statut de votre don a bien été mis à jour');
