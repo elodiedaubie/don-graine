@@ -142,6 +142,16 @@ class SeedBatchController extends AbstractController
         SeedBatch $seedBatch
     ): Response {
 
+        if (!$this->isUserAuthorized($this->getUser(), $seedBatch)) {
+            return $this->redirectToRoute('home');
+        }
+
+        if (!$seedBatch->isIsAvailable()) {
+            //batch has a donation going on, it cannot be deleted
+                $this->addFlash('danger', 'Ce lot a déjà été demandé par quelqu\'un, vous ne pouvez plus le supprimer');
+                return $this->redirectToRoute('home');
+        }
+
         $this->entityManager->remove($seedBatch);
         $this->entityManager->flush();
         $this->addFlash('success', 'votre lot a bien été supprimé');
