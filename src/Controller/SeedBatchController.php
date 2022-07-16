@@ -49,13 +49,19 @@ class SeedBatchController extends AbstractController
     ): Response {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-        $seedBatches = $seedBatchRepository->findBy(
-            ['isAvailable' => true],
-            ['id' => 'DESC']
-        );
+        $availableSeedBatches = [];
+        $seedBatches = $seedBatchRepository->findAll();
+
+        if (!empty($seedBatches)) {
+            foreach ($seedBatches as $seedBatch) {
+                if ($seedBatch->isAvailable()) {
+                    $availableSeedBatches[] = $seedBatch;
+                }
+            }
+        }
 
         return $this->render('seed_batch/index.html.twig', [
-            'seed_batches' => $seedBatches
+            'seed_batches' => $availableSeedBatches
         ]);
     }
 
@@ -113,7 +119,7 @@ class SeedBatchController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
-        if (!$seedBatch->isIsAvailable()) {
+        if (!$seedBatch->isAvailable()) {
             //batch has a donation going on, it cannot be modified
                 $this->addFlash('danger', 'Ce lot a déjà été demandé par quelqu\'un, vous ne pouvez plus le modifier');
                 return $this->redirectToRoute('home');
@@ -146,7 +152,7 @@ class SeedBatchController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
-        if (!$seedBatch->isIsAvailable()) {
+        if (!$seedBatch->isAvailable()) {
             //batch has a donation going on, it cannot be deleted
                 $this->addFlash('danger', 'Ce lot a déjà été demandé par quelqu\'un, vous ne pouvez plus le supprimer');
                 return $this->redirectToRoute('home');
