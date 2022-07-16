@@ -153,7 +153,6 @@ class SeedBatchController extends AbstractController
         }
         //check if there is already donations for this batch
         if (!empty($seedBatch->getDonations())) {
-            //check if there is donations with status en cours ou finalisé
             if (!$seedBatch->isAvailable()) {
                 //batch has a donation going on, it cannot be deleted
                     $this->addFlash(
@@ -162,10 +161,12 @@ class SeedBatchController extends AbstractController
                     );
                     return $this->redirectToRoute('home');
             }
-            //there is only donations with status annulé, remove it
-            $seedBatch->removeAllDonations($seedBatch->getDonations());
+            //there is only donation(s) with canceled status, remove it/them
+            foreach ($seedBatch->getDonations() as $donation) {
+                $this->entityManager->remove($donation);
+            }
         }
-
+        //the is no donations for this batch, remove it
         $this->entityManager->remove($seedBatch);
         $this->entityManager->flush();
         $this->addFlash('success', 'votre lot a bien été supprimé');
