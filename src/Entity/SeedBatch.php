@@ -170,4 +170,20 @@ class SeedBatch
 
         return $this;
     }
+
+    //if there is a least one going donation or canceled for this batch , return false
+    //if there is only canceled donations, return true
+    public function isAvailable(): bool
+    {
+        foreach ($this->getDonations() as $donation) {
+            if (
+                $donation->getStatus() === Donation::STATUS[0]
+                || $donation->getStatus() === Donation::STATUS[1]
+            ) {
+                //there is already an active donation for this batch
+                return false;
+            }
+        }
+        return true;
+    }
 }
