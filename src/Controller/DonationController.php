@@ -94,6 +94,39 @@ class DonationController extends AbstractController
             return $this->redirectToRoute('user_account');
         }
 
+        if ($this->getUser() && $this->getUser() instanceof User) {
+            if (
+                $donation->getBeneficiary() !== $this->getUser()
+                && $donation->getSeedBatch()->getOwner() !== $this->getUser()
+            ) {
+                //connected user is neither beneficiary or owner
+                $this->addFlash('danger', 'Seuls le bénéficiaire ou le donateur sont autorisés à changer de statut');
+                return $this->redirectToRoute('user_account');
+            }
+        }
+
+        $donation->setStatus(Donation::STATUS[2]);
+        $entityManager->flush($donation);
+        $this->addFlash('success', 'Le statut de votre don a bien été mis à jour');
+        $this->mailerManager->sendDonationCompleted(
+            $donation->getSeedBatch()->getOwner(),
+            $donation
+        );
+        return $this->redirectToRoute('user_account');
+    }
+
+    #[Route('/{id}/finaliser', name: '_finalise', requirements: ['id' => '\d+'])]
+    public function finaliseDonation(
+        Donation $donation,
+        EntityManagerInterface $entityManager
+    ): Response {
+
+        if ($donation->getStatus() !== Donation::STATUS[0]) {
+            //status is not "en cours"
+            $this->addFlash('danger', 'Seuls les dons en cours peuvent changer de statut');
+            return $this->redirectToRoute('user_account');
+        }
+
         if ($donation->getBeneficiary() !== $this->getUser()) {
             //connected user is not beneficiary
             $this->addFlash('danger', 'Seuls le bénéficiaire du don est autorisé à changer de statut');
