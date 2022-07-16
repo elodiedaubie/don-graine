@@ -147,13 +147,6 @@ class SeedBatch
         return $this;
     }
 
-    public function removeAllDonations(Collection $donations): void
-    {
-        foreach ($donations as $donation) {
-            $this->removeDonation($donation);
-        }
-    }
-
     /**
      * @return Collection<int, User>
      */
