@@ -27,7 +27,7 @@
             </ul>
             <div class="d-flex gap-3 justify-content-center mt-5">
                 <a href="#"><button class="button btn-outline-dark">Annuler le don</button></a>
-                <a href="#"><button class="button btn-dark ps-6 pe-6">Don reçu</button></a>
+                <a href="{{ path('donation_cancel', {id: donation.id}) }}"><button class="button btn-dark ps-6 pe-6">Don reçu</button></a>
             </div>
     </div>
     {#Instructions#}
