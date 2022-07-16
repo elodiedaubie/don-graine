@@ -90,7 +90,11 @@ class DonationController extends AbstractController
 
         $donation->setStatus(Donation::STATUS[1]);
         $entityManager->flush($donation);
-
+        $this->addFlash('success', 'Le statut de votre don a bien été mis à jour');
+        $this->mailerManager->sendDonationCompleted(
+            $donation->getSeedBatch()->getOwner(),
+            $donation
+        );
         return $this->redirectToRoute('user_account');
     }
 }

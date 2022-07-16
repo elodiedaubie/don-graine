@@ -1,0 +1,12 @@
+<h1>Félicitation, votre don est finalisé</h1>
+
+<p>{{ donation.beneficiary.userName }} ({{ donation.beneficiary.email }}) a indiqué avoir bien reçu le lot de graine.</p>
+
+<h2>Informations sur le lot de graines concerné</h2>
+    <ul>
+        <li>Nom de la plante : {{ donation.seedBatch.plant.name }} </li>
+        <li>Nombre de graines: {{ donation.seedBatch.seedQuantity }}</li>
+        <li>Qualité : {{ donation.seedBatch.quality.name }} </li>
+    </ul>
+
+<p>Merci pour votre générosité et à bientôt sur <a href="{{ path('home') }}"> Graines en l'air!</a></p>
