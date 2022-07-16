@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Donation;
 use App\Form\EditUserFormType;
 use App\Repository\DonationRepository;
 use App\Repository\SeedBatchRepository;
@@ -153,6 +154,14 @@ class UserAccountController extends AbstractController
 
         return $this->render('user_account/show_favorite_list.html.twig', [
             'favorite_list' =>  $user->getFavoriteList(),
+        ]);
+    }
+
+    #[Route('/don/{id}', name: '_donation', requirements: ['id' => '\d+'])]
+    public function showDonation(Donation $donation): Response
+    {
+        return $this->render('user_account/show_donation.html.twig', [
+            'donation' => $donation
         ]);
     }
 }

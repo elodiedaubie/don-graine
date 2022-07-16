@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Donation;
 use App\Entity\User;
 use App\Entity\SeedBatch;
 use App\Security\EmailVerifier;
@@ -74,6 +75,21 @@ class MailerManager extends AbstractController
                 'owner' => $owner,
                 'beneficiary' => $beneficiary,
                 'seed_batch' => $seedBatch
+            ])
+        ;
+        $this->mailerInterface->send($email);
+    }
+
+    public function sendDonationCompleted(User $owner, Donation $donation): void
+    {
+        $email = (new TemplatedEmail())
+            ->from(new Address('noreply@grainesenlair.com', 'Graines en l\'air'))
+            ->to($owner->getEmail())
+            ->subject('Votre don est terminé')
+            ->htmlTemplate('email/donation_completed.html.twig')
+            ->context([
+                'owner' => $owner,
+                'donation' => $donation
             ])
         ;
         $this->mailerInterface->send($email);
