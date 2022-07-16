@@ -31,12 +31,11 @@ class SeedBatchController extends AbstractController
         SeedBatch $seedBatch
     ): bool {
         if (
-            $this->getUser()
-            && $this->getUser() instanceof User
+            $user instanceof User
             && $seedBatch->getOwner()
             && $seedBatch->getOwner() instanceof User
         ) {
-            if ($this->getUser() === $seedBatch->getOwner()) {
+            if ($user === $seedBatch->getOwner()) {
                 return true;
             }
         }
