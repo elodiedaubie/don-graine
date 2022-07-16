@@ -151,11 +151,19 @@ class SeedBatchController extends AbstractController
         if (!$this->isUserAuthorized($this->getUser(), $seedBatch)) {
             return $this->redirectToRoute('home');
         }
-
-        if (!$seedBatch->isAvailable()) {
-            //batch has a donation going on, it cannot be deleted
-                $this->addFlash('danger', 'Ce lot a déjà été demandé par quelqu\'un, vous ne pouvez plus le supprimer');
-                return $this->redirectToRoute('home');
+        //check if there is already donations for this batch
+        if (!empty($seedBatch->getDonations())) {
+            //check if there is donations with status en cours ou finalisé
+            if (!$seedBatch->isAvailable()) {
+                //batch has a donation going on, it cannot be deleted
+                    $this->addFlash(
+                        'danger',
+                        'Ce lot a déjà été demandé par quelqu\'un, vous ne pouvez plus le supprimer'
+                    );
+                    return $this->redirectToRoute('home');
+            }
+            //there is only donations with status annulé, remove it
+            $seedBatch->removeAllDonations($seedBatch->getDonations());
         }
 
         $this->entityManager->remove($seedBatch);
