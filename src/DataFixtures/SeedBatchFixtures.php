@@ -55,7 +55,6 @@ class SeedBatchFixtures extends Fixture implements DependentFixtureInterface
             $batch->setQuality(
                 $this->getReference('quality_' . (rand(0, count(QualityFixtures::QUALITIES) - 1)))
             );
-            $batch->setIsAvailable(false);
             $manager->persist(($batch));
             $this->addReference('unavailable_batch_' . $i, $batch);
         }

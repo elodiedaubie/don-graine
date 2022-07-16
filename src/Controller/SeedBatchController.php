@@ -25,19 +25,43 @@ class SeedBatchController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
+    //check if user is the batch's owner - if not display addflash
+    private function isUserAuthorized(
+        User $user,
+        SeedBatch $seedBatch
+    ): bool {
+        if (
+            $user instanceof User
+            && $seedBatch->getOwner()
+            && $seedBatch->getOwner() instanceof User
+        ) {
+            if ($user === $seedBatch->getOwner()) {
+                return true;
+            }
+        }
+        $this->addFlash('danger', 'Ce lot ne peut être modifié que par son propriétaire');
+        return false;
+    }
+
     #[Route('/', name: '_show')]
     public function index(
         SeedBatchRepository $seedBatchRepository,
     ): Response {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-        $seedBatches = $seedBatchRepository->findBy(
-            ['isAvailable' => true],
-            ['id' => 'DESC']
-        );
+        $availableSeedBatches = [];
+        $seedBatches = $seedBatchRepository->findAll();
+
+        if (!empty($seedBatches)) {
+            foreach ($seedBatches as $seedBatch) {
+                if ($seedBatch->isAvailable()) {
+                    $availableSeedBatches[] = $seedBatch;
+                }
+            }
+        }
 
         return $this->render('seed_batch/index.html.twig', [
-            'seed_batches' => $seedBatches
+            'seed_batches' => $availableSeedBatches
         ]);
     }
 
@@ -91,20 +115,11 @@ class SeedBatchController extends AbstractController
         SeedBatch $seedBatch
     ): Response {
 
-        //check if user is the batch's owner - if not : redirect to home and display addflash
-        if (
-            $this->getUser()
-            && $this->getUser() instanceof User
-            && $seedBatch->getOwner()
-            && $seedBatch->getOwner() instanceof User
-        ) {
-            if ($this->getUser() !== $seedBatch->getOwner()) {
-                $this->addFlash('danger', 'Ce lot ne peut être modifié que par son propriétaire');
-                return $this->redirectToRoute('home');
-            }
+        if (!$this->isUserAuthorized($this->getUser(), $seedBatch)) {
+            return $this->redirectToRoute('home');
         }
 
-        if (!$seedBatch->isIsAvailable()) {
+        if (!$seedBatch->isAvailable()) {
             //batch has a donation going on, it cannot be modified
                 $this->addFlash('danger', 'Ce lot a déjà été demandé par quelqu\'un, vous ne pouvez plus le modifier');
                 return $this->redirectToRoute('home');
@@ -126,6 +141,36 @@ class SeedBatchController extends AbstractController
             'seed_batch' => $seedBatch,
             'editSeedBatchForm' => $form,
         ]);
+    }
+
+    #[Route('/{id}/supprimer', name: '_delete', requirements: ['id' => '\d+'])]
+    public function deleteSeedBatch(
+        SeedBatch $seedBatch
+    ): Response {
+
+        if (!$this->isUserAuthorized($this->getUser(), $seedBatch)) {
+            return $this->redirectToRoute('home');
+        }
+        //check if there is already donations for this batch
+        if (!empty($seedBatch->getDonations())) {
+            if (!$seedBatch->isAvailable()) {
+                //batch has a donation going on, it cannot be deleted
+                    $this->addFlash(
+                        'danger',
+                        'Ce lot a déjà été demandé par quelqu\'un, vous ne pouvez plus le supprimer'
+                    );
+                    return $this->redirectToRoute('home');
+            }
+            //there is only donation(s) with canceled status, remove it/them
+            foreach ($seedBatch->getDonations() as $donation) {
+                $this->entityManager->remove($donation);
+            }
+        }
+        //the is no donations for this batch, remove it
+        $this->entityManager->remove($seedBatch);
+        $this->entityManager->flush();
+        $this->addFlash('success', 'votre lot a bien été supprimé');
+        return $this->redirectToRoute('user_account');
     }
 
     #[Route('/{id}/favorite/', name: '_favorite', requirements: ['id' => '\d+'], methods: ["GET"])]

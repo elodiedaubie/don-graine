@@ -28,6 +28,7 @@ class UserAccountController extends AbstractController
         $this->donationRepository = $donationRepository;
     }
 
+    //get Available Batches for a specific user
     private function getAvailableBatches(User $user): array
     {
         $userBatches = $this->seedBatchRepository->findByOwner($user, ['id' => 'DESC']);
@@ -35,7 +36,7 @@ class UserAccountController extends AbstractController
 
         if (!empty($userBatches)) {
             foreach ($userBatches as $userBatch) {
-                if ($userBatch->isIsAvailable()) {
+                if ($userBatch->isAvailable()) {
                     //get available seed batches only
                     $availableBatches[] = $userBatch;
                 }
