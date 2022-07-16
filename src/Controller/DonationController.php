@@ -88,6 +88,12 @@ class DonationController extends AbstractController
         EntityManagerInterface $entityManager
     ): Response {
 
+        if ($donation->getStatus() !== Donation::STATUS[0]) {
+            //status is not "en cours"
+            $this->addFlash('danger', 'Seuls les dons en cours peuvent changer de statut');
+            return $this->redirectToRoute('user_account');
+        }
+
         $donation->setStatus(Donation::STATUS[1]);
         $entityManager->flush($donation);
         $this->addFlash('success', 'Le statut de votre don a bien été mis à jour');
