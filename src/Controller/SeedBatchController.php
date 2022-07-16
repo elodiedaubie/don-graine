@@ -119,15 +119,25 @@ class SeedBatchController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
-        if (!$seedBatch->isAvailable()) {
-            //batch has a donation going on, it cannot be modified
-                $this->addFlash('danger', 'Ce lot a déjà été demandé par quelqu\'un, vous ne pouvez plus le modifier');
-                return $this->redirectToRoute('home');
-        }
-
         //create form
         $form = $this->createForm(EditSeedBatchFormType::class, $seedBatch);
         $form->handleRequest($request);
+
+        //check if there is already donations for this batch
+        if (!empty($seedBatch->getDonations())) {
+            if (!$seedBatch->isAvailable()) {
+                //batch has a donation going on, it cannot be modify
+                    $this->addFlash(
+                        'danger',
+                        'Ce lot a déjà été demandé par quelqu\'un, vous ne pouvez plus le modifier'
+                    );
+                    return $this->redirectToRoute('home');
+            }
+            //there is only donation(s) with canceled status, remove it/them
+            foreach ($seedBatch->getDonations() as $donation) {
+                $this->entityManager->remove($donation);
+            }
+        }
 
         //handle request
         if ($form->isSubmitted() && $form->isValid()) {
