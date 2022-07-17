@@ -39,7 +39,7 @@ class SeedBatchController extends AbstractController
                 return true;
             }
         }
-        $this->addFlash('danger', 'Ce lot ne peut être modifié que par son propriétaire');
+        $this->addFlash('danger', 'Ce lot ne peut être modifié ou supprimé que par son.sa propriétaire');
         return false;
     }
 
@@ -194,6 +194,6 @@ class SeedBatchController extends AbstractController
             }
             $this->entityManager->flush();
         }
-        return $this->redirectToRoute('home');
+        return $this->redirectToRoute('seed_batch_show');
     }
 }

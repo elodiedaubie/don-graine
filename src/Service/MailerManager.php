@@ -94,4 +94,16 @@ class MailerManager extends AbstractController
         ;
         $this->mailerInterface->send($email);
     }
+
+    public function sendDonationCanceled(User $addressee, Donation $donation): void
+    {
+        $email = (new TemplatedEmail())
+            ->from(new Address('noreply@grainesenlair.com', 'Graines en l\'air'))
+            ->to($addressee->getEmail())
+            ->subject('Votre don est annulé')
+            ->htmlTemplate('email/donation_canceled.html.twig')
+            ->context(['donation' => $donation])
+        ;
+        $this->mailerInterface->send($email);
+    }
 }
