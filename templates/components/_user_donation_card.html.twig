@@ -13,6 +13,7 @@
         {% endif %}
     </div>
     <div class = "card-body ps-7">
+          <p class="mb-0 fst-italic">Qualité: {{ donation.seedBatch.plant.purpose.name }}</p>
           <p class="mb-0">Lot de {{ donation.seedBatch.seedQuantity }} graines</p>
           <p class="mb-0">Demandé par {{ donation.beneficiary.userName }}</p>
           <p class="mb-0">Le {{ donation.createdAt|date("d/m/Y") }}</p>
