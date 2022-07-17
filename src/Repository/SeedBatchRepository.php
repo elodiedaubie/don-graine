@@ -39,6 +39,18 @@ class SeedBatchRepository extends ServiceEntityRepository
         }
     }
 
+    public function findLikeName(string $name)
+    {
+        $queryBuilder = $this->createQueryBuilder('s')
+            ->join('s.plant', 'p')
+            ->where('p.name LIKE :name')
+            ->setParameter('name', '%' . $name . '%')
+            ->orderBy('p.name', 'ASC')
+            ->getQuery();
+
+        return $queryBuilder->getResult();
+    }
+
 //    /**
 //     * @return SeedBatch[] Returns an array of SeedBatch objects
 //     */
