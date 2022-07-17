@@ -194,6 +194,6 @@ class SeedBatchController extends AbstractController
             }
             $this->entityManager->flush();
         }
-        return $this->redirectToRoute('home');
+        return $this->redirectToRoute('seed_batch_show');
     }
 }
