@@ -21,6 +21,7 @@
           {% endif %}
       </div>
       <ul class="lh-lg">
+          <li><span class="fw-bold">Qualité:</span> graines {{ donation.seedBatch.quality.name }}</li>
           <li><span class="fw-bold">Détail:</span> lot de {{ donation.seedBatch.seedQuantity }} graines</li>
           <li><span class="fw-bold">Demandé le:</span> {{ donation.createdAt|date("d/m/Y") }}</li>
           {% if app.user == donation.beneficiary %}
