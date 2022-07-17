@@ -18,10 +18,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class DonationController extends AbstractController
 {
     private MailerManager $mailerManager;
+    private EntityManagerInterface $entityManager;
 
-    public function __construct(MailerManager $mailerManager)
-    {
+    public function __construct(
+        MailerManager $mailerManager,
+        EntityManagerInterface $entityManager
+    ) {
         $this->mailerManager = $mailerManager;
+        $this->entityManager = $entityManager;
     }
 
     //test if beneficary and owners are not the same
@@ -36,10 +40,8 @@ class DonationController extends AbstractController
     }
 
     #[Route('/{id}/ajouter', name: '_add', requirements: ['id' => '\d+'])]
-    public function addDonation(
-        SeedBatch $seedBatch,
-        EntityManagerInterface $entityManager
-    ): Response {
+    public function addDonation(SeedBatch $seedBatch): Response
+    {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         $beneficiary = $this->getUser();
@@ -66,11 +68,11 @@ class DonationController extends AbstractController
         $donation->setStatus(Donation::STATUS[0]);
         $donation->setCreatedAt(new DateTimeImmutable());
         $donation->setSeedBatch($seedBatch);
-        $entityManager->persist($donation);
-        $entityManager->persist($donation);
-        $entityManager->flush($donation);
-        $entityManager->persist($seedBatch);
-        $entityManager->flush($seedBatch);
+        $this->entityManager->persist($donation);
+        $this->entityManager->persist($donation);
+        $this->entityManager->flush($donation);
+        $this->entityManager->persist($seedBatch);
+        $this->entityManager->flush($seedBatch);
 
         $this->mailerManager->sendDonationAlert($owner, $beneficiary, $seedBatch);
 
@@ -83,11 +85,8 @@ class DonationController extends AbstractController
     }
 
     #[Route('/{id}/annuler', name: '_cancel', requirements: ['id' => '\d+'])]
-    public function cancelDonation(
-        Donation $donation,
-        EntityManagerInterface $entityManager
-    ): Response {
-
+    public function cancelDonation(Donation $donation): Response
+    {
         if ($donation->getStatus() !== Donation::STATUS[0]) {
             //status is not "en cours"
             $this->addFlash('danger', 'Seuls les dons en cours peuvent changer de statut');
@@ -106,7 +105,7 @@ class DonationController extends AbstractController
         }
 
         $donation->setStatus(Donation::STATUS[2]);
-        $entityManager->flush($donation);
+        $this->entityManager->flush($donation);
         $this->addFlash('success', 'Le statut de votre don a bien été mis à jour');
         $this->mailerManager->sendDonationCompleted(
             $donation->getSeedBatch()->getOwner(),
@@ -116,11 +115,8 @@ class DonationController extends AbstractController
     }
 
     #[Route('/{id}/finaliser', name: '_finalise', requirements: ['id' => '\d+'])]
-    public function finaliseDonation(
-        Donation $donation,
-        EntityManagerInterface $entityManager
-    ): Response {
-
+    public function finaliseDonation(Donation $donation): Response
+    {
         if ($donation->getStatus() !== Donation::STATUS[0]) {
             //status is not "en cours"
             $this->addFlash('danger', 'Seuls les dons en cours peuvent changer de statut');
@@ -134,7 +130,7 @@ class DonationController extends AbstractController
         }
 
         $donation->setStatus(Donation::STATUS[1]);
-        $entityManager->flush($donation);
+        $$this->entityManager->flush($donation);
         $this->addFlash('success', 'Le statut de votre don a bien été mis à jour');
         $this->mailerManager->sendDonationCompleted(
             $donation->getSeedBatch()->getOwner(),
