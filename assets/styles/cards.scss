@@ -1,5 +1,5 @@
-.seedbank {
-    .card {
+.seedbank, .dashboard, .admin {
+    .card .custom-card {
        width: 100%;
     }
 }
@@ -14,12 +14,6 @@
     }
 }
 
-.dashboard {
-    .custom-card {
-        width: 100%;
-    }
-}
-
 @media screen and (min-width: 1200px) {
 
     .dashboard {
@@ -29,7 +23,7 @@
         }  
     }
 
-    .understand {
+    .understand, .admin {
         .card {
             width: 25%;
             min-width: 25%;
