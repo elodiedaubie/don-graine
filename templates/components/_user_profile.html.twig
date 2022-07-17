@@ -1,0 +1,13 @@
+<div class="card bg-white p-2 pb-4 shadow ">
+    <h2 class="ps-2">Mon <span class ="text-info">profil</span></h2>
+    <div class="d-flex flex-column align-items-center p-3">
+        <div>
+            <p><span class="h3">Pseudo : </span>{{ user.username }}</p>
+            <p><span class="h3">Email : </span> {{ user.email }}</p>
+        </div>
+    </div>
+    <div class="container d-flex gap-2 justify-content-center">
+      <a href="{{ path('user_account_edit') }}"><button class="btn btn-dark">modifier</button></a>
+      <button class="btn btn-outline-dark">supprimer</button>
+    </div>
+  </div>
