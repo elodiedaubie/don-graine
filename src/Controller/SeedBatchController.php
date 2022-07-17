@@ -66,8 +66,15 @@ class SeedBatchController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $search = $form->get('search')->getData();
-            $availableSeedBatches = $seedBatchRepository->findLikeName($search);
+            if (!empty($form->get('search')->getData())) {
+                //search by plant has data
+                $search = $form->get('search')->getData();
+                $availableSeedBatches = $seedBatchRepository->findLikeName($search);
+            }
+            if (!empty($form->get('quality')->getData())) {
+                $quality = $form->get('quality')->getData();
+                $availableSeedBatches = $seedBatchRepository->findByQuality($quality);
+            }
         }
 
         return $this->renderForm('seed_batch/index.html.twig', [

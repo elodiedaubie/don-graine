@@ -14,9 +14,11 @@
             </a>
         </div>
         <p class="ps-9 d-none d-lg-block">Graines en l’air est un service entièrement gratuit qui mise sur la solidarité écologique. Nous comptons sur vous pour vous servir dans la grainothèque selon vos besoins et avec sobriété. Nous vous rappellons que l’utilisation des graines données sur notre site <span class="fw-bolder">ne peuvent servir un but commercial.</span></p>
-        <div class="container w-75 mt-5">
+        <div class="container mt-5">
             {{ form_start(form) }}
                 {{ form_widget(form.search) }}
+                {{ form_widget(form.quality) }}
+                <button type="submit" class="btn btn-outline-dark btn-sm">filter</button>
             {{ form_end(form) }}
         </div>
         <div class="container d-flex flex-wrap justify-content-evenly mt-7 gap-5">

@@ -2,10 +2,13 @@
 
 namespace App\Form;
 
+use App\Entity\Quality;
+use App\Repository\QualityRepository;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\SearchType;
 
 class SearchBatchFormType extends AbstractType
 {
@@ -14,6 +17,12 @@ class SearchBatchFormType extends AbstractType
         $builder
             ->add('search', SearchType::class, [
                 'attr' => ['placeholder' => 'Recherche par nom de plante 🔍'],
+                'required' => false,
+            ])
+            ->add('quality', EntityType::class, [
+                'class' => Quality::class,
+                'choice_label' => 'name',
+                'required' => false,
             ])
         ;
     }
