@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Entity\SeedBatch;
 use App\Form\AddSeedBatchFormType;
 use App\Form\EditSeedBatchFormType;
+use App\Form\SearchBatchFormType;
 use App\Repository\SeedBatchRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -46,11 +47,23 @@ class SeedBatchController extends AbstractController
     #[Route('/', name: '_show')]
     public function index(
         SeedBatchRepository $seedBatchRepository,
+        Request $request
     ): Response {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         $availableSeedBatches = [];
         $seedBatches = $seedBatchRepository->findAll();
+
+        //search by plant name form
+        $form = $this->createForm(SearchBatchFormType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if (!empty($form->get('search')->getData())) {
+                //search by plant name required
+                $search = $form->get('search')->getData();
+                $seedBatches = $seedBatchRepository->findLikeName($search);
+            }
+        }
 
         if (!empty($seedBatches)) {
             foreach ($seedBatches as $seedBatch) {
@@ -60,8 +73,9 @@ class SeedBatchController extends AbstractController
             }
         }
 
-        return $this->render('seed_batch/index.html.twig', [
-            'seed_batches' => $availableSeedBatches
+        return $this->renderForm('seed_batch/index.html.twig', [
+            'seed_batches' => $availableSeedBatches,
+            'form' => $form
         ]);
     }
 
