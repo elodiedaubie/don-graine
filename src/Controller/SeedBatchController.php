@@ -75,6 +75,10 @@ class SeedBatchController extends AbstractController
                 $quality = $form->get('quality')->getData();
                 $availableSeedBatches = $seedBatchRepository->findByQuality($quality);
             }
+            if (!empty($form->get('purpose')->getData())) {
+                $purpose = $form->get('purpose')->getData();
+                $availableSeedBatches = $seedBatchRepository->findByPurpose($purpose);
+            }
         }
 
         return $this->renderForm('seed_batch/index.html.twig', [

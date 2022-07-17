@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Purpose;
 use App\Entity\Quality;
 use App\Repository\QualityRepository;
 use Symfony\Component\Form\AbstractType;
@@ -21,6 +22,11 @@ class SearchBatchFormType extends AbstractType
             ])
             ->add('quality', EntityType::class, [
                 'class' => Quality::class,
+                'choice_label' => 'name',
+                'required' => false,
+            ])
+            ->add('purpose', EntityType::class, [
+                'class' => Purpose::class,
                 'choice_label' => 'name',
                 'required' => false,
             ])
