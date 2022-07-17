@@ -42,52 +42,51 @@ class DonationController extends AbstractController
     #[Route('/{id}/ajouter', name: '_add', requirements: ['id' => '\d+'])]
     public function addDonation(SeedBatch $seedBatch): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-
-        $beneficiary = $this->getUser();
-        $owner = $seedBatch->getOwner();
-        if (!$this->areUsersDifferents($owner, $beneficiary)) {
-            //Owner and Beneficiary are different people
+        if ($this->getUser() && $this->getUser() instanceof User) {
+            $beneficiary = $this->getUser();
+            $owner = $seedBatch->getOwner();
+            
+            if (!$this->areUsersDifferents($owner, $beneficiary)) {
+                //Owner and Beneficiary are different people
+                $this->addFlash(
+                    'danger',
+                    'Vous ne pouvez pas réserver votre propre lot'
+                );
+                return $this->redirectToRoute('home');
+            }
+            if (!$seedBatch->isAvailable()) {
+                //there is a donation going on or over for this batch
+                $this->addFlash(
+                    'danger',
+                    'Désolé.e, ce lot a déjà été réservé par quelqu\'un d\'autre'
+                );
+                return $this->redirectToRoute('home');
+            }
+            //create new donation
+            $donation = new Donation();
+            $donation->setBeneficiary($beneficiary);
+            $donation->setStatus(Donation::STATUS[0]);
+            $donation->setCreatedAt(new DateTimeImmutable());
+            $donation->setSeedBatch($seedBatch);
+            $this->entityManager->persist($donation);
+            $this->entityManager->persist($donation);
+            $this->entityManager->flush($donation);
+            $this->entityManager->persist($seedBatch);
+            $this->entityManager->flush($seedBatch);
+            //send email to owner
+            $this->mailerManager->sendDonationAlert($owner, $beneficiary, $seedBatch);
+            //display adflash to confirm action to beneficiary
             $this->addFlash(
-                'danger',
-                'Vous ne pouvez pas réserver votre propre lot'
+                'success',
+                'Votre demande de graine a bien été enregistrée, le donateur a été prévenu par email'
             );
-            return $this->redirectToRoute('home');
         }
-        if (!$seedBatch->isAvailable()) {
-            //there is a donation going on or over for this batch
-            $this->addFlash(
-                'danger',
-                'Désolé.e, ce lot a déjà été réservé par quelqu\'un d\'autre'
-            );
-            return $this->redirectToRoute('home');
-        }
-        //create new donation
-        $donation = new Donation();
-        $donation->setBeneficiary($beneficiary);
-        $donation->setStatus(Donation::STATUS[0]);
-        $donation->setCreatedAt(new DateTimeImmutable());
-        $donation->setSeedBatch($seedBatch);
-        $this->entityManager->persist($donation);
-        $this->entityManager->persist($donation);
-        $this->entityManager->flush($donation);
-        $this->entityManager->persist($seedBatch);
-        $this->entityManager->flush($seedBatch);
-
-        $this->mailerManager->sendDonationAlert($owner, $beneficiary, $seedBatch);
-
-        $this->addFlash(
-            'success',
-            'Votre demande de graine a bien été enregistrée, le donateur a été prévenu par email'
-        );
-
         return $this->redirectToRoute('user_account');
     }
 
     #[Route('/{id}/annuler', name: '_cancel', requirements: ['id' => '\d+'])]
     public function cancelDonation(Donation $donation): Response
     {
-
         if ($this->getUser() && $this->getUser() instanceof User) {
             $user = $this->getUser();
 
