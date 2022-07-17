@@ -106,7 +106,10 @@ class DonationController extends AbstractController
 
         $donation->setStatus(Donation::STATUS[2]);
         $this->entityManager->flush($donation);
-        $this->addFlash('success', 'Le statut de votre don a bien été mis à jour');
+        $this->addFlash(
+            'success',
+            'Le statut du don a bien été mis à jour, le lot est de nouveau disponible dans la grainothèque'
+        );
         $this->mailerManager->sendDonationCompleted(
             $donation->getSeedBatch()->getOwner(),
             $donation
