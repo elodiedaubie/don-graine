@@ -45,7 +45,7 @@ class DonationController extends AbstractController
         if ($this->getUser() && $this->getUser() instanceof User) {
             $beneficiary = $this->getUser();
             $owner = $seedBatch->getOwner();
-            
+
             if (!$this->areUsersDifferents($owner, $beneficiary)) {
                 //Owner and Beneficiary are different people
                 $this->addFlash(
