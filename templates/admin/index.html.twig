@@ -14,10 +14,10 @@
         <div class="card bg-white shadow p-2 ps-3 w-100">
             <h2 class="mb-6">Quelques <span class="text-primary">chiffres</span></h2>
             <ul class="container d-flex flex-column flex-xl-row justify-content-around h3 gap-6">
-                <li>Dons en cours: </li>
-                <li>Dons annulés: </li>
-                <li>Dons en terminés: </li>
-                <li>Lots disponibles:</li>
+                <li>Dons en cours: {{ encours }}</li>
+                <li>Dons annulés: {{ annule }}</li>
+                <li>Dons en terminés: {{ finalise }}</li>
+                <li>Lots disponibles: {{ available }}</li>
             </ul>
         </div>
     </section>
