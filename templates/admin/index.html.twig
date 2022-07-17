@@ -7,7 +7,7 @@
 {% block body %}
 
     <h1 class="text-center mb-5">Panneau d'administration</h1>
-    <section class="container d-flex flex-column flex-xl-row justify-content-between gap-4">
+    <section class="container d-flex flex-column flex-xl-row justify-content-between gap-4 ps-0 pe-0">
         {#Admin account#}
             {% include "components/_user_profile.html.twig" %}
         {#Statistics#}
@@ -22,8 +22,27 @@
         </div>
     </section>
     {#Users accounts#}
-    <section class="container bg-white shadow p-2 ps-3 mt-4">
-
+    <section class="container bg-white shadow p-2 ps-3 mt-4 pb-4">
+        <h2 class="mb-4">Comptes <span class="text-success">utilisateurs</span>(x)</h2>
+        <div class="d-flex gap-3 flex-wrap justify-content-around">
+            {% for user in users %}
+                <div class="card p-3 bg-light">
+                    <ul>
+                        <li><span class="fw-bold">Id:</span>{{ user.id }}</li>
+                        <li class="text-danger"><span class="fw-bold">Pseudo:</span> {{ user.userName }}</li>
+                        <li><span class="fw-bold">Email:</span> {{ user.email }}</li>
+                        <li><span class="fw-bold">Date inscription:</span> {{ user.createdAt|date("d/m/Y") }}</li>
+                        <li><span class="fw-bold">Email vérifié:</span>
+                            {% if user.isVerified %}
+                                oui
+                            {% else %}
+                                non
+                            {% endif %}
+                        </li>
+                    </ul>
+                    <a href="#" class="align-self-end pt-2"><button class="btn btn-outline-dark btn-sm">Supprimer le compte</button></a>
+                </div>
+            {% endfor %}
+        </div>
     </section>
-
 {% endblock %}
