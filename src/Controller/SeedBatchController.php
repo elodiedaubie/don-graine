@@ -49,35 +49,27 @@ class SeedBatchController extends AbstractController
         SeedBatchRepository $seedBatchRepository,
         Request $request
     ): Response {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         $availableSeedBatches = [];
         $seedBatches = $seedBatchRepository->findAll();
+
+        //search by plant name form
+        $form = $this->createForm(SearchBatchFormType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if (!empty($form->get('search')->getData())) {
+                //search by plant name required
+                $search = $form->get('search')->getData();
+                $seedBatches = $seedBatchRepository->findLikeName($search);
+            }
+        }
 
         if (!empty($seedBatches)) {
             foreach ($seedBatches as $seedBatch) {
                 if ($seedBatch->isAvailable()) {
                     $availableSeedBatches[] = $seedBatch;
                 }
-            }
-        }
-        //search by name form
-        $form = $this->createForm(SearchBatchFormType::class);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            if (!empty($form->get('search')->getData())) {
-                //search by plant has data
-                $search = $form->get('search')->getData();
-                $availableSeedBatches = $seedBatchRepository->findLikeName($search);
-            }
-            if (!empty($form->get('quality')->getData())) {
-                $quality = $form->get('quality')->getData();
-                $availableSeedBatches = $seedBatchRepository->findByQuality($quality);
-            }
-            if (!empty($form->get('purpose')->getData())) {
-                $purpose = $form->get('purpose')->getData();
-                $availableSeedBatches = $seedBatchRepository->findByPurpose($purpose);
             }
         }
 

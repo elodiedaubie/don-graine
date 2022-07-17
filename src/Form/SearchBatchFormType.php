@@ -20,16 +20,6 @@ class SearchBatchFormType extends AbstractType
                 'attr' => ['placeholder' => 'Recherche par nom de plante 🔍'],
                 'required' => false,
             ])
-            ->add('quality', EntityType::class, [
-                'class' => Quality::class,
-                'choice_label' => 'name',
-                'required' => false,
-            ])
-            ->add('purpose', EntityType::class, [
-                'class' => Purpose::class,
-                'choice_label' => 'name',
-                'required' => false,
-            ])
         ;
     }
 
