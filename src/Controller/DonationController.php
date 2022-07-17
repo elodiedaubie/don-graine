@@ -87,43 +87,48 @@ class DonationController extends AbstractController
     #[Route('/{id}/annuler', name: '_cancel', requirements: ['id' => '\d+'])]
     public function cancelDonation(Donation $donation): Response
     {
-        if ($donation->getStatus() !== Donation::STATUS[0]) {
-            //status is not "en cours"
-            $this->addFlash('danger', 'Seuls les dons en cours peuvent changer de statut');
-            return $this->redirectToRoute('user_account');
-        }
 
         if ($this->getUser() && $this->getUser() instanceof User) {
+            $user = $this->getUser();
+
+            //control is status en cours - other donations can't be canceled
+            if ($donation->getStatus() !== Donation::STATUS[0]) {
+                //status is not "en cours"
+                $this->addFlash('danger', 'Seuls les dons en cours peuvent changer de statut');
+                return $this->redirectToRoute('user_account');
+            }
+
+            //control if user allowed to canceled
             if (
-                $donation->getBeneficiary() !== $this->getUser()
-                && $donation->getSeedBatch()->getOwner() !== $this->getUser()
+                $donation->getBeneficiary() !== $user
+                && $donation->getSeedBatch()->getOwner() !== $user
             ) {
                 //connected user is neither beneficiary or owner
                 $this->addFlash('danger', 'Seuls le bénéficiaire ou le donateur sont autorisés à changer de statut');
                 return $this->redirectToRoute('user_account');
             }
-        }
 
-        $donation->setStatus(Donation::STATUS[2]);
-        $this->entityManager->flush($donation);
-        $this->addFlash(
-            'success',
-            'Le statut du don a bien été mis à jour, le lot est de nouveau disponible dans la grainothèque'
-        );
+            $donation->setStatus(Donation::STATUS[2]);
+            $this->entityManager->flush($donation);
+            $this->addFlash(
+                'success',
+                'Le statut du don a bien été mis à jour, le lot est de nouveau disponible dans la grainothèque'
+            );
 
-        //send an email to the other user
-        if ($this->getUser() === $donation->getBeneficiary()) {
-            //user is beneficiary, alert owner by mail
-            $addressee = $donation->getSeedBatch()->getOwner();
+            //send an email to the other user
+            if ($user === $donation->getBeneficiary()) {
+                //user is beneficiary, alert owner by mail
+                $addressee = $donation->getSeedBatch()->getOwner();
+            }
+            if ($user === $donation->getSeedBatch()->getOwner()) {
+                //user is owner, alert beneficiary by mail
+                $addressee = $donation->getBeneficiary();
+            }
+            $this->mailerManager->sendDonationCanceled(
+                $addressee,
+                $donation
+            );
         }
-        if ($this->getUser() === $donation->getSeedBatch()->getOwner()) {
-            //user is owner, alert beneficiary by mail
-            $addressee = $donation->getBeneficiary();
-        }
-        $this->mailerManager->sendDonationCanceled(
-            $addressee,
-            $donation
-        );
         return $this->redirectToRoute('user_account');
     }
 
