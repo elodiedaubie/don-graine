@@ -18,8 +18,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[IsGranted('ROLE_USER')]
 class UserAccountController extends AbstractController
 {
-    public SeedBatchRepository $seedBatchRepository;
-    public DonationRepository $donationRepository;
+    private SeedBatchRepository $seedBatchRepository;
+    private DonationRepository $donationRepository;
 
     public function __construct(
         SeedBatchRepository $seedBatchRepository,
