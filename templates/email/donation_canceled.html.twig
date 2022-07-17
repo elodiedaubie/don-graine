@@ -1,0 +1,12 @@
+<h1>Désolé.e, votre don est annulé</h1>
+
+<p>Votre interlocuteur.rice a finalement annulé le don</p>
+
+<h2>Informations sur le lot de graines concerné</h2>
+    <ul>
+        <li>Nom de la plante : {{ donation.seedBatch.plant.name }} </li>
+        <li>Nombre de graines: {{ donation.seedBatch.seedQuantity }}</li>
+        <li>Qualité : {{ donation.seedBatch.quality.name }} </li>
+    </ul>
+
+<p>Merci pour votre générosité et à bientôt sur <a href="{{ path('home') }}"> Graines en l'air!</a></p>

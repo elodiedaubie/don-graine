@@ -110,8 +110,18 @@ class DonationController extends AbstractController
             'success',
             'Le statut du don a bien été mis à jour, le lot est de nouveau disponible dans la grainothèque'
         );
-        $this->mailerManager->sendDonationCompleted(
-            $donation->getSeedBatch()->getOwner(),
+
+        //send an email to the other user
+        if ($this->getUser() === $donation->getBeneficiary()) {
+            //user is beneficiary, alert owner by mail
+            $addressee = $donation->getSeedBatch()->getOwner();
+        }
+        if ($this->getUser() === $donation->getSeedBatch()->getOwner()) {
+            //user is owner, alert beneficiary by mail
+            $addressee = $donation->getBeneficiary();
+        }
+        $this->mailerManager->sendDonationCanceled(
+            $addressee,
             $donation
         );
         return $this->redirectToRoute('user_account');
