@@ -27,13 +27,16 @@ class RegistrationController extends AbstractController
 {
     private EmailVerifier $emailVerifier;
     private MailerManager $mailerManager;
+    private UserRepository $userRepository;
 
     public function __construct(
         EmailVerifier $emailVerifier,
         MailerManager $mailerManager,
+        UserRepository $userRepository
     ) {
         $this->emailVerifier = $emailVerifier;
         $this->mailerManager = $mailerManager;
+        $this->userRepository = $userRepository;
     }
 
     #[Route('/inscription', name: 'register')]
@@ -41,7 +44,6 @@ class RegistrationController extends AbstractController
         Request $request,
         UserPasswordHasherInterface $userPasswordHasher,
         EntityManagerInterface $entityManager,
-        UserRepository $userRepository
     ): Response {
 
         //route not accessible to logged users
@@ -64,7 +66,7 @@ class RegistrationController extends AbstractController
             //get form username to control if it already exists in DB
             $username = $form->getNormData()->getUsername();
 
-            if (!$userRepository->findOneBy(['username' => $username])) {
+            if (!$this->userRepository->findOneBy(['username' => $username])) {
                 //there is no user with same username, create the new user
                 $user->setCreatedAt(new DateTimeImmutable());
                 $entityManager->persist($user);
@@ -93,8 +95,7 @@ class RegistrationController extends AbstractController
     #[Route('/verify/email', name: 'app_verify_email')]
     public function verifyUserEmail(
         Request $request,
-        TranslatorInterface $translator,
-        UserRepository $userRepository
+        TranslatorInterface $translator
     ): Response {
         $id = $request->get('id');
 
@@ -102,7 +103,7 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('register');
         }
 
-        $user = $userRepository->find($id);
+        $user = $this->userRepository->find($id);
 
         if (null === $user) {
             return $this->redirectToRoute('register');
