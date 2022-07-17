@@ -5,4 +5,25 @@
 {% block bodyclass %}'admin'{% endblock %}
 
 {% block body %}
+
+    <h1 class="text-center mb-5">Panneau d'administration</h1>
+    <section class="container d-flex flex-column flex-xl-row justify-content-between gap-4">
+        {#Admin account#}
+            {% include "components/_user_profile.html.twig" %}
+        {#Statistics#}
+        <div class="card bg-white shadow p-2 ps-3 w-100">
+            <h2 class="mb-6">Quelques <span class="text-primary">chiffres</span></h2>
+            <ul class="container d-flex flex-column flex-xl-row justify-content-around h3 gap-6">
+                <li>Dons en cours: </li>
+                <li>Dons annulés: </li>
+                <li>Dons en terminés: </li>
+                <li>Lots disponibles:</li>
+            </ul>
+        </div>
+    </section>
+    {#Users accounts#}
+    <section class="container bg-white shadow p-2 ps-3 mt-4">
+
+    </section>
+
 {% endblock %}
