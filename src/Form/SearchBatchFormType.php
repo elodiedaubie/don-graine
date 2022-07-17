@@ -12,7 +12,9 @@ class SearchBatchFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('search', SearchType::class)
+            ->add('search', SearchType::class, [
+                'attr' => ['placeholder' => 'Recherche par nom de plante 🔍'],
+            ])
         ;
     }
 
