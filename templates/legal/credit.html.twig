@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Conditions générales d'utilisation{% endblock %}
+
+{% block bodyclass %}'legal'{% endblock %}
+
+{% block body %}
+    <section class="container mt-9">
+        <h1 class="text-center mb-9">Mentions <span class="text-info">légales</span></h1>
+            <h2 class="text-primary mt-4 fs-2">Photos</h2>
+            <p>Toutes les photos sont libres de droit et libres d'utilisation, téléchargeables sur la plateforme <a href="https://www.pexels.com/fr-FR/license/">pexels</a>.</p>
+            <p>Sources des photos: </p>
+            <ul>
+                <li>La photo de la page <a href="{{ path('home') }}"> d'accueil</a> a été réalisée par <a href="https://www.pexels.com/fr-fr/@rodnae-prod/">RODNAE Productions</a></li>
+                <li>La photo de la page permettant <a href="{{ path('seed_batch_add') }}">d'ajouter un don</a> a été réalisée par <a href="https://www.https://www.pexels.com/fr-fr/@padrinan/">Miguel Á. Padriñán</a></li>
+                <li>La photo de la <a href="{{ path('seed_batch_show') }}">grainothèque</a> a été réalisée par <a href="https://www.pexels.com/fr-fr/@brunoscramgnon/">Bruno Scramgnon</a></li>
+                <li>La photo du <a href="{{ path('user_account') }}">compte utilisateur</a> a été réalisée par <a href="https://www.pexels.com/fr-fr/@polina-tankilevitch/">Polina Tankilevitch</a></li>
+            </ul>
+            <h2 class="text-primary mt-9 fs-2">Pictogrammes</h2>
+            <p>Tous les pictogrammes sont libres de droit et libres d'utilisation, téléchargeables sur la plateforme <a href="https://www.flaticon.com/">flaticon</a></p>
+            <p>Les pictogrammes ont été réalisé par <a href="https://www.flaticon.com/fr/auteurs/pixartist/circular">PIXARTIST</a></p>
+    </section>
+{% endblock %}

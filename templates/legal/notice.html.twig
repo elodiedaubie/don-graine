@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Conditions générales d'utilisation{% endblock %}
+
+{% block bodyclass %}'legal'{% endblock %}
+
+{% block body %}
+    <section class="container mt-9">
+        <h1 class="text-center mb-9">Conditions Générales <span class="text-info">d'utilisation</span></h1>
+        {% for i in 0..5 %}
+            <h2 class="text-secondary mt-4">Article {{ i }}</h2>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum sit nam ipsum voluptatibus tenetur error, molestias quibusdam officiis eveniet deserunt inventore vitae dolorum hic, vero reprehenderit eligendi porro saepe autem.</p>
+        {% endfor %}
+    </section>
+{% endblock %}

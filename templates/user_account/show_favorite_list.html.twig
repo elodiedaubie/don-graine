@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes dons{% endblock %}
+
+{% block bodyclass %}'dashboard'{% endblock %}
+
+{% block body %}
+
+    <section class="container bg-white shadow p-5 pt-2">
+        <div class="d-flex flex-column flex-xl-row justify-content-between align-items-center">
+            <h1 class="pb-3 pt-3">Mes <span class="text-danger">favoris</span></h1>
+        </div>
+        <div class="container d-flex flex-column flex-xl-row flex-xl-wrap gap-3 mt-5 mb-5">
+            {% if favorite_list is empty %}
+                <p>Vous n'avez pas de favoris</p>
+            {% endif %}
+            {% for seed_batch in favorite_list %}
+                <div class="custom-card">
+                    {% include "components/_available_batch_card.html.twig" %}
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+{% endblock %}

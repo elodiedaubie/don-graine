@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Don en cours{% endblock %}
+
+{% block bodyclass %}'dashboard'{% endblock %}
+
+{% block body %}
+
+<h1 class="pb-3 pt-3 ps-5">Mon <span class="text-primary">Compte</span></h1>
+<section class="container-fluid d-inline-flex flex-direction-between flex-wrap flex-xl-nowrap gap-4 p-9">
+    {#Donation details#}
+    <div class="container bg-white shadow p-5">
+      <div class="d-flex gap-3 justify-content-between mb-4">
+          <h2>Don de: <span class="text-success">{{ donation.seedBatch.plant.name }}</span></h2>
+          {% if donation.status == "En cours" %}
+            <p class="text-danger h2">{{ donation.status }}</p>
+          {% elseif donation.status == "Finalisé" %}
+            <p class="text-info h2">{{ donation.status }}</p>
+          {% elseif donation.status == "Annulé" %}
+            <p class="text-primary h2">{{ donation.status }}</p>
+          {% endif %}
+      </div>
+      <ul class="lh-lg">
+          <li><span class="fw-bold">Qualité:</span> graines {{ donation.seedBatch.quality.name }}</li>
+          <li><span class="fw-bold">Détail:</span> lot de {{ donation.seedBatch.seedQuantity }} graines</li>
+          <li><span class="fw-bold">Demandé le:</span> {{ donation.createdAt|date("d/m/Y") }}</li>
+          {% if app.user == donation.beneficiary %}
+              <li><span class="fw-bold">Donataire:</span> {{ donation.seedBatch.owner.userName }}</li>
+              <li><span class="fw-bold">Mail:</span> {{ donation.seedBatch.owner.email }}</li>
+          {% else %}
+              <li><span class="fw-bold">Bénéficiaire:</span> {{ donation.beneficiary.userName }}</li>
+              <li><span class="fw-bold">Mail:</span> {{ donation.beneficiary.email }}</li>
+          {% endif %}
+      </ul>
+      <div class="d-flex gap-3 justify-content-center mt-5">
+          {% if donation.status == "En cours" %}
+            <a href="{{ path('donation_cancel', {id: donation.id}) }}"><button class="button btn-outline-dark">Annuler le don</button></a>
+          {% endif %}
+          {% if app.user == donation.beneficiary and donation.status == "En cours" %}
+            <a href="{{ path('donation_finalise', {id: donation.id}) }}"><button class="button btn-dark ps-6 pe-6">Don reçu</button></a>
+          {% endif %}
+      </div>
+    </div>
+    {#Instructions#}
+    <div class="container bg-white shadow p-2 p-5">
+        <div class="accordion accordion-flush" id="accordion">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button collapsed h2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                  Comment gérer le don
+                </button>
+              </h2>
+              <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordion">
+                <div class="accordion-body">
+                    <p>Contactez votre interlocuteur par email pour convenir d’un rendez-vous.</p>
+                    <p>Une fois l’échange réalisé, le bénéficiaire indique que le don est reçu sur la plateforme.</p>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingTwo">
+                <button class="accordion-button collapsed h2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    Comment annuler le don
+                </button>
+              </h2>
+              <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordion">
+                <div class="accordion-body">
+                    <p> Le bénéficiaire et le donataire peuvent annuler le don tant que l’échange n’est pas réalisé, en mettant à jour le statut de la commande sur cette page.</p>
+                    <p>Un email est envoyé pour confirmer l’annulation.</p>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

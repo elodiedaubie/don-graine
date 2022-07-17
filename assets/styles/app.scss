@@ -82,3 +82,10 @@ a {
         width: 5.5em;
     }
 }
+
+/*Change display of bootsrap accordion*/
+.accordion-button:not(.collapsed) {
+    color: $dark;
+    background-color: white;
+    box-shadow: none;
+}

@@ -52,15 +52,16 @@ class SeedBatch
     #[ORM\JoinColumn(nullable: false)]
     private Quality $quality;
 
-    #[ORM\Column(type: 'boolean')]
-    private bool $isAvailable = true;
-
     #[ORM\OneToMany(mappedBy: 'seedBatch', targetEntity: Donation::class)]
-    private $donations;
+    private Collection $donations;
+
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'favoriteList')]
+    private Collection $favoriteOwners;
 
     public function __construct()
     {
         $this->donations = new ArrayCollection();
+        $this->favoriteOwners = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -116,18 +117,6 @@ class SeedBatch
         return $this;
     }
 
-    public function isIsAvailable(): ?bool
-    {
-        return $this->isAvailable;
-    }
-
-    public function setIsAvailable(bool $isAvailable): self
-    {
-        $this->isAvailable = $isAvailable;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Donation>
      */
@@ -156,5 +145,45 @@ class SeedBatch
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getFavoriteOwners(): Collection
+    {
+        return $this->favoriteOwners;
+    }
+
+    public function addFavoriteOwner(User $favoriteOwner): self
+    {
+        if (!$this->favoriteOwners->contains($favoriteOwner)) {
+            $this->favoriteOwners[] = $favoriteOwner;
+        }
+
+        return $this;
+    }
+
+    public function removeFavoriteOwner(User $favoriteOwner): self
+    {
+        $this->favoriteOwners->removeElement($favoriteOwner);
+
+        return $this;
+    }
+
+    //if there is a least one going donation or canceled for this batch , return false
+    //if there is only canceled donations, return true
+    public function isAvailable(): bool
+    {
+        foreach ($this->getDonations() as $donation) {
+            if (
+                $donation->getStatus() === Donation::STATUS[0]
+                || $donation->getStatus() === Donation::STATUS[1]
+            ) {
+                //there is already an active donation for this batch
+                return false;
+            }
+        }
+        return true;
     }
 }

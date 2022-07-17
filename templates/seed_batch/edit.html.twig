@@ -1,0 +1,33 @@
+{% extends 'base.form.html.twig' %}
+{% block title %}Donner{% endblock %}
+{% block bodyclass %}'seed-batch'{% endblock %}
+{% block pictosource %}"{{ asset('build/images/pictos/picto-give.png') }}"{% endblock %}
+{% block h1 %}Modifier mon <span class="text-info">lot de graines</span>{% endblock %}
+{% block form %}
+    {{ form_start(editSeedBatchForm) }}
+        {{ form_label(editSeedBatchForm.plant) }}
+        {{ form_widget(editSeedBatchForm.plant) }}
+        {{ form_errors(editSeedBatchForm.plant) }}
+
+        <div class="d-flex flex-column flex-lg-row justify-content-between gap-2 mt-1">
+            <div>
+                <div class="d-inline-flex align-items-baseline gap-2">
+                    {{ form_label(editSeedBatchForm.seedQuantity) }}
+                    <a data-bs-toggle="tooltip" data-bs-placement="auto" title="De 5 à 25 graines">
+                        <i class="bi bi-info-circle-fill"></i>
+                    </a>
+                </div>
+                {{ form_widget(editSeedBatchForm.seedQuantity) }}
+                {{ form_errors(editSeedBatchForm.seedQuantity) }}
+            </div>
+        </div>
+            {{ form_label(editSeedBatchForm.quality) }}
+            {{ form_widget(editSeedBatchForm.quality) }}
+            {{ form_errors(editSeedBatchForm.quality) }}
+        </div>
+
+        <div class="container d-flex justify-content-center mt-5">
+            <button type="submit" class="btn btn-dark btn-lg">Modifier</button>
+        </div>
+    {{ form_end(editSeedBatchForm) }}
+{% endblock %}

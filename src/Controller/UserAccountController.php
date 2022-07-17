@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Donation;
 use App\Form\EditUserFormType;
 use App\Repository\DonationRepository;
 use App\Repository\SeedBatchRepository;
@@ -17,8 +18,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[IsGranted('ROLE_USER')]
 class UserAccountController extends AbstractController
 {
-    public SeedBatchRepository $seedBatchRepository;
-    public DonationRepository $donationRepository;
+    private SeedBatchRepository $seedBatchRepository;
+    private DonationRepository $donationRepository;
 
     public function __construct(
         SeedBatchRepository $seedBatchRepository,
@@ -28,6 +29,7 @@ class UserAccountController extends AbstractController
         $this->donationRepository = $donationRepository;
     }
 
+    //get Available Batches for a specific user
     private function getAvailableBatches(User $user): array
     {
         $userBatches = $this->seedBatchRepository->findByOwner($user, ['id' => 'DESC']);
@@ -35,7 +37,7 @@ class UserAccountController extends AbstractController
 
         if (!empty($userBatches)) {
             foreach ($userBatches as $userBatch) {
-                if ($userBatch->isIsAvailable()) {
+                if ($userBatch->isAvailable()) {
                     //get available seed batches only
                     $availableBatches[] = $userBatch;
                 }
@@ -71,7 +73,8 @@ class UserAccountController extends AbstractController
             'user' => $user,
             'available_batches' =>  $this->getAvailableBatches($user),
             'requested_donations' => $this->donationRepository->findByBeneficiary($user, ['createdAt' => 'DESC']),
-            'donations' => $this->getDonations($user)
+            'donations' => $this->getDonations($user),
+            'favorite_list' =>  $user->getFavoriteList()
         ]);
     }
 
@@ -138,6 +141,27 @@ class UserAccountController extends AbstractController
 
         return $this->render('user_account/show_available_batches.html.twig', [
             'available_batches' =>  $this->getAvailableBatches($user),
+        ]);
+    }
+
+    #[Route('/mes-favoris', name: '_favorite')]
+    public function showFavoriteList(): Response
+    {
+        //check if there is an instance of User
+        if ($this->getUser() && $this->getUser() instanceof User) {
+            $user = $this->getUser();
+        }
+
+        return $this->render('user_account/show_favorite_list.html.twig', [
+            'favorite_list' =>  $user->getFavoriteList(),
+        ]);
+    }
+
+    #[Route('/don/{id}', name: '_donation', requirements: ['id' => '\d+'])]
+    public function showDonation(Donation $donation): Response
+    {
+        return $this->render('user_account/show_donation.html.twig', [
+            'donation' => $donation
         ]);
     }
 }
