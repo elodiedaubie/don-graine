@@ -70,8 +70,23 @@ class UserFixtures extends Fixture
             $manager->persist($user);
             $this->addReference('newcomer_' . $i, $user);
         }
-        //insert all users in DB at the same time
 
+        //create an admin
+        $user = new User();
+        $user->setEmail('admin@mail.com');
+        $user->setRoles(['ROLE_ADMIN']);
+        $hashedPassword = $this->passwordHasher->hashPassword(
+            $user,
+            'adminpaSSword!1'
+        );
+        $user->setPassword($hashedPassword);
+        $user->setUsername('admin');
+        $user->setCreatedAt(new DateTimeImmutable());
+        $user->isVerified(true);
+        $manager->persist($user);
+        $this->addReference('newcomer_' . $i, $user);
+
+        //insert all users in DB at the same time
         $manager->flush();
     }
 }
