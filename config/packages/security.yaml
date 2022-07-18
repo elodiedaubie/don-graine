@@ -19,6 +19,7 @@ security:
             form_login:
                 login_path: login
                 check_path: login
+                enable_csrf: true
             #basic protection against brute force attack. Allow only 5 loggin failed attempts/per mn with same IP
             login_throttling:
                 max_attempts: 3
@@ -26,9 +27,7 @@ security:
             logout:
                 path: logout
                 target: login
-        secured_area:
-            form_login:
-                enable_csrf: true
+
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
 

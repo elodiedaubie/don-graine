@@ -34,7 +34,7 @@ class UserFixtures extends Fixture
             $user->setPassword($hashedPassword);
             $user->setUsername('jane' . $i);
             $user->setCreatedAt(new DateTimeImmutable());
-            $user->isVerified(true);
+            $user->setIsVerified(true);
             $manager->persist($user);
             $this->addReference('owner_' . $i, $user);
         }
@@ -50,7 +50,7 @@ class UserFixtures extends Fixture
             $user->setPassword($hashedPassword);
             $user->setUsername('john' . $i);
             $user->setCreatedAt(new DateTimeImmutable());
-            $user->isVerified(true);
+            $user->setIsVerified(true);
             $manager->persist($user);
             $this->addReference('beneficiary_' . $i, $user);
         }
@@ -66,7 +66,7 @@ class UserFixtures extends Fixture
             $user->setPassword($hashedPassword);
             $user->setUsername('sam' . $i);
             $user->setCreatedAt(new DateTimeImmutable());
-            $user->isVerified(true);
+            $user->setIsVerified(true);
             $manager->persist($user);
             $this->addReference('newcomer_' . $i, $user);
         }
@@ -82,7 +82,7 @@ class UserFixtures extends Fixture
         $user->setPassword($hashedPassword);
         $user->setUsername('admin');
         $user->setCreatedAt(new DateTimeImmutable());
-        $user->isVerified(true);
+        $user->setIsVerified(true);
         $manager->persist($user);
         $this->addReference('newcomer_' . $i, $user);
 
