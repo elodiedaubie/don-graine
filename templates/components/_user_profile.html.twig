@@ -8,6 +8,10 @@
     </div>
     <div class="container d-flex gap-2 justify-content-center">
       <a href="{{ path('user_account_edit') }}"><button class="btn btn-dark">modifier</button></a>
-      <button class="btn btn-outline-dark">supprimer</button>
+      {% if app.user %}
+        {% if "ROLE_ADMIN" not in app.user.roles %}
+          <button class="btn btn-outline-dark">supprimer</button>
+        {% endif %}
+      {% endif %}
     </div>
   </div>
