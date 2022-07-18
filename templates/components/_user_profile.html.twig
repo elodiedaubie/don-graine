@@ -10,7 +10,7 @@
       <a href="{{ path('user_account_edit') }}"><button class="btn btn-dark">modifier</button></a>
       {% if app.user %}
         {% if "ROLE_ADMIN" not in app.user.roles %}
-          <button class="btn btn-outline-dark">supprimer</button>
+          <a href="{{ path('user_account_delete') }}"><button class="btn btn-outline-dark">supprimer</button></a>
         {% endif %}
       {% endif %}
     </div>

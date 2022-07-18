@@ -13,6 +13,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 #[Route('/mon-compte', name: 'user_account')]
 #[IsGranted('ROLE_USER')]
@@ -20,13 +22,16 @@ class UserAccountController extends AbstractController
 {
     private SeedBatchRepository $seedBatchRepository;
     private DonationRepository $donationRepository;
+    private EntityManagerInterface $entityManager;
 
     public function __construct(
         SeedBatchRepository $seedBatchRepository,
-        DonationRepository $donationRepository
+        DonationRepository $donationRepository,
+        EntityManagerInterface $entityManager
     ) {
         $this->seedBatchRepository = $seedBatchRepository;
         $this->donationRepository = $donationRepository;
+        $this->entityManager = $entityManager;
     }
 
     //get Available Batches for a specific user
@@ -103,6 +108,20 @@ class UserAccountController extends AbstractController
         return $this->render('user_account/edit_user.html.twig', [
             "editUserForm" => $form->createView()
         ]);
+    }
+
+    #[Route('/supprimer', name: '_delete')]
+    public function delete(
+        Request $request,
+        TokenStorageInterface $tokenStorage
+    ) {
+        $user = $this->getUser();
+        $this->entityManager->remove($user);
+        $this->entityManager->flush();
+        $request->getSession()->invalidate();
+        $tokenStorage->setToken();
+        $this->addFlash('success', 'votre compte a bien été supprimé');
+        return $this->redirectToRoute('home');
     }
 
     #[Route('/mes-demandes', name: '_requests')]
