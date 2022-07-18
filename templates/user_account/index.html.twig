@@ -10,19 +10,7 @@
   <section class="container-fluid d-flex flex-wrap flex-xl-nowrap ps-5 pe-5 gap-3">
     <div class="d-flex flex-column gap-4 w-100">
       {#User Profile#}
-      <div class="container bg-white p-2 pb-4 shadow ">
-        <h2 class="ps-2">Mon <span class ="text-info">profil</span></h2>
-        <div class="d-flex flex-column align-items-center p-3">
-            <div>
-                <p><span class="h3">Pseudo : </span>{{ user.username }}</p>
-                <p><span class="h3">Email : </span> {{ user.email }}</p>
-            </div>
-        </div>
-        <div class="container d-flex gap-2 justify-content-center">
-          <a href="{{ path('user_account_edit') }}"><button class="btn btn-dark">modifier</button></a>
-          <button class="btn btn-outline-dark">supprimer</button>
-        </div>
-      </div>
+      {% include "components/_user_profile.html.twig" %}
       {#User Favorites#}
       <div class="container bg-white p-2 pb-9 shadow">
           <h2 class="mb-4">Mes <span class ="text-danger">favoris</span></h2>

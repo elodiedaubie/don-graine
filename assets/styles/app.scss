@@ -66,6 +66,8 @@ a {
 }
 
 .btn-outline-dark {
+    background-color: #ffffff;
+    
     &:hover {
         background-color: #ffffff;
         color: $dark;
@@ -88,4 +90,8 @@ a {
     color: $dark;
     background-color: white;
     box-shadow: none;
+}
+
+ul {
+    list-style-type: none;
 }

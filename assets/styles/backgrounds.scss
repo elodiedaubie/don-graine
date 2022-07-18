@@ -46,6 +46,7 @@
 .seedbank {
     background-image: url('../images/pictures/seedbank-background.jpg');
     width: 100%;
+    
     background-position: top;
 }
 
@@ -57,4 +58,11 @@
         width: 100%;
         background-position: top;
     }
+}
+
+.admin {
+    background-image: url('../images/pictures/admin-background.jpg');
+    background-size: cover;
+    width: 100%;
+    background-position: top;
 }

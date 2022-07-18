@@ -27,26 +27,31 @@
                     </button>
                     <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                         <div class="navbar-nav d-flex ms-5">
-                            <div class="nav-item d-flex">
+                            <div class="nav-item">
                                 <a class="nav-link active" aria-current="page" href="{{ path('understand') }}">Comprendre</a>
                             </div>
-                            <div class="nav-item d-flex">
+                            <div class="nav-item">
                                 <a class="nav-link active" aria-current="page" href="{{ path('seed_batch_add') }}">Donner</a>
                             </div>
-                            <div class="nav-item d-flex">
+                            <div class="nav-item">
                                 <a class="nav-link active" aria-current="page" href="{{ path('seed_batch_show') }}">Recevoir</a>
                             </div>
                             {% if app.user %}
-                            <div class="nav-item d-flex">
-                                <a class="nav-link active" href="{{ path('user_account') }}">Mon compte</a>
-                            </div>
-                            <div class="nav-item d-flex">
-                                <a class="nav-link active" href="{{ path('logout') }}">Déconnexion</a>
-                            </div>
+                                <div class="nav-item">
+                                    <a class="nav-link active" href="{{ path('user_account') }}">Mon compte</a>
+                                </div>
+                                {% if "ROLE_ADMIN" in app.user.roles %}
+                                    <div class="nav-item">
+                                        <a class="nav-link active" href="{{ path('admin') }}">Administration</a>
+                                    </div>
+                                {% endif %}
+                                <div class="nav-item">
+                                    <a class="nav-link active" href="{{ path('logout') }}">Déconnexion</a>
+                                </div>
                             {% else %}
-                            <div class="nav-item d-flex">
-                                <a class="nav-link active" href="{{ path('login') }}">Connexion</a>
-                            </div>
+                                <div class="nav-item">
+                                    <a class="nav-link active" href="{{ path('login') }}">Connexion</a>
+                                </div>
                             {% endif %}
                         </div>
                     </div>
