@@ -88,9 +88,9 @@ form {
     }
 }
 
-/*Filters display on seedbank*/
+/*Filters display on seedbank and admin*/
 
-.seedbank {
+.seedbank, .admin {
     form {
         display: flex;
         flex-direction: column;
@@ -99,7 +99,7 @@ form {
 }
 
 @media screen and (min-width: 992px) {
-    .seedbank {
+    .seedbank, .admin {
         form {
             flex-direction: row;
             padding: 0rem 4rem;
