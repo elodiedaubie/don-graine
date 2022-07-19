@@ -14,7 +14,7 @@
             {% if favoriteList is empty %}
                 <p>Vous n'avez pas de favoris</p>
             {% endif %}
-            {% for seed_batch in favoriteList %}
+            {% for seedBatch in favoriteList %}
                 <div class="custom-card">
                     {% include "components/_available_batch_card.html.twig" %}
                 </div>
