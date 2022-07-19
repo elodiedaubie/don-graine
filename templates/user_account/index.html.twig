@@ -12,7 +12,7 @@
       {#User Profile#}
       {% include "components/_user_profile.html.twig" %}
       {#User Favorites#}
-      <div class="container bg-white p-2 pb-9 shadow">
+      <div class="container bg-white p-4 pb-9 shadow">
           <h2 class="mb-4">Mes <span class ="text-danger">favoris</span></h2>
           <div class="d-flex flex-column gap-5 p-4">
             {% if favoriteList is empty %}
@@ -31,7 +31,7 @@
       </div>
     </div>
     {#Donations requested by User#}
-      <div class="container bg-white p-2 pb-4 shadow">
+      <div class="container bg-white p-4 shadow">
         <h2 class="pb-4">Mes <span class ="text-success">demandes</span></h2>
           <div class="d-flex flex-column gap-4">
             {% if requestedDonations is empty %}
@@ -53,7 +53,7 @@
         </div>
       </div>
       {#Donations made by User#}
-      <div class="container bg-white p-2 pb-4 shadow">
+      <div class="container bg-white p-4 shadow">
         <h2 class="pb-4">Mes <span class ="text-primary">dons</span></h2>
         <div class="d-flex flex-column gap-4">
           {% if donations is empty %}
@@ -71,7 +71,7 @@
         </div>
       </div>
       {#user seed batches available#}
-      <div class="container bg-white p-2 pb-4 shadow">
+      <div class="container bg-white p-4 shadow">
         <h2 class="pb-4">Mes graines <span class ="text-info">à donner</span></h2>
         <div class="d-flex flex-column gap-4">
           {% if availableBatches is empty %}
