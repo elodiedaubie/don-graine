@@ -1,23 +1,23 @@
 <div class="card shadow border-secondary border-1 p-2 ps-3 pe-3">
     <div class="card-header bg-white d-flex flex-column" >
         <div class="d-inline-flex justify-content-between align-items-center">
-            <h2>{{ seed_batch.plant.name }}</h2>
-            <img src= "{{ asset("build/images/pictos/" ~ seed_batch.plant.purpose.picto) }}" alt="picto {{ seed_batch.plant.purpose.name }}" width="60">
+            <h2>{{ seedBatch.plant.name }}</h2>
+            <img src= "{{ asset("build/images/pictos/" ~ seedBatch.plant.purpose.picto) }}" alt="picto {{ seedBatch.plant.purpose.name }}" width="60">
         </div>
         <div class="d-inline-flex justify-content-between align-items-center">
-            <a href="{{ path("seed_batch_favorite", {'id': seed_batch.id}) }}">
-                <i class="bi {{ app.user.hasInFavorites(seed_batch) ? 'bi-heart-fill' : 'bi-heart' }} text-danger fs-2"></i>
+            <a href="{{ path("seed_batch_favorite", {'id': seedBatch.id}) }}">
+                <i class="bi {{ app.user.hasInFavorites(seedBatch) ? 'bi-heart-fill' : 'bi-heart' }} text-danger fs-2"></i>
             </a>
-            <p class="h4 fw-bold mb-0 =">{{ seed_batch.plant.purpose.name }}</p>
+            <p class="h4 fw-bold mb-0 =">{{ seedBatch.plant.purpose.name }}</p>
         </div>
     </div>
     <div class="card-body">
-        <h3 class="card-title mb-4">{{ seed_batch.quality.name }}</h3>
-        <p class="card-text">Lot de <span class="fw-bold">{{ seed_batch.seedQuantity }}</span> graines</p>
-        <p class="card-text">Donné par {{ seed_batch.owner.userName }}</p>
+        <h3 class="card-title mb-4">{{ seedBatch.quality.name }}</h3>
+        <p class="card-text">Lot de <span class="fw-bold">{{ seedBatch.seedQuantity }}</span> graines</p>
+        <p class="card-text">Donné par {{ seedBatch.owner.userName }}</p>
         <div class="d-flex justify-content-center pt-3">
-            {% if app.user != seed_batch.owner  %}
-            <a href="{{ path('donation_add', {'id': seed_batch.id}) }}">
+            {% if app.user != seedBatch.owner  %}
+            <a href="{{ path('donation_add', {'id': seedBatch.id}) }}">
                 <button class="btn btn-dark">Demander</button>
             </a>
             {% endif %}

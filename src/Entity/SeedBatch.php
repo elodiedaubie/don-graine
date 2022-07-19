@@ -186,17 +186,4 @@ class SeedBatch
         }
         return true;
     }
-
-    //if there is a least one going donation in progress return true
-    //if there is only canceled or terminated donations, return false
-    public function hasDonationInProgress(): bool
-    {
-        foreach ($this->getDonations() as $donation) {
-            if ($donation->getStatus() === Donation::STATUS[0]) {
-                //there is already an active donation for this batch
-                return true;
-            }
-        }
-        return false;
-    }
 }
