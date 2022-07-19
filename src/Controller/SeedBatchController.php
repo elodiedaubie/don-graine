@@ -47,7 +47,7 @@ class SeedBatchController extends AbstractController
     /*
     * Show available seed batches in seedbank
     */
-    #[Route('/', name: '_show')]
+    #[Route('/', methods: ['GET'], name: '_show')]
     public function index(
         SeedBatchRepository $seedBatchRepository,
         Request $request
@@ -84,7 +84,7 @@ class SeedBatchController extends AbstractController
     /**
      * Handle add seed batch form
      */
-    #[Route('/donner', name: '_add')]
+    #[Route('/donner', methods: ['GET', 'POST'], name: '_add')]
     public function addSeedBatch(Request $request): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -131,7 +131,7 @@ class SeedBatchController extends AbstractController
     /**
      * edit a seed batch for owners
      */
-    #[Route('/{id}/modifier', name: '_edit', requirements: ['id' => '\d+'])]
+    #[Route('/{id}/modifier', methods: ['GET', 'POST'], name: '_edit', requirements: ['id' => '\d+'])]
     public function editSeedBatch(
         Request $request,
         SeedBatch $seedBatch
@@ -178,7 +178,7 @@ class SeedBatchController extends AbstractController
     /**
      * delete a seed batch for owner
      */
-    #[Route('/{id}/supprimer', name: '_delete', requirements: ['id' => '\d+'])]
+    #[Route('/{id}/supprimer', methods: ['GET'], name: '_delete', requirements: ['id' => '\d+'])]
     public function deleteSeedBatch(
         SeedBatch $seedBatch
     ): Response {
@@ -208,7 +208,7 @@ class SeedBatchController extends AbstractController
         return $this->redirectToRoute('user_account');
     }
 
-    #[Route('/{id}/favorite/', name: '_favorite', requirements: ['id' => '\d+'], methods: ["GET"])]
+    #[Route('/{id}/favorite/', methods: ["GET"], name: '_favorite', requirements: ['id' => '\d+'])]
     public function handleFavoriteList(SeedBatch $seedBatch): Response
     {
         if ($this->getUser() !== null) {

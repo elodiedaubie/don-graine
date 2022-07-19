@@ -35,7 +35,7 @@ class RegistrationController extends AbstractController
         $this->userRepository = $userRepository;
     }
 
-    #[Route('/inscription', name: 'register')]
+    #[Route('/inscription', methods: ['GET', 'POST'], name: 'register')]
     public function register(
         Request $request,
         UserPasswordHasherInterface $userPasswordHasher,

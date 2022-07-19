@@ -13,7 +13,7 @@ class LoginController extends AbstractController
     /**
      * Render the login form. Request is handle by the form_login authentificator enable in security.yaml
      */
-    #[Route('/connexion', name: 'login')]
+    #[Route('/connexion', methods: ['GET', 'POST'], name: 'login')]
     public function index(AuthenticationUtils $authenticationUtils): Response
     {
         //route not accessible to logged users
@@ -33,7 +33,7 @@ class LoginController extends AbstractController
         ]);
     }
 
-    #[Route('/logout', name: 'logout', methods: ['GET'])]
+    #[Route('/logout', methods: ['GET'], name: 'logout')]
     public function logout(): void
     {
         // controller can be blank: it will never be called, logout is handled in security.yaml

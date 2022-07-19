@@ -32,7 +32,7 @@ class UserAccountController extends AbstractController
     /**
      * Send variables do user dashboard
      */
-    #[Route('/', name: '')]
+    #[Route('/', methods: ['GET'], name: '')]
     public function index(): Response
     {
         if ($this->getUSer() && $this->getUSer() instanceof User) {
@@ -51,7 +51,7 @@ class UserAccountController extends AbstractController
     /**
      * Edit user account
      */
-    #[Route('/modifier', name: '_edit')]
+    #[Route('/modifier', methods: ['GET', 'POST'], name: '_edit')]
     public function edit(Request $request): Response
     {
         //check if there is an instance of User
@@ -78,7 +78,7 @@ class UserAccountController extends AbstractController
     /**
      * Delete user account
      */
-    #[Route('/supprimer', name: '_delete')]
+    #[Route('/supprimer', methods: ['GET'], name: '_delete')]
     public function delete(
         Request $request,
         TokenStorageInterface $tokenStorage
@@ -131,7 +131,7 @@ class UserAccountController extends AbstractController
     /**
      * show all seed batches requested by user
      */
-    #[Route('/mes-demandes', name: '_requests')]
+    #[Route('/mes-demandes', methods: ['GET'], name: '_requests')]
     public function showRequests(): Response
     {
         //check if there is an instance of User
@@ -147,7 +147,7 @@ class UserAccountController extends AbstractController
     /**
      * show all seed batches requested TO user
      */
-    #[Route('/mes-dons', name: '_donations')]
+    #[Route('/mes-dons', methods: ['GET'], name: '_donations')]
     public function showDonations(): Response
     {
         //check if there is an instance of User
@@ -163,7 +163,7 @@ class UserAccountController extends AbstractController
     /**
      * show all user's seed batches still available (could have a cenceled donation or more)
      */
-    #[Route('/mon-stock', name: '_available')]
+    #[Route('/mon-stock', methods: ['GET'], name: '_available')]
     public function showAvailableBatches(): Response
     {
         //check if there is an instance of User
@@ -179,7 +179,7 @@ class UserAccountController extends AbstractController
     /**
     * show all user's favorites
     */
-    #[Route('/mes-favoris', name: '_favorite')]
+    #[Route('/mes-favoris', methods: ['GET'], name: '_favorite')]
     public function showFavoriteList(): Response
     {
         //check if there is an instance of User
@@ -195,7 +195,7 @@ class UserAccountController extends AbstractController
     /**
      * Display a single donation
      */
-    #[Route('/don/{id}', name: '_donation', requirements: ['id' => '\d+'])]
+    #[Route('/don/{id}', methods: ['GET'], name: '_donation', requirements: ['id' => '\d+'])]
     public function showDonation(Donation $donation): Response
     {
         return $this->render('user_account/show_donation.html.twig', [
