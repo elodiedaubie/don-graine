@@ -17,9 +17,7 @@
         <p class="card-text">Donné par {{ seedBatch.owner.userName }}</p>
         <div class="d-flex justify-content-center pt-3">
             {% if app.user != seedBatch.owner  %}
-            <a href="{{ path('donation_add', {'id': seedBatch.id}) }}">
-                <button class="btn btn-dark">Demander</button>
-            </a>
+            <a href="{{ path('donation_add', {'id': seedBatch.id}) }}" class="btn btn-dark">Demander</a>
             {% endif %}
         </div>
     </div>

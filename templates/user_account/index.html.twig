@@ -17,74 +17,70 @@
           <div class="d-flex flex-column gap-5 p-4">
             {% if favoriteList is empty %}
             <p class="text-center pt-4">Vous n'avez pas encore de favoris</p>
-            {% else %}
-                <a href="{{ path('user_account_favorite') }}" class="text-center">
-                  <button class="btn btn-outline-dark">voir mes favoris</button>
-                </a>
-            {% endif %}
+              {% else %}
+                  <a href="{{ path('user_account_favorite') }}" class="btn btn-outline-dark">voir mes favoris</a>
+              {% endif %}
           </div>
       </div>
     </div>
     {#Donations requested by User#}
-      <div class="container bg-white p-4 shadow">
-        <h2 class="pb-4">Mes <span class ="text-success">demandes</span></h2>
-          <div class="d-flex flex-column gap-4">
-            {% if requestedDonations is empty %}
-            <div class="container d-flex flex-column gap-4">
-              <p>Vous n'avez pas encore demandé de graines</p>
-              <div class="text-center">
-                <a href="{{ path('seed_batch_show') }}"><button class="btn btn-dark">Demander un lot</button></a>
-              </div>
-            </div>
-            {% else %}
-              {% for requestedDonation in requestedDonations|slice(0, 4) %}
-                  {% include "components/_user_request_card.html.twig" %}
-              {% endfor %}
-              <div class="text-center">
-                <a href="{{ path('user_account_requests') }}"><button class="btn btn-outline-dark">voir plus</button></a>
-              </div>
-            {% endif %}
+    <div class="container bg-white p-4 shadow">
+      <h2 class="pb-4">Mes <span class ="text-success">demandes</span></h2>
+      <div class="d-flex flex-column gap-4">
+        {% if requestedDonations is empty %}
+        <div class="container d-flex flex-column gap-4">
+          <p>Vous n'avez pas encore demandé de graines</p>
+          <div class="text-center">
+            <a href="{{ path('seed_batch_show') }}" class="btn btn-dark">Demander un lot</a>
           </div>
         </div>
+        {% else %}
+          {% for requestedDonation in requestedDonations|slice(0, 4) %}
+              {% include "components/_user_request_card.html.twig" %}
+          {% endfor %}
+          <div class="text-center">
+            <a href="{{ path('user_account_requests') }}" class="btn btn-outline-dark">voir plus</a>
+          </div>
+        {% endif %}
       </div>
-      {#Donations made by User#}
-      <div class="container bg-white p-4 shadow">
-        <h2 class="pb-4">Mes <span class ="text-primary">dons</span></h2>
-        <div class="d-flex flex-column gap-4">
-          {% if donations is empty %}
-            <div class="container">
-              <p>Vous n'avez pas encore de demande de don</p>
-            </div>
-          {% else %}
-            {% for donation in donations|slice(0, 4) %}
-                {% include "components/_user_donation_card.html.twig" %}
-            {% endfor %}
-              <div class="text-center">
-                <a href="{{ path('user_account_donations') }}"><button class="btn btn-outline-dark">voir plus</button></a>
-              </div>
-          {% endif %}
-        </div>
-      </div>
-      {#user seed batches available#}
-      <div class="container bg-white p-4 shadow">
-        <h2 class="pb-4">Mes graines <span class ="text-info">à donner</span></h2>
-        <div class="d-flex flex-column gap-4">
-          {% if availableBatches is empty %}
-            <div class="container d-flex flex-column gap-4">
-              <p>Vous n'avez pas ajouté de lots de graines à donner</p>
-              <div class="text-center">
-                <a href="{{ path('seed_batch_add') }}"><button class="btn btn-dark">Donner un lot</button></a>
-              </div>
-            </div>
-          {% else %}
-            {% for availableBatch in availableBatches|slice(0, 5) %}
-                {% include "components/_user_batch_card.html.twig" %}
-            {% endfor %}
+    </div>
+    {#Donations made by User#}
+    <div class="container bg-white p-4 shadow">
+      <h2 class="pb-4">Mes <span class ="text-primary">dons</span></h2>
+      <div class="d-flex flex-column gap-4">
+        {% if donations is empty %}
+          <div class="container">
+            <p>Vous n'avez pas encore de demande de don</p>
+          </div>
+        {% else %}
+          {% for donation in donations|slice(0, 4) %}
+            {% include "components/_user_donation_card.html.twig" %}
+          {% endfor %}
             <div class="text-center">
-              <a href="{{ path('user_account_available') }}"><button class="btn btn-outline-dark">voir plus</button></a>
+              <a href="{{ path('user_account_donations') }}" class="btn btn-outline-dark">voir plus</a>
             </div>
-          {% endif %}
-        </div>
+        {% endif %}
+      </div>
+    </div>
+    {#user seed batches available#}
+    <div class="container bg-white p-4 shadow">
+      <h2 class="pb-4">Mes graines <span class ="text-info">à donner</span></h2>
+      <div class="d-flex flex-column gap-4">
+        {% if availableBatches is empty %}
+          <div class="container d-flex flex-column gap-4">
+            <p>Vous n'avez pas ajouté de lots de graines à donner</p>
+            <div class="text-center">
+              <a href="{{ path('seed_batch_add') }}" class="btn btn-dark">Donner un lot</a>
+            </div>
+          </div>
+        {% else %}
+          {% for availableBatch in availableBatches|slice(0, 5) %}
+            {% include "components/_user_batch_card.html.twig" %}
+          {% endfor %}
+          <div class="text-center">
+            <a href="{{ path('user_account_available') }}" class="btn btn-outline-dark">voir plus</a>
+          </div>
+        {% endif %}
       </div>
     </div>
   </section>

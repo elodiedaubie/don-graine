@@ -7,10 +7,10 @@
         </div>
     </div>
     <div class="container d-flex gap-2 justify-content-center">
-      <a href="{{ path('user_account_edit') }}"><button class="btn btn-dark">modifier</button></a>
+      <a href="{{ path('user_account_edit') }}" class="btn btn-dark">modifier</a>
       {% if app.user %}
         {% if "ROLE_ADMIN" not in app.user.roles %}
-          <a href="{{ path('user_account_delete') }}"><button class="btn btn-outline-dark">supprimer</button></a>
+          <a href="{{ path('user_account_delete') }}" class="btn btn-outline-dark">supprimer</a>
         {% endif %}
       {% endif %}
     </div>
