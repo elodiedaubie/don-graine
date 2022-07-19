@@ -1,4 +1,4 @@
-<div class="card bg-white p-2 pb-4 shadow ">
+<div class="container card bg-white p-4 shadow ">
     <h2 class="ps-2">Mon <span class ="text-info">profil</span></h2>
     <div class="d-flex flex-column align-items-center p-3">
         <div>
@@ -7,10 +7,10 @@
         </div>
     </div>
     <div class="container d-flex gap-2 justify-content-center">
-      <a href="{{ path('user_account_edit') }}"><button class="btn btn-dark">modifier</button></a>
+      <a href="{{ path('user_account_edit') }}" class="btn btn-dark">modifier</a>
       {% if app.user %}
         {% if "ROLE_ADMIN" not in app.user.roles %}
-          <a href="{{ path('user_account_delete') }}"><button class="btn btn-outline-dark">supprimer</button></a>
+          <a href="{{ path('user_account_delete') }}" class="btn btn-outline-dark">supprimer</a>
         {% endif %}
       {% endif %}
     </div>

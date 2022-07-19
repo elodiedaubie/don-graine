@@ -24,12 +24,16 @@ body {
 
 h1 {
     font-family: $head-font;
-    font-size: 2.7rem;
+    font-size: 2rem;
+    text-align: start;
 }
+
+
 
 h2 {
     font-family: $head-font;
     font-size: 1.7rem;
+    
 }
 
 h3 {
@@ -45,10 +49,6 @@ h4 {
 a {
     text-decoration: none;
     color: $dark;
-    font-weight: 700;
-    &:hover {
-        color: $danger!important;
-    }
 }
 
 .logo {
@@ -74,17 +74,6 @@ a {
     }
 }
 
-@media screen and (min-width: 992px) {
-    .home {
-        p{
-            width: 65%;
-        }
-    }
-    .logo {
-        width: 5.5em;
-    }
-}
-
 /*Change display of bootsrap accordion*/
 .accordion-button:not(.collapsed) {
     color: $dark;
@@ -94,4 +83,20 @@ a {
 
 ul {
     list-style-type: none;
+}
+
+@media screen and (min-width: 992px) {
+
+    h1 {
+        font-size: 2.8rem;
+    }
+    
+    .home {
+        p{
+            width: 65%;
+        }
+    }
+    .logo {
+        width: 5.5em;
+    }
 }

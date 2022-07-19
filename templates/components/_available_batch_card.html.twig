@@ -1,4 +1,4 @@
-<div class="card shadow border-secondary border-1 p-2 ps-3 pe-3">
+<div class="card shadow border-secondary border-1 p-2 ps-3 pe-3 w-100">
     <div class="card-header bg-white d-flex flex-column" >
         <div class="d-inline-flex justify-content-between align-items-center">
             <h2>{{ seedBatch.plant.name }}</h2>
@@ -17,9 +17,7 @@
         <p class="card-text">Donné par {{ seedBatch.owner.userName }}</p>
         <div class="d-flex justify-content-center pt-3">
             {% if app.user != seedBatch.owner  %}
-            <a href="{{ path('donation_add', {'id': seedBatch.id}) }}">
-                <button class="btn btn-dark">Demander</button>
-            </a>
+            <a href="{{ path('donation_add', {'id': seedBatch.id}) }}" class="btn btn-dark">Demander</a>
             {% endif %}
         </div>
     </div>
