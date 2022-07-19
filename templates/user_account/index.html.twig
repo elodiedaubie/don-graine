@@ -18,14 +18,9 @@
             {% if favoriteList is empty %}
             <p class="text-center pt-4">Vous n'avez pas encore de favoris</p>
             {% else %}
-              {% for seedBatch in favoriteList|slice(0, 1) %}
-                  {% include "components/_available_batch_card.html.twig" %}
-              {% endfor %}
-              <div class="container d-flex justify-content-center">
-                <a href="{{ path('user_account_favorite') }}">
-                  <button class="btn btn-outline-dark">voir plus</button>
+                <a href="{{ path('user_account_favorite') }}" class="text-center">
+                  <button class="btn btn-outline-dark">voir mes favoris</button>
                 </a>
-              </div>
             {% endif %}
           </div>
       </div>
