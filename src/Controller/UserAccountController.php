@@ -80,7 +80,7 @@ class UserAccountController extends AbstractController
         return $this->render('user_account/index.html.twig', [
             'user' => $user,
             'availableBatches' =>  $this->getAvailableBatches($user),
-            'requested_donations' => $this->donationRepository->findByBeneficiary($user, ['createdAt' => 'DESC']),
+            'requestedDonations' => $this->donationRepository->findByBeneficiary($user, ['createdAt' => 'DESC']),
             'donations' => $this->getDonations($user),
             'favorite_list' =>  $user->getFavoriteList()
         ]);
@@ -170,7 +170,7 @@ class UserAccountController extends AbstractController
         }
 
         return $this->render('user_account/show_requests.html.twig', [
-            'requested_donations' => $this->donationRepository->findByBeneficiary($user, ['createdAt' => 'DESC']),
+            'requestedDonations' => $this->donationRepository->findByBeneficiary($user, ['createdAt' => 'DESC']),
         ]);
     }
 

@@ -14,8 +14,8 @@
             <div class="container d-flex flex-column flex-xl-row flex-xl-wrap gap-3">
                 {# use of display_message variable avoid to display messages x time in loop#}
                 {% set display_message = true %}
-                {% for requested_donation in requested_donations %}
-                    {% if requested_donation.status == "En cours" %}
+                {% for requestedDonation in requestedDonations %}
+                    {% if requestedDonation.status == "En cours" %}
                         <div class="custom-card">
                             {% include "/components/_user_request_card.html.twig" %}
                         </div>
@@ -38,8 +38,8 @@
             <div class="container d-flex flex-column flex-xl-row flex-xl-wrap gap-3">
                 {# use of display_message variable avoid to display messages x time in loop#}
                 {% set display_message = true %}
-                {% for requested_donation in requested_donations %}
-                    {% if requested_donation.status == "Finalisé" %}
+                {% for requestedDonation in requestedDonations %}
+                    {% if requestedDonation.status == "Finalisé" %}
                         <div class="custom-card">
                             {% include "/components/_user_request_card.html.twig" %}
                         </div>
@@ -57,8 +57,8 @@
             <div class="container d-flex flex-column flex-xl-row flex-xl-wrap gap-3">
                 {# use of display_message variable avoid to display messages x time in loop#}
                 {% set display_message = true %}
-                {% for requested_donation in requested_donations %}
-                    {% if requested_donation.status == "Annulé" %}
+                {% for requestedDonation in requestedDonations %}
+                    {% if requestedDonation.status == "Annulé" %}
                         <div class="custom-card">
                             {% include "/components/_user_request_card.html.twig" %}
                         </div>
