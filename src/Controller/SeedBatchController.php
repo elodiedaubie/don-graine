@@ -27,7 +27,7 @@ class SeedBatchController extends AbstractController
     }
 
     //check if user is the batch's owner - if not display addflash
-    private function isUserAuthorized(
+    private function isUserOwner(
         User $user,
         SeedBatch $seedBatch
     ): bool {
@@ -44,6 +44,9 @@ class SeedBatchController extends AbstractController
         return false;
     }
 
+    /*
+    * Show available seed batches in seedbank
+    */
     #[Route('/', name: '_show')]
     public function index(
         SeedBatchRepository $seedBatchRepository,
@@ -56,7 +59,6 @@ class SeedBatchController extends AbstractController
         //search by plant name form
         $form = $this->createForm(SearchBatchFormType::class);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             if (!empty($form->get('search')->getData())) {
                 //search by plant name required
@@ -64,7 +66,7 @@ class SeedBatchController extends AbstractController
                 $seedBatches = $seedBatchRepository->findLikeName($search);
             }
         }
-
+        //no search required, show all available batches
         if (!empty($seedBatches)) {
             foreach ($seedBatches as $seedBatch) {
                 if ($seedBatch->isAvailable()) {
@@ -74,11 +76,14 @@ class SeedBatchController extends AbstractController
         }
 
         return $this->renderForm('seed_batch/index.html.twig', [
-            'seed_batches' => $availableSeedBatches,
+            'seedBatches' => $availableSeedBatches,
             'form' => $form
         ]);
     }
 
+    /**
+     * Handle add seed batch form
+     */
     #[Route('/donner', name: '_add')]
     public function addSeedBatch(Request $request): Response
     {
@@ -123,13 +128,16 @@ class SeedBatchController extends AbstractController
         ]);
     }
 
+    /**
+     * edit a seed batch for owners
+     */
     #[Route('/{id}/modifier', name: '_edit', requirements: ['id' => '\d+'])]
     public function editSeedBatch(
         Request $request,
         SeedBatch $seedBatch
     ): Response {
 
-        if (!$this->isUserAuthorized($this->getUser(), $seedBatch)) {
+        if (!$this->isUserOwner($this->getUser(), $seedBatch)) {
             return $this->redirectToRoute('home');
         }
 
@@ -162,20 +170,23 @@ class SeedBatchController extends AbstractController
         }
 
         return $this->renderForm('seed_batch/edit.html.twig', [
-            'seed_batch' => $seedBatch,
+            'seedBatch' => $seedBatch,
             'editSeedBatchForm' => $form,
         ]);
     }
 
+    /**
+     * delete a seed batch for owner
+     */
     #[Route('/{id}/supprimer', name: '_delete', requirements: ['id' => '\d+'])]
     public function deleteSeedBatch(
         SeedBatch $seedBatch
     ): Response {
 
-        if (!$this->isUserAuthorized($this->getUser(), $seedBatch)) {
+        if (!$this->isUserOwner($this->getUser(), $seedBatch)) {
             return $this->redirectToRoute('home');
         }
-        //check if there is already donations for this batch
+        //user is seedBatch's owner
         if (!empty($seedBatch->getDonations())) {
             if (!$seedBatch->isAvailable()) {
                 //batch has a donation going on, it cannot be deleted
