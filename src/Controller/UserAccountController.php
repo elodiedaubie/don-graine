@@ -79,7 +79,7 @@ class UserAccountController extends AbstractController
 
         return $this->render('user_account/index.html.twig', [
             'user' => $user,
-            'available_batches' =>  $this->getAvailableBatches($user),
+            'availableBatches' =>  $this->getAvailableBatches($user),
             'requested_donations' => $this->donationRepository->findByBeneficiary($user, ['createdAt' => 'DESC']),
             'donations' => $this->getDonations($user),
             'favorite_list' =>  $user->getFavoriteList()
@@ -196,7 +196,7 @@ class UserAccountController extends AbstractController
         }
 
         return $this->render('user_account/show_available_batches.html.twig', [
-            'available_batches' =>  $this->getAvailableBatches($user),
+            'availableBatches' =>  $this->getAvailableBatches($user),
         ]);
     }
 

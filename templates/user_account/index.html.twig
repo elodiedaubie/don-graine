@@ -74,7 +74,7 @@
       <div class="container bg-white p-2 pb-4 shadow">
         <h2 class="pb-4">Mes graines <span class ="text-info">à donner</span></h2>
         <div class="d-flex flex-column gap-4">
-          {% if available_batches is empty %}
+          {% if availableBatches is empty %}
             <div class="container d-flex flex-column gap-4">
               <p>Vous n'avez pas ajouté de lots de graines à donner</p>
               <div class="text-center">
@@ -82,7 +82,7 @@
               </div>
             </div>
           {% else %}
-            {% for available_batch in available_batches|slice(0, 5) %}
+            {% for availableBatch in availableBatches|slice(0, 5) %}
                 {% include "components/_user_batch_card.html.twig" %}
             {% endfor %}
             <div class="text-center">
