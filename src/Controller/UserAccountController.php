@@ -5,8 +5,6 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\Donation;
 use App\Form\EditUserFormType;
-use App\Repository\DonationRepository;
-use App\Repository\SeedBatchRepository;
 use App\Service\DonationManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
