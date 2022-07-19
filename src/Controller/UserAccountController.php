@@ -29,6 +29,9 @@ class UserAccountController extends AbstractController
         $this->donationManager = $donationManager;
     }
 
+    /**
+     * Send variables do user dashboard
+     */
     #[Route('/', name: '')]
     public function index(): Response
     {
@@ -45,10 +48,12 @@ class UserAccountController extends AbstractController
         ]);
     }
 
+    /**
+     * Edit user account
+     */
     #[Route('/modifier', name: '_edit')]
     public function edit(Request $request): Response
     {
-
         //check if there is an instance of User
         if ($this->getUser() && $this->getUser() instanceof User) {
             $user = $this->getUser();
@@ -70,6 +75,9 @@ class UserAccountController extends AbstractController
         ]);
     }
 
+    /**
+     * Delete user account
+     */
     #[Route('/supprimer', name: '_delete')]
     public function delete(
         Request $request,
@@ -120,6 +128,9 @@ class UserAccountController extends AbstractController
         return $this->redirectToRoute('home');
     }
 
+    /**
+     * show all seed batches requested by user
+     */
     #[Route('/mes-demandes', name: '_requests')]
     public function showRequests(): Response
     {
@@ -133,6 +144,9 @@ class UserAccountController extends AbstractController
         ]);
     }
 
+    /**
+     * show all seed batches requested TO user
+     */
     #[Route('/mes-dons', name: '_donations')]
     public function showDonations(): Response
     {
@@ -146,6 +160,9 @@ class UserAccountController extends AbstractController
         ]);
     }
 
+    /**
+     * show all user's seed batches still available (could have a cenceled donation or more)
+     */
     #[Route('/mon-stock', name: '_available')]
     public function showAvailableBatches(): Response
     {
@@ -159,6 +176,9 @@ class UserAccountController extends AbstractController
         ]);
     }
 
+    /**
+    * show all user's favorites
+    */
     #[Route('/mes-favoris', name: '_favorite')]
     public function showFavoriteList(): Response
     {
@@ -172,6 +192,9 @@ class UserAccountController extends AbstractController
         ]);
     }
 
+    /**
+     * Display a single donation
+     */
     #[Route('/don/{id}', name: '_donation', requirements: ['id' => '\d+'])]
     public function showDonation(Donation $donation): Response
     {
