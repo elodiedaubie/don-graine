@@ -82,7 +82,7 @@ class UserAccountController extends AbstractController
             'availableBatches' =>  $this->getAvailableBatches($user),
             'requestedDonations' => $this->donationRepository->findByBeneficiary($user, ['createdAt' => 'DESC']),
             'donations' => $this->getDonations($user),
-            'favorite_list' =>  $user->getFavoriteList()
+            'favoriteList' =>  $user->getFavoriteList()
         ]);
     }
 
@@ -209,7 +209,7 @@ class UserAccountController extends AbstractController
         }
 
         return $this->render('user_account/show_favorite_list.html.twig', [
-            'favorite_list' =>  $user->getFavoriteList(),
+            'favoriteList' =>  $user->getFavoriteList(),
         ]);
     }
 

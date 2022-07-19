@@ -15,10 +15,10 @@
       <div class="container bg-white p-2 pb-9 shadow">
           <h2 class="mb-4">Mes <span class ="text-danger">favoris</span></h2>
           <div class="d-flex flex-column gap-5 p-4">
-            {% if favorite_list is empty %}
+            {% if favoriteList is empty %}
             <p class="text-center pt-4">Vous n'avez pas encore de favoris</p>
             {% else %}
-              {% for seed_batch in favorite_list|slice(0, 1) %}
+              {% for seedBatch in favoriteList|slice(0, 1) %}
                   {% include "components/_available_batch_card.html.twig" %}
               {% endfor %}
               <div class="container d-flex justify-content-center">
