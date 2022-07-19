@@ -17,7 +17,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[IsGranted('ROLE_ADMIN')]
 class AdminController extends AbstractController
 {
-    #[Route('/admin', name: 'admin')]
+    #[Route('/admin', methods: ['GET', 'POST'], name: 'admin')]
     public function index(
         UserRepository $userRepository,
         DonationRepository $donationRepository,

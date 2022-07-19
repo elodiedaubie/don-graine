@@ -12,10 +12,10 @@
             <a href="{{ path('seed_batch_add') }}"><button class="btn btn-dark btn-lg">Ajouter des graines</button></a>
         </div>
         <div class="container d-flex flex-column flex-xl-row flex-xl-wrap gap-3 mt-5 mb-5">
-            {% if available_batches is empty %}
+            {% if availableBatches is empty %}
                 <p>Vous n'avez pas de graines à donner</p>
             {% endif %}
-            {% for available_batch in available_batches %}
+            {% for availableBatch in availableBatches %}
                 <div class="custom-card">
                     {% include "/components/_user_batch_card.html.twig" %}
                 </div>

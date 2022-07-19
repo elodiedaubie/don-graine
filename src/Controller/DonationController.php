@@ -44,7 +44,7 @@ class DonationController extends AbstractController
     /**
      * Handle a request of donation made by user on seedbank
      */
-    #[Route('/{id}/ajouter', name: '_add', requirements: ['id' => '\d+'])]
+    #[Route('/{id}/ajouter', methods: ['GET'], name: '_add', requirements: ['id' => '\d+'])]
     public function addDonation(SeedBatch $seedBatch): Response
     {
         if ($this->getUser() && $this->getUser() instanceof User) {
@@ -88,7 +88,7 @@ class DonationController extends AbstractController
      * Change donation status to cancel if original status was in progress
      * Check if User is allowed to do it
      */
-    #[Route('/{id}/annuler', name: '_cancel', requirements: ['id' => '\d+'])]
+    #[Route('/{id}/annuler', methods: ['GET'], name: '_cancel', requirements: ['id' => '\d+'])]
     public function cancelDonation(Donation $donation): Response
     {
         if ($this->getUser() && $this->getUser() instanceof User) {
@@ -135,7 +135,7 @@ class DonationController extends AbstractController
      * Change donation status to finalized if original status was in progress
      * Check if user is allowed to do it
      */
-    #[Route('/{id}/finaliser', name: '_finalise', requirements: ['id' => '\d+'])]
+    #[Route('/{id}/finaliser', methods: ['GET'], name: '_finalise', requirements: ['id' => '\d+'])]
     public function finaliseDonation(Donation $donation): Response
     {
         if ($this->getUser() && $this->getUser() instanceof User) {
