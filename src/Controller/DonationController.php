@@ -135,22 +135,20 @@ class DonationController extends AbstractController
     public function finaliseDonation(Donation $donation): Response
     {
         if ($this->getUser() && $this->getUser() instanceof User) {
-            $user = $this->getUser();
-
             if ($donation->getStatus() !== Donation::STATUS[0]) {
                 //status is not "en cours"
                 $this->addFlash('danger', 'Seuls les dons en cours peuvent changer de statut');
                 return $this->redirectToRoute('user_account');
             }
 
-            if ($donation->getBeneficiary() !== $user()) {
+            if ($donation->getBeneficiary() !== $this->getUser()) {
                 //connected user is not beneficiary
                 $this->addFlash('danger', 'Seuls le bénéficiaire du don est autorisé à changer de statut');
                 return $this->redirectToRoute('user_account');
             }
 
             $donation->setStatus(Donation::STATUS[1]);
-            $$this->entityManager->flush($donation);
+            $this->entityManager->flush($donation);
             $this->addFlash('success', 'Le statut de votre don a bien été mis à jour');
             $this->mailerManager->sendDonationCompleted(
                 $donation->getSeedBatch()->getOwner(),
