@@ -20,54 +20,15 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 #[IsGranted('ROLE_USER')]
 class UserAccountController extends AbstractController
 {
-    private SeedBatchRepository $seedBatchRepository;
-    private DonationRepository $donationRepository;
     private EntityManagerInterface $entityManager;
     private DonationManager $donationManager;
 
     public function __construct(
-        SeedBatchRepository $seedBatchRepository,
-        DonationRepository $donationRepository,
         EntityManagerInterface $entityManager,
         DonationManager $donationManager
     ) {
-        $this->seedBatchRepository = $seedBatchRepository;
-        $this->donationRepository = $donationRepository;
         $this->entityManager = $entityManager;
         $this->donationManager = $donationManager;
-    }
-
-    //get Available Batches for a specific user
-    private function getAvailableBatches(User $user): array
-    {
-        $userBatches = $this->seedBatchRepository->findByOwner($user, ['id' => 'DESC']);
-        $availableBatches = [];
-
-        if (!empty($userBatches)) {
-            foreach ($userBatches as $userBatch) {
-                if ($userBatch->isAvailable()) {
-                    //get available seed batches only
-                    $availableBatches[] = $userBatch;
-                }
-            }
-        }
-        return $availableBatches;
-    }
-
-    private function getDonations(User $user): array
-    {
-        $userBatches = $this->seedBatchRepository->findByOwner($user, ['id' => 'DESC']);
-        $donations = [];
-
-        if (!empty($userBatches)) {
-            foreach ($userBatches as $userBatch) {
-                //get donations made by users
-                foreach ($userBatch->getDonations() as $donation) {
-                    $donations [] = $donation;
-                }
-            }
-        }
-        return $donations;
     }
 
     #[Route('/', name: '')]
@@ -79,9 +40,9 @@ class UserAccountController extends AbstractController
 
         return $this->render('user_account/index.html.twig', [
             'user' => $user,
-            'availableBatches' =>  $this->getAvailableBatches($user),
-            'requestedDonations' => $this->donationRepository->findByBeneficiary($user, ['createdAt' => 'DESC']),
-            'donations' => $this->getDonations($user),
+            'availableBatches' =>  $user->getAvailableBatches(),
+            'requestedDonations' => $user->getDonationsReceived(),
+            'donations' => $user->getDonationsMade(),
             'favoriteList' =>  $user->getFavoriteList()
         ]);
     }
@@ -170,7 +131,7 @@ class UserAccountController extends AbstractController
         }
 
         return $this->render('user_account/show_requests.html.twig', [
-            'requestedDonations' => $this->donationRepository->findByBeneficiary($user, ['createdAt' => 'DESC']),
+            'requestedDonations' => $user->getDonationsReceived(),
         ]);
     }
 
@@ -183,7 +144,7 @@ class UserAccountController extends AbstractController
         }
 
         return $this->render('user_account/show_donations.html.twig', [
-            'donations' => $this->getDonations($user)
+            'donations' => $user->getDonationsMade()
         ]);
     }
 
@@ -196,7 +157,7 @@ class UserAccountController extends AbstractController
         }
 
         return $this->render('user_account/show_available_batches.html.twig', [
-            'availableBatches' =>  $this->getAvailableBatches($user),
+            'availableBatches' =>  $user->getAvailableBatches(),
         ]);
     }
 

@@ -208,6 +208,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
+     * Get all donations made for a specific user
+     */
+    public function getDonationsMade(): array
+    {
+        $donations = [];
+
+        if (!empty($this->getSeedBatches())) {
+            foreach ($this->getSeedBatches() as $userBatch) {
+                //get donations made by users for each batch
+                if (!empty($userBatch->getDonations())) {
+                    foreach ($userBatch->getDonations() as $donation) {
+                        $donations [] = $donation;
+                    }
+                }
+            }
+        }
+        return $donations;
+    }
+
+    /**
      * @return Collection<int, Donation>
      */
     public function getDonationsReceived(): Collection
@@ -270,5 +290,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             return true;
         }
         return false;
+    }
+
+     /**
+     * get all batches available for a specific User, ordered by ID DESC
+     */
+    public function getAvailableBatches(): array
+    {
+        //$userBatches = $this->seedBatchRepository->findByOwner($user, ['id' => 'DESC']);
+        $userBatches = $this->getSeedBatches();
+        $availableBatches = [];
+
+        if (!empty($userBatches)) {
+            foreach ($userBatches as $userBatch) {
+                if ($userBatch->isAvailable()) {
+                    //get available seed batches only
+                    $availableBatches[] = $userBatch;
+                }
+            }
+        }
+        return $availableBatches;
     }
 }
