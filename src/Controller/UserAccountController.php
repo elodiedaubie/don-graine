@@ -198,6 +198,16 @@ class UserAccountController extends AbstractController
     #[Route('/don/{id}', methods: ['GET'], name: '_donation', requirements: ['id' => '\d+'])]
     public function showDonation(Donation $donation): Response
     {
+        if ($donation->getBeneficiary() instanceof User && $donation->getseedBatch()->getOwner() instanceof User) {
+            if (
+                $this->getUser() !== $donation->getBeneficiary()
+                && $this->getUser() !== $donation->getseedBatch()->getOwner()
+            ) {
+                $this->addFlash('danger', 'Vous n\'avez pas le droit de visualiser ce don');
+                return $this->redirectToRoute('home');
+            }
+        }
+
         return $this->render('user_account/show_donation.html.twig', [
             'donation' => $donation
         ]);
