@@ -11,7 +11,7 @@
         {#Admin account#}
             {% include "components/_user_profile.html.twig" %}
         {#Statistics#}
-        <div class="card bg-white shadow p-2 ps-3 w-100">
+        <div class="card bg-white shadow p-4 w-100">
             <h2 class="mb-6">Quelques <span class="text-primary">chiffres</span></h2>
             <ul class="container d-flex flex-column flex-xl-row justify-content-around h3 gap-6">
                 <li>Dons en cours: {{ encours }}</li>
@@ -22,7 +22,7 @@
         </div>
     </section>
     {#Users accounts#}
-    <section class="container bg-white shadow p-2 ps-3 mt-4 pb-4">
+    <section class="container bg-white shadow p-4 mt-4">
         <h2 class="mb-4">Comptes <span class="text-success">utilisateurs</span> ({{ users|length }})</h2>
         <div class="container mt-5 mb-5">
             {{ form_start(form) }}
