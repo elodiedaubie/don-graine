@@ -80,8 +80,6 @@ class RegistrationController extends AbstractController
                 $form->addError(
                     new FormError(
                         'Il existe déjà un utilisateur avec ce pseudo',
-                        'Il existe déjà un utilisateur avec ce pseudo',
-                        ["{{ value }}" => $username],
                         null,
                     )
                 );
