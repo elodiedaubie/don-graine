@@ -17,7 +17,7 @@ class SearchBatchFormType extends AbstractType
     {
         $builder
             ->add('search', SearchType::class, [
-                'attr' => ['placeholder' => 'Recherche par nom de plante 🔍'],
+                'attr' => ['placeholder' => 'Nom de plante 🔍'],
                 'required' => false,
             ])
         ;
