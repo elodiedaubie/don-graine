@@ -88,3 +88,21 @@ form {
     }
 }
 
+/*Filters display on seedbank and admin*/
+
+.seedbank, .admin {
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+}
+
+@media screen and (min-width: 992px) {
+    .seedbank, .admin {
+        form {
+            flex-direction: row;
+            padding: 0rem 4rem;
+        }
+    }
+}

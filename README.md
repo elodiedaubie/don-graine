@@ -20,6 +20,8 @@ This is a personnal project. Graine en l'air is a seeds donation plateform for f
 5 - Create a file .env.local in root (copy of .env file)
 6 - Configure your database in .env.local
 7 - Configure your favorite smtp in .env.local
+8 - Run migrations files (bin/console d:m:m)
+9 - Run migrations fixtures (bin/console d:m:m)
 
 ## Testing - GrumPHP
 

@@ -1,22 +1,22 @@
 {#display donations requested by connected user#}
-<a href="{{ path('user_account_donation', {id: requested_donation.id}) }}" class="clickable-card">
+<a href="{{ path('user_account_donation', {id: requestedDonation.id}) }}" class="clickable-card">
   <div class = "card w-100">
     <div class = "card-header d-inline-flex justify-content-between bg-white border-0" >
-      <i class="bi bi-arrow-down fs-3"></i>
-      <h3 class="mb-0 mt-1 w-50">{{ requested_donation.seedBatch.plant.name }}</h3>
-        {% if requested_donation.status == "En cours" %}
-          <p class="h3 text-danger">{{ requested_donation.status }}</p>
-        {% elseif requested_donation.status == "Finalisé" %}
-          <p class="h3 text-info">{{ requested_donation.status }}</p>
-        {% elseif requested_donation.status == "Annulé" %}
-          <p class="h3 text-primary">{{ requested_donation.status }}</p>
+      <i class="bi bi-arrow-down fs-4"></i>
+      <h3 class="mb-0 mt-1 w-50">{{ requestedDonation.seedBatch.plant.name }}</h3>
+        {% if requestedDonation.status == "En cours" %}
+          <p class="h3 text-danger">{{ requestedDonation.status }}</p>
+        {% elseif requestedDonation.status == "Finalisé" %}
+          <p class="h3 text-info">{{ requestedDonation.status }}</p>
+        {% elseif requestedDonation.status == "Annulé" %}
+          <p class="h3 text-primary">{{ requestedDonation.status }}</p>
         {% endif %}
     </div>
     <div class = "card-body ps-7">
-          <p class="mb-0 fst-italic fw-normal">Qualité: {{ requested_donation.seedBatch.quality.name }}</p>
-          <p class="mb-0 fw-normal">Lot de {{ requested_donation.seedBatch.seedQuantity }} graines</p>
-          <p class="mb-0 fw-normal">Donné par {{ requested_donation.seedBatch.owner.userName }}</p>
-          <p class="mb-0 fw-normal">Le {{ requested_donation.createdAt|date("d/m/Y") }}</p>
+          <p class="mb-0 fw-bolder">Plante {{ requestedDonation.seedBatch.quality.name }}</p>
+          <p class="mb-0 fw-normal">Lot de {{ requestedDonation.seedBatch.seedQuantity }} graines</p>
+          <p class="mb-0 fw-normal">Donné par {{ requestedDonation.seedBatch.owner.userName }}</p>
+          <p class="mb-0 fw-normal">Le {{ requestedDonation.createdAt|date("d/m/Y") }}</p>
     </div>
   </div>
 </a>

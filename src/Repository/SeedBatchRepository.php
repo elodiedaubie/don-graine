@@ -2,9 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\Purpose;
 use App\Entity\SeedBatch;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<SeedBatch>
@@ -37,6 +38,29 @@ class SeedBatchRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function findLikeName(string $name)
+    {
+        $queryBuilder = $this->createQueryBuilder('s')
+            ->join('s.plant', 'p')
+            ->where('p.name LIKE :name')
+            ->setParameter('name', '%' . $name . '%')
+            ->orderBy('p.name', 'ASC')
+            ->getQuery();
+
+        return $queryBuilder->getResult();
+    }
+
+    public function findbyPurpose(Purpose $purpose)
+    {
+        $queryBuilder = $this->createQueryBuilder('s')
+            ->join('s.plant', 'p')
+            ->where('p.purpose = :purpose')
+            ->setParameter('purpose', $purpose)
+            ->getQuery();
+
+        return $queryBuilder->getResult();
     }
 
 //    /**

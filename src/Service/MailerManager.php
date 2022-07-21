@@ -74,7 +74,7 @@ class MailerManager extends AbstractController
             ->context([
                 'owner' => $owner,
                 'beneficiary' => $beneficiary,
-                'seed_batch' => $seedBatch
+                'seedBatch' => $seedBatch
             ])
         ;
         $this->mailerInterface->send($email);

@@ -34,7 +34,7 @@ class UserFixtures extends Fixture
             $user->setPassword($hashedPassword);
             $user->setUsername('jane' . $i);
             $user->setCreatedAt(new DateTimeImmutable());
-            $user->isVerified(true);
+            $user->setIsVerified(true);
             $manager->persist($user);
             $this->addReference('owner_' . $i, $user);
         }
@@ -50,7 +50,7 @@ class UserFixtures extends Fixture
             $user->setPassword($hashedPassword);
             $user->setUsername('john' . $i);
             $user->setCreatedAt(new DateTimeImmutable());
-            $user->isVerified(true);
+            $user->setIsVerified(true);
             $manager->persist($user);
             $this->addReference('beneficiary_' . $i, $user);
         }
@@ -66,12 +66,27 @@ class UserFixtures extends Fixture
             $user->setPassword($hashedPassword);
             $user->setUsername('sam' . $i);
             $user->setCreatedAt(new DateTimeImmutable());
-            $user->isVerified(true);
+            $user->setIsVerified(true);
             $manager->persist($user);
             $this->addReference('newcomer_' . $i, $user);
         }
-        //insert all users in DB at the same time
 
+        //create an admin
+        $user = new User();
+        $user->setEmail('admin@mail.com');
+        $user->setRoles(['ROLE_ADMIN']);
+        $hashedPassword = $this->passwordHasher->hashPassword(
+            $user,
+            'adminpaSSword!1'
+        );
+        $user->setPassword($hashedPassword);
+        $user->setUsername('admin');
+        $user->setCreatedAt(new DateTimeImmutable());
+        $user->setIsVerified(true);
+        $manager->persist($user);
+        $this->addReference('newcomer_' . $i, $user);
+
+        //insert all users in DB at the same time
         $manager->flush();
     }
 }

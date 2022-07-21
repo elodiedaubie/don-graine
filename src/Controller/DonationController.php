@@ -28,7 +28,9 @@ class DonationController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-    //test if beneficary and owners are not the same
+    /**
+     * Check is owner and beneficiary are different users
+     */
     private function areUsersDifferents(User $owner, User $beneficiary): bool
     {
         if ($owner instanceof User && $beneficiary instanceof User) {
@@ -39,15 +41,15 @@ class DonationController extends AbstractController
         }
     }
 
-    #[Route('/{id}/ajouter', name: '_add', requirements: ['id' => '\d+'])]
+    /**
+     * Handle a request of donation made by user on seedbank
+     */
+    #[Route('/{id}/ajouter', methods: ['GET'], name: '_add', requirements: ['id' => '\d+'])]
     public function addDonation(SeedBatch $seedBatch): Response
     {
         if ($this->getUser() && $this->getUser() instanceof User) {
-            $beneficiary = $this->getUser();
-            $owner = $seedBatch->getOwner();
-
-            if (!$this->areUsersDifferents($owner, $beneficiary)) {
-                //Owner and Beneficiary are different people
+            if (!$this->areUsersDifferents($seedBatch->getOwner(), $this->getUser())) {
+                //Owner and Beneficiary are same user
                 $this->addFlash(
                     'danger',
                     'Vous ne pouvez pas réserver votre propre lot'
@@ -55,7 +57,7 @@ class DonationController extends AbstractController
                 return $this->redirectToRoute('home');
             }
             if (!$seedBatch->isAvailable()) {
-                //there is a donation going on or over for this batch
+                //there is a donation in progress or done for this batch, it ca'nt be modified afterwards
                 $this->addFlash(
                     'danger',
                     'Désolé.e, ce lot a déjà été réservé par quelqu\'un d\'autre'
@@ -64,17 +66,15 @@ class DonationController extends AbstractController
             }
             //create new donation
             $donation = new Donation();
-            $donation->setBeneficiary($beneficiary);
+            $donation->setBeneficiary($this->getUser());
             $donation->setStatus(Donation::STATUS[0]);
             $donation->setCreatedAt(new DateTimeImmutable());
             $donation->setSeedBatch($seedBatch);
             $this->entityManager->persist($donation);
-            $this->entityManager->persist($donation);
-            $this->entityManager->flush($donation);
             $this->entityManager->persist($seedBatch);
-            $this->entityManager->flush($seedBatch);
+            $this->entityManager->flush();
             //send email to owner
-            $this->mailerManager->sendDonationAlert($owner, $beneficiary, $seedBatch);
+            $this->mailerManager->sendDonationAlert($seedBatch->getOwner(), $this->getUser(), $seedBatch);
             //display adflash to confirm action to beneficiary
             $this->addFlash(
                 'success',
@@ -84,25 +84,25 @@ class DonationController extends AbstractController
         return $this->redirectToRoute('user_account');
     }
 
-    #[Route('/{id}/annuler', name: '_cancel', requirements: ['id' => '\d+'])]
+    /**
+     * Change donation status to cancel if original status was in progress
+     * Check if User is allowed to do it
+     */
+    #[Route('/{id}/annuler', methods: ['GET'], name: '_cancel', requirements: ['id' => '\d+'])]
     public function cancelDonation(Donation $donation): Response
     {
         if ($this->getUser() && $this->getUser() instanceof User) {
-            $user = $this->getUser();
-
-            //control is status en cours - other donations can't be canceled
             if ($donation->getStatus() !== Donation::STATUS[0]) {
-                //status is not "en cours"
+                //status is not in progress, status can't be change
                 $this->addFlash('danger', 'Seuls les dons en cours peuvent changer de statut');
                 return $this->redirectToRoute('user_account');
             }
 
-            //control if user allowed to canceled
             if (
-                $donation->getBeneficiary() !== $user
-                && $donation->getSeedBatch()->getOwner() !== $user
+                $donation->getBeneficiary() !== $this->getUser()
+                && $donation->getSeedBatch()->getOwner() !== $this->getUser()
             ) {
-                //connected user is neither beneficiary or owner
+                //connected user is neither beneficiary or owner, not allowed to change anything
                 $this->addFlash('danger', 'Seuls le bénéficiaire ou le donateur sont autorisés à changer de statut');
                 return $this->redirectToRoute('user_account');
             }
@@ -115,11 +115,11 @@ class DonationController extends AbstractController
             );
 
             //send an email to the other user
-            if ($user === $donation->getBeneficiary()) {
+            if ($this->getUser() === $donation->getBeneficiary()) {
                 //user is beneficiary, alert owner by mail
                 $addressee = $donation->getSeedBatch()->getOwner();
             }
-            if ($user === $donation->getSeedBatch()->getOwner()) {
+            if ($this->getUser() === $donation->getSeedBatch()->getOwner()) {
                 //user is owner, alert beneficiary by mail
                 $addressee = $donation->getBeneficiary();
             }
@@ -131,26 +131,28 @@ class DonationController extends AbstractController
         return $this->redirectToRoute('user_account');
     }
 
-    #[Route('/{id}/finaliser', name: '_finalise', requirements: ['id' => '\d+'])]
+    /**
+     * Change donation status to finalized if original status was in progress
+     * Check if user is allowed to do it
+     */
+    #[Route('/{id}/finaliser', methods: ['GET'], name: '_finalise', requirements: ['id' => '\d+'])]
     public function finaliseDonation(Donation $donation): Response
     {
         if ($this->getUser() && $this->getUser() instanceof User) {
-            $user = $this->getUser();
-
             if ($donation->getStatus() !== Donation::STATUS[0]) {
-                //status is not "en cours"
+                //status is not in progress
                 $this->addFlash('danger', 'Seuls les dons en cours peuvent changer de statut');
                 return $this->redirectToRoute('user_account');
             }
 
-            if ($donation->getBeneficiary() !== $user()) {
+            if ($donation->getBeneficiary() !== $this->getUser()) {
                 //connected user is not beneficiary
                 $this->addFlash('danger', 'Seuls le bénéficiaire du don est autorisé à changer de statut');
                 return $this->redirectToRoute('user_account');
             }
 
             $donation->setStatus(Donation::STATUS[1]);
-            $$this->entityManager->flush($donation);
+            $this->entityManager->flush($donation);
             $this->addFlash('success', 'Le statut de votre don a bien été mis à jour');
             $this->mailerManager->sendDonationCompleted(
                 $donation->getSeedBatch()->getOwner(),
