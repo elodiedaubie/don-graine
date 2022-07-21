@@ -5,7 +5,7 @@
 {% block bodyclass %}'seedbank'{% endblock %}
 
 {% block body %}
-    <div class="container p-5 bg-white shadow gap-2">
+    <section class="container p-5 bg-white shadow gap-2">
         <div class="d-flex align-items-center gap-2">
             <img src= "{{ asset('build/images/pictos/picto-seed.png') }}" alt="seed pictogram" width="70">
             <h1>Choisir votre <span class="text-primary">lot de graines</span></h1>
@@ -33,5 +33,5 @@
                     {% endif %}
             {% endfor %}
         </div>
-    </div>
+    </section>
     {% endblock %}
