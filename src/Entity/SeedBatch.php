@@ -46,10 +46,16 @@ class SeedBatch
 
     #[ORM\ManyToOne(targetEntity: Plant::class, inversedBy: 'seedBatches')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotBlank(
+        message: 'Vous devez choisir une plante'
+    )]
     private Plant $plant;
 
     #[ORM\ManyToOne(targetEntity: Quality::class, inversedBy: 'seedBatches')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotBlank(
+        message: 'Vous devez choisir une qualité de graine'
+    )]
     private Quality $quality;
 
     #[ORM\OneToMany(mappedBy: 'seedBatch', targetEntity: Donation::class)]

@@ -4,7 +4,7 @@
 {#body class, from base.html.twig has to be on extended form template#}
 
 {% block body %}
-    <div class="container p-5 bg-white shadow">
+    <section class="container p-5 bg-white shadow">
         <div class="d-flex align-items-center gap-2">
             {#block pictosource has to be completed in the extended form template#}
             <img src={% block pictosource %}{% endblock %} alt="login pictogram" width="70">
@@ -17,5 +17,5 @@
                 {#form tags will be there in extended form template#}
             {% endblock %}
         </div>
-    </div>
+    </section>
 {% endblock %}

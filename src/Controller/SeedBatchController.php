@@ -47,7 +47,7 @@ class SeedBatchController extends AbstractController
     /*
     * Show available seed batches in seedbank
     */
-    #[Route('/', methods: ['GET'], name: '_show')]
+    #[Route('/', methods: ['GET', 'POST'], name: '_show')]
     public function index(
         SeedBatchRepository $seedBatchRepository,
         Request $request
