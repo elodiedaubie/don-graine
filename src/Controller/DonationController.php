@@ -14,7 +14,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[IsGranted('ROLE_USER')]
-#[Route('/donation', name: 'donation')]
+#[Route('/don', name: 'donation')]
 class DonationController extends AbstractController
 {
     private MailerManager $mailerManager;
@@ -29,26 +29,13 @@ class DonationController extends AbstractController
     }
 
     /**
-     * Check is owner and beneficiary are different users
-     */
-    private function areUsersDifferents(User $owner, User $beneficiary): bool
-    {
-        if ($owner instanceof User && $beneficiary instanceof User) {
-            if ($owner !== $beneficiary) {
-                return true;
-            }
-            return false;
-        }
-    }
-
-    /**
      * Handle a request of donation made by user on seedbank
      */
     #[Route('/{id}/ajouter', methods: ['GET'], name: '_add', requirements: ['id' => '\d+'])]
     public function addDonation(SeedBatch $seedBatch): Response
     {
         if ($this->getUser() && $this->getUser() instanceof User) {
-            if (!$this->areUsersDifferents($seedBatch->getOwner(), $this->getUser())) {
+            if ($seedBatch->getOwner() === $this->getUser()) {
                 //Owner and Beneficiary are same user
                 $this->addFlash(
                     'danger',
