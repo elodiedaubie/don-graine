@@ -9,7 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: DonationRepository::class)]
 class Donation
 {
-    //In case of modification, make sure that "annulé" would be last one and modify DonationFixtures to getnewstatus
     public const STATUS = [
         'En cours',
         'Finalisé',
@@ -33,7 +32,7 @@ class Donation
 
     #[ORM\ManyToOne(targetEntity: SeedBatch::class, inversedBy: 'donations')]
     #[ORM\JoinColumn(nullable: false)]
-    private $seedBatch;
+    private SeedBatch $seedBatch;
 
     public function getId(): ?int
     {

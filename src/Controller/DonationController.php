@@ -14,7 +14,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[IsGranted('ROLE_USER')]
-#[Route('/donation', name: 'donation')]
+#[Route('/don', name: 'donation')]
 class DonationController extends AbstractController
 {
     private MailerManager $mailerManager;
@@ -29,40 +29,28 @@ class DonationController extends AbstractController
     }
 
     /**
-     * Check is owner and beneficiary are different users
-     */
-    private function areUsersDifferents(User $owner, User $beneficiary): bool
-    {
-        if ($owner instanceof User && $beneficiary instanceof User) {
-            if ($owner !== $beneficiary) {
-                return true;
-            }
-            return false;
-        }
-    }
-
-    /**
      * Handle a request of donation made by user on seedbank
      */
     #[Route('/{id}/ajouter', methods: ['GET'], name: '_add', requirements: ['id' => '\d+'])]
     public function addDonation(SeedBatch $seedBatch): Response
     {
-        if ($this->getUser() && $this->getUser() instanceof User) {
-            if (!$this->areUsersDifferents($seedBatch->getOwner(), $this->getUser())) {
+        if ($this->getUser() instanceof User) {
+            if ($seedBatch->getOwner() === $this->getUser()) {
                 //Owner and Beneficiary are same user
                 $this->addFlash(
                     'danger',
                     'Vous ne pouvez pas réserver votre propre lot'
                 );
-                return $this->redirectToRoute('home');
+                return $this->redirectToRoute('user_account');
             }
             if (!$seedBatch->isAvailable()) {
-                //there is a donation in progress or done for this batch, it ca'nt be modified afterwards
+                //there is a donation in progress or done for this batch,
+                //it can't be modified afterwards
                 $this->addFlash(
                     'danger',
                     'Désolé.e, ce lot a déjà été réservé par quelqu\'un d\'autre'
                 );
-                return $this->redirectToRoute('home');
+                return $this->redirectToRoute('user_account');
             }
             //create new donation
             $donation = new Donation();
@@ -71,9 +59,8 @@ class DonationController extends AbstractController
             $donation->setCreatedAt(new DateTimeImmutable());
             $donation->setSeedBatch($seedBatch);
             $this->entityManager->persist($donation);
-            $this->entityManager->persist($seedBatch);
             $this->entityManager->flush();
-            //send email to owner
+            //send email to owner, using a service
             $this->mailerManager->sendDonationAlert($seedBatch->getOwner(), $this->getUser(), $seedBatch);
             //display adflash to confirm action to beneficiary
             $this->addFlash(
