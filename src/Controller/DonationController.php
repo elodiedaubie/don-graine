@@ -41,7 +41,7 @@ class DonationController extends AbstractController
                     'danger',
                     'Vous ne pouvez pas réserver votre propre lot'
                 );
-                return $this->redirectToRoute('home');
+                return $this->redirectToRoute('user_account');
             }
             if (!$seedBatch->isAvailable()) {
                 //there is a donation in progress or done for this batch,
@@ -50,7 +50,7 @@ class DonationController extends AbstractController
                     'danger',
                     'Désolé.e, ce lot a déjà été réservé par quelqu\'un d\'autre'
                 );
-                return $this->redirectToRoute('home');
+                return $this->redirectToRoute('user_account');
             }
             //create new donation
             $donation = new Donation();
