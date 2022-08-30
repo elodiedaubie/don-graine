@@ -34,7 +34,7 @@ class DonationController extends AbstractController
     #[Route('/{id}/ajouter', methods: ['GET'], name: '_add', requirements: ['id' => '\d+'])]
     public function addDonation(SeedBatch $seedBatch): Response
     {
-        if ($this->getUser() && $this->getUser() instanceof User) {
+        if ($this->getUser() instanceof User) {
             if ($seedBatch->getOwner() === $this->getUser()) {
                 //Owner and Beneficiary are same user
                 $this->addFlash(
