@@ -57,7 +57,8 @@ class DonationController extends AbstractController
                 return $this->redirectToRoute('home');
             }
             if (!$seedBatch->isAvailable()) {
-                //there is a donation in progress or done for this batch, it ca'nt be modified afterwards
+                //there is a donation in progress or done for this batch,
+                //it can't be modified afterwards
                 $this->addFlash(
                     'danger',
                     'Désolé.e, ce lot a déjà été réservé par quelqu\'un d\'autre'
@@ -73,7 +74,7 @@ class DonationController extends AbstractController
             $this->entityManager->persist($donation);
             $this->entityManager->persist($seedBatch);
             $this->entityManager->flush();
-            //send email to owner
+            //send email to owner, using a service
             $this->mailerManager->sendDonationAlert($seedBatch->getOwner(), $this->getUser(), $seedBatch);
             //display adflash to confirm action to beneficiary
             $this->addFlash(
