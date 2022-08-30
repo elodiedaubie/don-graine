@@ -59,7 +59,6 @@ class DonationController extends AbstractController
             $donation->setCreatedAt(new DateTimeImmutable());
             $donation->setSeedBatch($seedBatch);
             $this->entityManager->persist($donation);
-            $this->entityManager->persist($seedBatch);
             $this->entityManager->flush();
             //send email to owner, using a service
             $this->mailerManager->sendDonationAlert($seedBatch->getOwner(), $this->getUser(), $seedBatch);
