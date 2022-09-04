@@ -16,11 +16,19 @@ body {
     text-align: justify;
 }
 
+.home {
+    footer {
+        padding-top: 5rem;
+    }
+}
+
 h1 {
     font-family: $head-font;
     font-size: 2rem;
     text-align: start;
 }
+
+
 
 h2 {
     font-family: $head-font;
